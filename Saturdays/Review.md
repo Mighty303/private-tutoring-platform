@@ -78,8 +78,6 @@ Enter username: DragonKing
 Enter age: 13
 Enable notifications? (yes/no): yes
 
-DRAGONKING
-dragonking
 10
 D
 Welcome DragonKing! You are 13 years old.
