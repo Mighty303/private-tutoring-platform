@@ -86,6 +86,25 @@ age + 5         # 20
 True and False    # Both must be True: False
 True or False     # At least one True: True
 not True          # Opposite: False
+
+# Assignment shortcuts
+score = 10
+score = score + 5   # Add 5 to score: 15
+score += 5          # Same thing, shorter way!
+
+coins = 100
+coins = coins - 20  # Subtract 20: 80
+coins -= 20         # Same thing, shorter!
+
+health = 50
+health = health * 2 # Multiply by 2: 100
+health *= 2         # Same thing, shorter!
+
+# Other shortcuts
+count += 1    # Add 1 (very common!)
+value -= 10   # Subtract 10
+damage *= 2   # Multiply by 2
+points /= 4   # Divide by 4
 ```
 
 ---
