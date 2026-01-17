@@ -129,6 +129,7 @@ full_name = "Alex" + " " + "Smith"
 
 name = "Alex"
 age = 15
+
 # Need to convert numbers to strings!
 print("My name is " + name + " and I'm " + str(age))
 
