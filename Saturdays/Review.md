@@ -76,7 +76,6 @@ Then print:
 ```
 Enter username: DragonKing
 Enter age: 13
-Enable notifications? (yes/no): yes
 
 10
 D
