@@ -127,9 +127,15 @@ len("hello")           # 5
 greeting = "Hello" + " " + "World"    # "Hello World"
 full_name = "Alex" + " " + "Smith"
 
-# String with variables (f-string) ← RECOMMENDED!
 name = "Alex"
 age = 15
+# Need to convert numbers to strings!
+print("My name is " + name + " and I'm " + str(age))
+
+# OR use f-string (easier!) ← RECOMMENDED!
+print(f"My name is {name} and I'm {age}")
+
+# String with variables (f-string) ← RECOMMENDED!
 print(f"My name is {name} and I'm {age}")
 
 # Access characters by index (starts at 0!)
