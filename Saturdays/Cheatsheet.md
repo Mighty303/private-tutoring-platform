@@ -127,16 +127,19 @@ len("hello")           # 5
 greeting = "Hello" + " " + "World"    # "Hello World"
 full_name = "Alex" + " " + "Smith"
 
+# Combining strings with variables
 name = "Alex"
 age = 15
 
-# Need to convert numbers to strings!
+# Need to convert numbers to strings first!
 print("My name is " + name + " and I'm " + str(age))
 
-# Need to convert numbers to strings!
-print("My name is " + name + " and I'm " + str(age))
+# Going the other way - string to number for math
+age_text = "15"
+age_next_year = int(age_text) + 1   # Convert to int first!
+print("Next year I'll be " + str(age_next_year))
 
-# String with variables (f-string) ← RECOMMENDED!
+# OR use f-string (easier!) ← RECOMMENDED!
 print(f"My name is {name} and I'm {age}")
 
 # Access characters by index (starts at 0!)
