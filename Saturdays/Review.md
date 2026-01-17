@@ -66,7 +66,6 @@ True
 Ask the user:
 1. "Enter username:" (save in variable)
 2. "Enter age:" (convert to int)
-3. "Enable notifications? (yes/no):" (save answer)
 
 Then print:
 - Username in UPPERCASE
