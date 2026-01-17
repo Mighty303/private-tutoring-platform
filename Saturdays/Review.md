@@ -68,8 +68,6 @@ Ask the user:
 2. "Enter age:" (convert to int)
 
 Then print:
-- Username in UPPERCASE
-- Username in lowercase
 - Length of username
 - First letter of username
 - A welcome message: "Welcome **[username]**! You are **[age]** years old."
