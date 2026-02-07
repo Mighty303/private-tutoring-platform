@@ -36,11 +36,6 @@ int("3.14")     # ERROR! Can't convert decimal text directly
 float("3.14")   # 3.14
 float(42)       # 42.0
 float("42")     # 42.0
-
-# Check type
-type(42)        # <class 'int'>
-type("hello")   # <class 'str'>
-type(3.14)      # <class 'float'>
 ```
 
 **Why Type Casting Matters:**
