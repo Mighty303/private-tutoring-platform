@@ -1,6 +1,8 @@
 ## Exercise 3: Buying Items 🛒
 `📖 Dictionaries` `🔀 Conditionals` `📥 Input`
 
+![Roblox Logo](https://devforum-uploads.s3.dualstack.us-east-2.amazonaws.com/uploads/original/5X/7/8/1/0/7810d6e4343eea8b1f8f889402e433c1c8befa23.jpeg)
+
 **Part A:** Set up:
 - Create variable `robux = 30000`
 - Create the `catalog` dictionary from Exercise 1
