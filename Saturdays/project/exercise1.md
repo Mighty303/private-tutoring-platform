@@ -1,4 +1,4 @@
-# Python Homework: Roblox Catalog Shop 🎮
+# Python Exercise: Roblox Catalog Shop 🎮
 ## Exercise 1: Creating Your Catalog 📦
 `📖 Dictionaries` `🔑 Keys & Values`
 
