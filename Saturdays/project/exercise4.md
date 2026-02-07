@@ -1,6 +1,8 @@
 ## Exercise 4: Selling Items Back 💸
 `📖 Dictionaries` `🔀 Conditionals` `📥 Input`
 
+![Roblox Logo](https://i.ytimg.com/vi/7oeB_SC5Vuk/maxresdefault.jpg)
+
 **Part A:** Set up:
 - `robux = 20000`
 - Create the `catalog` dictionary
