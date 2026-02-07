@@ -1,5 +1,3 @@
----
-
 ## Exercise 2: Your Robux Balance 💰
 `📖 Dictionaries` `📥 Input` `🔢 Type Conversion`
 
