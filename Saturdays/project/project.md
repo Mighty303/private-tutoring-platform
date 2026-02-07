@@ -1,5 +1,7 @@
 ## 🎮 MINI PROJECT: Ultimate Roblox Catalog Shop 🏪
 
+![Roblox Logo](https://devforum-uploads.s3.dualstack.us-east-2.amazonaws.com/uploads/original/4X/1/0/d/10dc22fa0338808635d50a08d25afa7704c0553a.jpeg)
+
 Build a complete Roblox shop where you can buy AND sell items repeatedly!
 
 ### **Step 1: Setup** 🎯
