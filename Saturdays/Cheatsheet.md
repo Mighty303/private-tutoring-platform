@@ -422,7 +422,239 @@ for i in range(2, 10, 2):   # ← COLON!
 
 ---
 
-## 11. 🎯 Functions
+## 11. 📖 Dictionaries (Key-Value Pairs)
+
+Dictionaries store pairs of information: a **key** and its **value**.
+```python
+# Creating dictionaries
+student = {
+    "name": "Alex",
+    "age": 15,
+    "grade": 10
+}
+
+# Another example
+prices = {"apple": 2, "banana": 1, "orange": 3}
+
+# Empty dictionary
+inventory = {}
+```
+
+### Accessing Values
+```python
+prices = {"apple": 2, "banana": 1, "orange": 3}
+
+# Get a value using its key
+print(prices["apple"])        # 2
+print(prices["banana"])       # 1
+
+# Using with variables
+fruit = "orange"
+print(prices[fruit])          # 3
+```
+
+**Common Mistakes:**
+- ❌ `prices[apple]` (missing quotes around key)
+- ❌ `prices["grape"]` when grape doesn't exist (KeyError!)
+- ✅ `prices["apple"]` - key must be in quotes if it's a string
+
+### Changing Values
+```python
+prices = {"apple": 2, "banana": 1, "orange": 3}
+
+# Change a value
+prices["apple"] = 5
+print(prices)  # {"apple": 5, "banana": 1, "orange": 3}
+
+# Change using math
+prices["banana"] = prices["banana"] + 1
+# OR shorter:
+prices["banana"] += 1
+```
+
+### Adding New Items
+```python
+prices = {"apple": 2, "banana": 1}
+
+# Add a new key-value pair
+prices["grape"] = 4
+print(prices)  # {"apple": 2, "banana": 1, "grape": 4}
+```
+
+### Removing Items
+```python
+inventory = {"sword": 1, "shield": 1, "potion": 3}
+
+# Remove an item
+del inventory["potion"]
+print(inventory)  # {"sword": 1, "shield": 1}
+```
+
+### Check if Key Exists
+```python
+prices = {"apple": 2, "banana": 1, "orange": 3}
+
+# Check before accessing (avoids errors!)
+if "apple" in prices:           # ← COLON!
+    print(prices["apple"])      # ← INDENT!
+
+if "grape" in prices:           # ← COLON!
+    print("Found grape!")       # ← INDENT!
+else:                           # ← COLON!
+    print("No grapes")          # ← INDENT!
+```
+
+### For Loops with Dictionaries
+```python
+prices = {"apple": 2, "banana": 1, "orange": 3}
+
+# Loop through KEYS
+for fruit in prices:                    # ← COLON!
+    print(fruit)                        # ← INDENT!
+# Prints: apple, banana, orange
+
+# Loop through keys AND get values
+for fruit in prices:                    # ← COLON!
+    print(fruit, "costs", prices[fruit])  # ← INDENT!
+# Prints:
+# apple costs 2
+# banana costs 1
+# orange costs 3
+
+# Using f-strings (easier to read!)
+for fruit in prices:                           # ← COLON!
+    print(f"{fruit} costs {prices[fruit]}")    # ← INDENT!
+```
+
+### Dictionary Methods
+```python
+prices = {"apple": 2, "banana": 1, "orange": 3}
+
+# Get number of items
+len(prices)              # 3
+
+# Get all keys
+prices.keys()            # dict_keys(['apple', 'banana', 'orange'])
+
+# Get all values
+prices.values()          # dict_values([2, 1, 3])
+
+# Get both keys and values
+for key, value in prices.items():    # ← COLON!
+    print(f"{key}: {value}")         # ← INDENT!
+```
+
+### Real-World Examples
+```python
+# Video game inventory
+inventory = {
+    "health_potion": 5,
+    "mana_potion": 3,
+    "sword": 1
+}
+
+# Use an item
+inventory["health_potion"] -= 1
+print(f"Potions left: {inventory['health_potion']}")
+
+# Student grades
+grades = {
+    "Alice": 95,
+    "Bob": 87,
+    "Charlie": 92
+}
+
+# Add a new student
+grades["Diana"] = 88
+
+# Check a grade
+student = input("Which student? ")
+if student in grades:                          # ← COLON!
+    print(f"{student} got {grades[student]}")  # ← INDENT!
+else:                                          # ← COLON!
+    print("Student not found")                 # ← INDENT!
+
+# Shop catalog
+catalog = {
+    "Dominus": 50000,
+    "Fedora": 15000,
+    "Wings": 8000
+}
+
+# Show all items
+for item in catalog:                                    # ← COLON!
+    print(f"{item} costs {catalog[item]} Robux")       # ← INDENT!
+
+# Buy something
+robux = 20000
+item = "Fedora"
+
+if item in catalog:                        # ← COLON!
+    if robux >= catalog[item]:             # ← COLON!
+        robux -= catalog[item]             # ← INDENT TWICE!
+        print(f"Bought {item}!")           # ← INDENT TWICE!
+    else:                                  # ← COLON!
+        print("Not enough Robux!")         # ← INDENT TWICE!
+```
+
+### Common Dictionary Mistakes
+```python
+# ❌ WRONG - Missing quotes on string key
+prices = {apple: 2}         # ERROR! (unless apple is a variable)
+
+# ✅ CORRECT - Quotes around string keys
+prices = {"apple": 2}
+
+# ❌ WRONG - Accessing non-existent key
+print(prices["grape"])      # KeyError!
+
+# ✅ CORRECT - Check first
+if "grape" in prices:
+    print(prices["grape"])
+
+# ❌ WRONG - Missing colon in dictionary
+prices = {"apple" 2}        # ERROR!
+
+# ✅ CORRECT - Colon between key and value
+prices = {"apple": 2}
+
+# ❌ WRONG - Using wrong brackets
+inventory("sword")          # ERROR! Use square brackets
+
+# ✅ CORRECT
+inventory["sword"]
+```
+
+### Quick Dictionary Reference
+```python
+# Create
+my_dict = {"key": "value"}
+
+# Access
+my_dict["key"]
+
+# Change
+my_dict["key"] = "new value"
+
+# Add
+my_dict["new_key"] = "another value"
+
+# Remove
+del my_dict["key"]
+
+# Check exists
+if "key" in my_dict:
+    print("Found!")
+
+# Loop through
+for key in my_dict:
+    print(key, my_dict[key])
+
+# Length
+len(my_dict)
+```
+
+## 12. 🎯 Functions
 
 ### ⚠️ CRITICAL: Colon (:) after def, indent the entire function!
 
@@ -458,7 +690,7 @@ print(result)  # 8
 
 ---
 
-## 12. 💡 Quick Reference
+## 13. 💡 Quick Reference
 
 ```python
 # Useful functions
@@ -467,7 +699,6 @@ len([1, 2, 3])      # List length: 3
 str(42)             # Make text: "42"
 int("42")           # Make number: 42
 float("3.14")       # Make decimal: 3.14
-type(x)             # Check what type something is
 ```
 
 ---
