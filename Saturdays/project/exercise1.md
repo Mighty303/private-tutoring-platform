@@ -1,4 +1,5 @@
 # Python Exercise: Roblox Catalog Shop 🎮
+![Roblox Catalog](https://devforum-uploads.s3.dualstack.us-east-2.amazonaws.com/uploads/original/4X/d/8/f/d8f91fb705ffbfbd6a4bb717c749a27c8ed30d83.jpeg)
 ## Exercise 1: Creating Your Catalog 📦
 `📖 Dictionaries` `🔑 Keys & Values`
 
