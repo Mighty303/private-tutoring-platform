@@ -1,6 +1,8 @@
 ## Exercise 2: Your Robux Balance 💰
 `📖 Dictionaries` `📥 Input` `🔢 Type Conversion`
 
+![Roblox Logo](https://devforum-uploads.s3.dualstack.us-east-2.amazonaws.com/uploads/original/4X/3/2/a/32a005028e04b7e6ba31de37f43edc69004cc61f.png)
+
 **Part A:** Use `input()` to ask "How much Robux do you have? "
 - Convert the input to an integer
 - Store it in a variable called `robux`
