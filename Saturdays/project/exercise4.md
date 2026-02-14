@@ -8,6 +8,9 @@
 - Create the `catalog` dictionary
 - Create inventory with items you "already own": `inventory = {"Rainbow Wings": 8000, "Golden Crown": 12000}`
 - Print starting Robux and inventory
+<img width="993" height="493" alt="image" src="https://github.com/user-attachments/assets/32e979ae-71e8-439e-99bb-f582127a68a7" />
+<img width="1040" height="525" alt="image" src="https://github.com/user-attachments/assets/07363cdf-418c-4d6c-9c4e-79cf12331205" />
+)
 
 **Part B:** Ask what item to sell:
 - Use input: "What item do you want to sell? "
