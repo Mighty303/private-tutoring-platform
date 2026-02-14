@@ -1,0 +1,60 @@
+import { Link } from "react-router-dom";
+import LessonCard from "../components/LessonCard";
+import { dictionaryExercises } from "../data/lessons";
+
+export default function DictionariesPage() {
+  const exercises = dictionaryExercises.filter(
+    (l) => !l.id.includes("project")
+  );
+  const projects = dictionaryExercises.filter((l) =>
+    l.id.includes("project")
+  );
+
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {/* Header */}
+        <div className="mb-10">
+          <Link
+            to="/saturdays"
+            className="inline-flex items-center text-sm text-slate-500 hover:text-indigo-600 mb-4 transition-colors"
+          >
+            ← Back to Saturdays
+          </Link>
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-800 mb-2">
+            📖 Dictionary Exercises
+          </h1>
+          <p className="text-lg text-slate-500">
+            Learn dictionaries through Roblox catalog shop exercises
+          </p>
+        </div>
+
+        {/* Exercises */}
+        <h2 className="text-2xl font-bold text-slate-700 mb-4">Exercises</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+          {exercises.map((lesson) => (
+            <LessonCard
+              key={lesson.id}
+              lesson={lesson}
+              basePath="/dictionaries"
+            />
+          ))}
+        </div>
+
+        {/* Projects */}
+        <h2 className="text-2xl font-bold text-slate-700 mb-4">
+          🌟 Mini Projects
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {projects.map((lesson) => (
+            <LessonCard
+              key={lesson.id}
+              lesson={lesson}
+              basePath="/dictionaries"
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
