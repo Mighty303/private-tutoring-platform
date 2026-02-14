@@ -135,11 +135,9 @@ Thanks for shopping!
 - Check if key exists: `if item in catalog:`
 - Integer division for 50%: `price // 2`
 
-## 🌟 Bonus Challenges:
+## 🌟 Bonus:
 1. Add more items to the catalog
 2. Make selling give 75% back instead of 50%
 3. Add a "view" action to see catalog without buying
 4. Track how many times you've bought/sold
 5. Add special "limited" items that increase in price after purchase
-
-**Happy coding, future Roblox developer! 🎮✨**
