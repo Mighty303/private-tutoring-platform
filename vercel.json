@@ -1,6 +1,6 @@
 {
+  "framework": "nextjs",
   "buildCommand": "cd tutor-website-next && npm install && npm run build",
   "outputDirectory": "tutor-website-next/.next",
-  "installCommand": "echo 'skip'",
-  "framework": "nextjs"
+  "installCommand": "echo 'skip'"
 }
