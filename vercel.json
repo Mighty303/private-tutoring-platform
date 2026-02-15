@@ -1,8 +1,7 @@
 {
   "buildCommand": "cd tutor-website && npm install && npm run build",
   "outputDirectory": "tutor-website/dist",
-  "framework": "vite",
-  "installCommand": "cd tutor-website && npm install",
+  "installCommand": "echo 'skip'",
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
   ]
