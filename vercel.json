@@ -1,8 +1,6 @@
 {
-  "buildCommand": "cd tutor-website && npm install && npm run build",
-  "outputDirectory": "tutor-website/dist",
+  "buildCommand": "cd tutor-website-next && npm install && npm run build",
+  "outputDirectory": "tutor-website-next/.next",
   "installCommand": "echo 'skip'",
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
-  ]
+  "framework": "nextjs"
 }
