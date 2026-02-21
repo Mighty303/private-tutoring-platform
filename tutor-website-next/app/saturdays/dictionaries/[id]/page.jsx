@@ -28,10 +28,10 @@ export default async function DictionaryLessonPage({ params }) {
       <div className="bg-slate-50 border-b border-slate-200">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <Link
-            href="/dictionaries"
+            href="/saturdays"
             className="inline-flex items-center text-sm text-slate-500 hover:text-indigo-600 mb-3 transition-colors"
           >
-            ← Back to Dictionary Exercises
+            ← Back to Saturday Lessons
           </Link>
           <div className="flex items-center gap-3">
             <span className="text-3xl">{lesson.emoji}</span>

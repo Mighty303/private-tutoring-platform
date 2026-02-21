@@ -40,7 +40,7 @@ export default function DictionariesPage() {
             <LessonCard
               key={lesson.id}
               lesson={lesson}
-              basePath="/dictionaries"
+              basePath="/saturdays/dictionaries"
             />
           ))}
         </div>
@@ -54,7 +54,7 @@ export default function DictionariesPage() {
             <LessonCard
               key={lesson.id}
               lesson={lesson}
-              basePath="/dictionaries"
+              basePath="/saturdays/dictionaries"
             />
           ))}
         </div>

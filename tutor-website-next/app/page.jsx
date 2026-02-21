@@ -69,7 +69,7 @@ export default function HomePage() {
             color="from-indigo-500 to-indigo-600"
           />
           <QuickLink
-            href="/dictionaries"
+            href="/saturdays/dictionaries"
             emoji="📖"
             title="Dictionaries"
             desc="Roblox-themed exercises & projects"

@@ -47,7 +47,7 @@ export default function SaturdaysPage() {
             2.
           </p>
           <Link
-            href="/dictionaries"
+            href="/saturdays/dictionaries"
             className="inline-flex items-center gap-2 bg-amber-600 text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-amber-700 transition-colors text-sm"
           >
             View Dictionary Exercises →
