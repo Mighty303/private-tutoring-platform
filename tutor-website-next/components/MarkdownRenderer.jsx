@@ -2,13 +2,16 @@
 
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import rehypeRaw from "rehype-raw";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/cjs/styles/prism";
+import Image from "next/image";
 
 export default function MarkdownRenderer({ content }) {
   return (
     <ReactMarkdown
       remarkPlugins={[remarkGfm]}
+      rehypePlugins={[rehypeRaw]}
       components={{
         code({ node, inline, className, children, ...props }) {
           const match = /language-(\w+)/.exec(className || "");
@@ -31,15 +34,17 @@ export default function MarkdownRenderer({ content }) {
         img({ src, alt, ...props }) {
           return (
             <span className="block my-4">
-              <img
+              <Image
                 src={src}
                 alt={alt || ""}
                 className="rounded-lg max-w-full"
+                width={800}
+                height={600}
                 {...props}
               />
             </span>
           );
-        },
+        }
       }}
     >
       {content}
