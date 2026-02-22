@@ -1,19 +1,65 @@
-# Exercise 1: Build a Min-Heap 🏗️
-`🎯 Functions` `📋 Lists` `🔁 Loops`
+# Exercise 1: Find the 3rd Largest Element 🥉
 
-**Your Task:**
-Write a function `build_min_heap(nums)` that:
-- Takes a list of numbers
-- Returns a new list that is a valid min-heap
-- Do NOT use `heapq` — implement it yourself!
+## Your Task
 
-**Examples:**
+Write a function `third_largest(nums)` that returns the **3rd largest** element in a list.
+
+**Use `heapq`!**
+
+---
+
+## Examples
+
 ```python
-print(build_min_heap([5, 3, 8, 1, 4]))
-# Output: [1, 3, 8, 5, 4] (or any valid min-heap arrangement)
+print(third_largest([5, 3, 8, 1, 4, 2, 7]))
+# Output: 5
 
-print(build_min_heap([10, 20, 5]))
-# Output: [5, 20, 10]
+print(third_largest([10, 20, 30]))
+# Output: 10
+
+print(third_largest([1, 1, 2, 3, 4]))
+# Output: 2
 ```
 
-**Hint:** Insert elements one by one, bubbling up each time!
+---
+
+## Hints
+
+<details>
+<summary>💡 Hint 1</summary>
+
+`heapq.nlargest(k, nums)` returns the k largest elements in descending order.
+
+</details>
+
+<details>
+<summary>💡 Hint 2</summary>
+
+The 3rd largest is the **last element** of `heapq.nlargest(3, nums)`.
+
+</details>
+
+<details>
+<summary>✅ Solution</summary>
+
+```python
+import heapq
+
+def third_largest(nums):
+    return heapq.nlargest(3, nums)[-1]
+```
+
+**Why this works:** `heapq.nlargest(3, nums)` gives you `[largest, 2nd, 3rd]`. The last item `[-1]` is the 3rd largest!
+
+</details>
+
+---
+
+## Bonus Challenge 🌟
+
+What if the list has fewer than 3 elements? Modify your function to return `None` in that case.
+
+```python
+print(third_largest([5, 2]))
+# Output: None
+```

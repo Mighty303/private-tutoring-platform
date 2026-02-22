@@ -42,7 +42,7 @@ export default function SundaysPage() {
               id: "heaps",
               title: "Heaps — Priority Queues",
               emoji: "🏔️",
-              description: "Heap data structure, bubble up/down, priority queues, and k-th element problems. 12 subpages!",
+              description: "Heap data structure, priority queues, and practical exercises using Python's heapq module.",
               tags: ["Algorithms", "Heaps"],
               color: "amber",
             }}
