@@ -8,20 +8,20 @@ export const metadata = {
 
 export default function SaturdaysPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
+    <div className="min-h-screen bg-linear-to-b from-slate-50 to-white dark:from-slate-950 dark:to-slate-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Header */}
         <div className="mb-10">
           <Link
             href="/"
-            className="inline-flex items-center text-sm text-slate-500 hover:text-indigo-600 mb-4 transition-colors"
+            className="inline-flex items-center text-sm text-slate-500 hover:text-indigo-600 dark:text-slate-400 dark:hover:text-indigo-400 mb-4 transition-colors"
           >
             ← Back to Home
           </Link>
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-800 mb-2">
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-800 dark:text-white mb-2">
             🐍 Saturday Lessons
           </h1>
-          <p className="text-lg text-slate-500">
+          <p className="text-lg text-slate-500 dark:text-slate-400">
             Python fundamentals for grade 7 — gamified, Roblox-themed exercises
           </p>
         </div>
@@ -38,11 +38,11 @@ export default function SaturdaysPage() {
         </div>
 
         {/* Link to dictionaries */}
-        <div className="bg-amber-50 border border-amber-200 rounded-xl p-6">
-          <h3 className="font-bold text-lg text-amber-800 mb-2">
+        <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700 rounded-xl p-6">
+          <h3 className="font-bold text-lg text-amber-800 dark:text-amber-300 mb-2">
             📖 Dictionary Exercises
           </h3>
-          <p className="text-amber-700 mb-4">
+          <p className="text-amber-700 dark:text-amber-400 mb-4">
             Roblox-themed dictionary exercises and projects — part of Milestone
             2.
           </p>

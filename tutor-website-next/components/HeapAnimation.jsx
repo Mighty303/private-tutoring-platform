@@ -196,7 +196,7 @@ export default function HeapAnimation() {
   };
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden my-6">
+    <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden my-6">
       <div className="bg-linear-to-r from-indigo-500 to-purple-500 px-6 py-4">
         <h3 className="text-white font-bold text-lg">🏔️ Heap Animation</h3>
         <p className="text-indigo-100 text-sm mt-1">
@@ -205,7 +205,7 @@ export default function HeapAnimation() {
       </div>
 
       {/* Controls */}
-      <div className="px-6 py-4 border-b border-slate-100 bg-slate-50">
+      <div className="px-6 py-4 border-b border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
         <div className="flex flex-wrap items-center gap-3">
           <div className="flex items-center gap-2">
             <input
@@ -213,7 +213,7 @@ export default function HeapAnimation() {
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               placeholder="Value"
-              className="w-20 px-3 py-2 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
+              className="w-20 px-3 py-2 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-sm dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-400"
               disabled={isAnimating}
             />
             <button
@@ -248,14 +248,14 @@ export default function HeapAnimation() {
       </div>
 
       {/* Message */}
-      <div className="px-6 py-3 bg-indigo-50 border-b border-indigo-100">
-        <p className="text-sm font-medium text-indigo-700">{message}</p>
+      <div className="px-6 py-3 bg-indigo-50 dark:bg-indigo-900/30 border-b border-indigo-100 dark:border-indigo-800">
+        <p className="text-sm font-medium text-indigo-700 dark:text-indigo-300">{message}</p>
       </div>
 
       {/* Tree Visualization */}
       <div className="px-6 py-4">
         {heap.length === 0 ? (
-          <div className="flex items-center justify-center h-48 text-slate-400">
+          <div className="flex items-center justify-center h-48 text-slate-400 dark:text-slate-500">
             <p>Heap is empty. Insert a value to begin!</p>
           </div>
         ) : (
@@ -325,8 +325,8 @@ export default function HeapAnimation() {
       </div>
 
       {/* Array representation */}
-      <div className="px-6 py-4 border-t border-slate-100 bg-slate-50">
-        <p className="text-xs font-medium text-slate-500 mb-2">
+      <div className="px-6 py-4 border-t border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+        <p className="text-xs font-medium text-slate-500 dark:text-slate-400 mb-2">
           Array Representation:
         </p>
         <div className="flex flex-wrap gap-1">
@@ -340,19 +340,19 @@ export default function HeapAnimation() {
                       (i === swappingNodes.a || i === swappingNodes.b)
                     ? "bg-amber-100 ring-2 ring-amber-400"
                     : i === 0
-                      ? "bg-emerald-100"
-                      : "bg-white border border-slate-200"
+                      ? "bg-emerald-100 dark:bg-emerald-900/50"
+                      : "bg-white dark:bg-slate-700 border border-slate-200 dark:border-slate-600"
               }`}
             >
-              <span className="text-sm font-bold text-slate-700">{val}</span>
-              <span className="text-[10px] text-slate-400">[{i}]</span>
+              <span className="text-sm font-bold text-slate-700 dark:text-white">{val}</span>
+              <span className="text-[10px] text-slate-400 dark:text-slate-500">[{i}]</span>
             </div>
           ))}
         </div>
       </div>
 
       {/* Legend */}
-      <div className="px-6 py-3 border-t border-slate-100 flex flex-wrap gap-4 text-xs text-slate-500">
+      <div className="px-6 py-3 border-t border-slate-100 dark:border-slate-700 flex flex-wrap gap-4 text-xs text-slate-500 dark:text-slate-400">
         <span className="flex items-center gap-1">
           <span className="w-3 h-3 rounded-full bg-emerald-400 inline-block" />
           Root (Min)

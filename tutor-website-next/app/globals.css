@@ -1,5 +1,17 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Smooth theme transitions */
+html {
+  transition: background-color 0.2s, color 0.2s;
+}
+
+/* Dark mode base */
+.dark {
+  color-scheme: dark;
+}
+
 /* Custom code block styling */
 .prose pre {
   background-color: #1e293b;
@@ -10,6 +22,11 @@
   font-size: 0.875rem;
   line-height: 1.7;
   margin: 1rem 0;
+}
+
+.dark .prose pre {
+  background-color: #0f172a;
+  border: 1px solid #334155;
 }
 
 .prose code {
@@ -25,11 +42,20 @@
   font-weight: 500;
 }
 
+.dark .prose :not(pre) > code {
+  background-color: #1e293b;
+  color: #fb7185;
+}
+
 .prose h1 {
   font-size: 1.875rem;
   font-weight: 800;
   margin-bottom: 1rem;
   color: #0f172a;
+}
+
+.dark .prose h1 {
+  color: #f1f5f9;
 }
 
 .prose h2 {
@@ -42,6 +68,11 @@
   padding-bottom: 0.5rem;
 }
 
+.dark .prose h2 {
+  color: #e2e8f0;
+  border-bottom-color: #334155;
+}
+
 .prose h3 {
   font-size: 1.25rem;
   font-weight: 600;
@@ -50,10 +81,18 @@
   color: #334155;
 }
 
+.dark .prose h3 {
+  color: #cbd5e1;
+}
+
 .prose p {
   margin: 0.75rem 0;
   line-height: 1.75;
   color: #374151;
+}
+
+.dark .prose p {
+  color: #94a3b8;
 }
 
 .prose ul, .prose ol {
@@ -75,14 +114,26 @@
   color: #374151;
 }
 
+.dark .prose li {
+  color: #94a3b8;
+}
+
 .prose strong {
   color: #0f172a;
   font-weight: 700;
 }
 
+.dark .prose strong {
+  color: #f1f5f9;
+}
+
 .prose hr {
   border-color: #e2e8f0;
   margin: 2rem 0;
+}
+
+.dark .prose hr {
+  border-color: #334155;
 }
 
 .prose blockquote {
@@ -91,6 +142,11 @@
   margin: 1rem 0;
   color: #4b5563;
   font-style: italic;
+}
+
+.dark .prose blockquote {
+  color: #94a3b8;
+  border-left-color: #6366f1;
 }
 
 .prose img {
@@ -104,6 +160,38 @@
   text-decoration: underline;
 }
 
+.dark .prose a {
+  color: #818cf8;
+}
+
 .prose input[type="checkbox"] {
   margin-right: 0.5rem;
+}
+
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+}
+
+.prose th, .prose td {
+  border: 1px solid #e2e8f0;
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+}
+
+.dark .prose th, .dark .prose td {
+  border-color: #334155;
+  color: #94a3b8;
+}
+
+.prose th {
+  background-color: #f8fafc;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.dark .prose th {
+  background-color: #1e293b;
+  color: #e2e8f0;
 }

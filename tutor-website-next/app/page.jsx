@@ -3,9 +3,9 @@ import Image from "next/image";
 import { milestones } from "@/lib/lessons";
 
 const statusColors = {
-  complete: { bg: "bg-green-50", border: "border-green-300", badge: "bg-green-100 text-green-700", icon: "✅" },
-  active: { bg: "bg-indigo-50", border: "border-indigo-300", badge: "bg-indigo-100 text-indigo-700", icon: "📍" },
-  upcoming: { bg: "bg-slate-50", border: "border-slate-200", badge: "bg-slate-100 text-slate-500", icon: "🔮" },
+  complete: { bg: "bg-green-50 dark:bg-green-900/30", border: "border-green-300 dark:border-green-700", badge: "bg-green-100 text-green-700 dark:bg-green-800/50 dark:text-green-300", icon: "✅" },
+  active: { bg: "bg-indigo-50 dark:bg-indigo-900/30", border: "border-indigo-300 dark:border-indigo-700", badge: "bg-indigo-100 text-indigo-700 dark:bg-indigo-800/50 dark:text-indigo-300", icon: "📍" },
+  upcoming: { bg: "bg-slate-50 dark:bg-slate-800/50", border: "border-slate-200 dark:border-slate-700", badge: "bg-slate-100 text-slate-500 dark:bg-slate-700 dark:text-slate-400", icon: "🔮" },
 };
 
 function QuickLink({ href, emoji, title, desc, color }) {
@@ -14,7 +14,7 @@ function QuickLink({ href, emoji, title, desc, color }) {
       href={href}
       className="group relative overflow-hidden rounded-xl p-6 text-white shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
     >
-      <div className={`absolute inset-0 bg-gradient-to-br ${color}`} />
+      <div className={`absolute inset-0 bg-linear-to-br ${color}`} />
       <div className="relative">
         <span className="text-3xl mb-3 block">{emoji}</span>
         <h3 className="font-bold text-lg mb-1">{title}</h3>
@@ -26,7 +26,7 @@ function QuickLink({ href, emoji, title, desc, color }) {
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
+    <div className="min-h-screen bg-linear-to-b from-slate-50 to-white dark:from-slate-950 dark:to-slate-900">
       {/* Hero */}
       <div className="relative overflow-hidden">
         {/* Background image */}
@@ -68,7 +68,7 @@ export default function HomePage() {
               </Link>
               <Link
                 href="/sundays"
-                className="inline-flex items-center gap-2 bg-white text-indigo-600 px-6 py-3 rounded-xl font-semibold border-2 border-indigo-200 hover:border-indigo-400 transition-all hover:-translate-y-0.5"
+                className="inline-flex items-center gap-2 bg-white text-indigo-600 dark:bg-slate-800 dark:text-indigo-400 px-6 py-3 rounded-xl font-semibold border-2 border-indigo-200 dark:border-indigo-700 hover:border-indigo-400 dark:hover:border-indigo-500 transition-all hover:-translate-y-0.5"
               >
                 🏆 Sunday Lessons
               </Link>
@@ -113,8 +113,8 @@ export default function HomePage() {
 
       {/* Milestones */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <h2 className="text-3xl font-bold text-slate-800 mb-2">Learning Roadmap</h2>
-        <p className="text-slate-500 mb-8">Track progress across all milestones</p>
+        <h2 className="text-3xl font-bold text-slate-800 dark:text-white mb-2">Learning Roadmap</h2>
+        <p className="text-slate-500 dark:text-slate-400 mb-8">Track progress across all milestones</p>
 
         <div className="space-y-4">
           {milestones.map((m) => {
@@ -128,7 +128,7 @@ export default function HomePage() {
                   <div className="flex items-center gap-3">
                     <span className="text-2xl">{s.icon}</span>
                     <div>
-                      <h3 className="font-bold text-lg text-slate-800">
+                      <h3 className="font-bold text-lg text-slate-800 dark:text-white">
                         Milestone {m.number}: {m.title}
                       </h3>
                       <span className={`text-xs font-semibold px-2.5 py-0.5 rounded-full ${s.badge}`}>
@@ -136,13 +136,13 @@ export default function HomePage() {
                       </span>
                     </div>
                   </div>
-                  <span className="text-sm text-slate-500">{m.lessons} lessons</span>
+                  <span className="text-sm text-slate-500 dark:text-slate-400">{m.lessons} lessons</span>
                 </div>
                 <div className="flex flex-wrap gap-2 mt-3">
                   {m.topics.map((topic) => (
                     <span
                       key={topic}
-                      className="text-xs bg-white/70 text-slate-600 px-2.5 py-1 rounded-md border border-slate-200"
+                      className="text-xs bg-white/70 text-slate-600 dark:bg-slate-800/70 dark:text-slate-300 px-2.5 py-1 rounded-md border border-slate-200 dark:border-slate-600"
                     >
                       {topic}
                     </span>
@@ -155,8 +155,8 @@ export default function HomePage() {
       </div>
 
       {/* Footer */}
-      <footer className="border-t border-slate-200 mt-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-center text-sm text-slate-400">
+      <footer className="border-t border-slate-200 dark:border-slate-800 mt-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-center text-sm text-slate-400 dark:text-slate-500">
           Martin Wong · Private Tutoring Resources · Last Updated: January 2025
         </div>
       </footer>

@@ -15,20 +15,20 @@ export const metadata = {
 
 export default function HeapsPage() {
   return (
-    <div className="min-h-screen bg-linear-to-b from-slate-50 to-white">
+    <div className="min-h-screen bg-linear-to-b from-slate-50 to-white dark:from-slate-950 dark:to-slate-900">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Header */}
         <div className="mb-10">
           <Link
             href="/sundays"
-            className="inline-flex items-center text-sm text-slate-500 hover:text-indigo-600 mb-4 transition-colors"
+            className="inline-flex items-center text-sm text-slate-500 hover:text-indigo-600 dark:text-slate-400 dark:hover:text-indigo-400 mb-4 transition-colors"
           >
             ← Back to Sunday Lessons
           </Link>
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-800 mb-2">
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-800 dark:text-white mb-2">
             🏔️ Heaps — Priority Queues
           </h1>
-          <p className="text-lg text-slate-500">
+          <p className="text-lg text-slate-500 dark:text-slate-400">
             Learn heaps through interactive exercises — from basics to advanced
             problems
           </p>
@@ -45,10 +45,10 @@ export default function HeapsPage() {
             <Link
               key={lesson.id}
               href={`/sundays/heaps/${lesson.id}`}
-              className="group flex items-center gap-4 bg-white rounded-xl border border-slate-200 px-5 py-4 shadow-sm hover:shadow-md hover:border-indigo-300 transition-all duration-200"
+              className="group flex items-center gap-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 px-5 py-4 shadow-sm hover:shadow-md hover:border-indigo-300 dark:hover:border-indigo-600 transition-all duration-200"
             >
               {/* Number */}
-              <span className="shrink-0 w-8 h-8 rounded-full bg-slate-100 group-hover:bg-indigo-100 flex items-center justify-center text-sm font-bold text-slate-500 group-hover:text-indigo-600 transition-colors">
+              <span className="shrink-0 w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-700 group-hover:bg-indigo-100 dark:group-hover:bg-indigo-900/50 flex items-center justify-center text-sm font-bold text-slate-500 dark:text-slate-400 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
                 {index + 1}
               </span>
 
@@ -57,10 +57,10 @@ export default function HeapsPage() {
 
               {/* Info */}
               <div className="flex-1 min-w-0">
-                <h3 className="text-base font-bold text-slate-800 group-hover:text-indigo-600 transition-colors">
+                <h3 className="text-base font-bold text-slate-800 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
                   {lesson.title}
                 </h3>
-                <p className="text-sm text-slate-500 truncate">
+                <p className="text-sm text-slate-500 dark:text-slate-400 truncate">
                   {lesson.description}
                 </p>
               </div>

@@ -44,7 +44,7 @@ export default function LessonCard({ lesson, basePath }) {
   return (
     <Link
       href={`${basePath}/${lesson.id}`}
-      className={`group block bg-white rounded-xl border border-slate-200 border-l-4 ${
+      className={`group block bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 border-l-4 ${
         cardBorders[lesson.color] || "border-l-indigo-500"
       } shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300`}
     >
@@ -60,10 +60,10 @@ export default function LessonCard({ lesson, basePath }) {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
           </svg>
         </div>
-        <h3 className="text-lg font-bold text-slate-800 mb-2 group-hover:text-indigo-600 transition-colors">
+        <h3 className="text-lg font-bold text-slate-800 dark:text-white mb-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
           {lesson.title}
         </h3>
-        <p className="text-sm text-slate-500 mb-4 line-clamp-2">{lesson.description}</p>
+        <p className="text-sm text-slate-500 dark:text-slate-400 mb-4 line-clamp-2">{lesson.description}</p>
         <div className="flex flex-wrap gap-2">
           {lesson.tags.map((tag) => (
             <span
