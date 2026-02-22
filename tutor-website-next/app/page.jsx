@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { milestones } from "@/lib/lessons";
 
 const statusColors = {
@@ -28,16 +29,34 @@ export default function HomePage() {
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
       {/* Hero */}
       <div className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 via-purple-500/5 to-pink-500/5" />
+        {/* Background image */}
+        <Image
+          src="/assets/bg.jpg"
+          alt=""
+          fill
+          className="object-cover"
+          priority
+        />
+        {/* Dark overlay for readability */}
+        <div className="absolute inset-0 bg-black/60" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 relative">
           <div className="text-center">
-            <h1 className="text-4xl sm:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 mb-4">
+            {/* Python logo */}
+            <Image
+              src="/assets/python.jpg"
+              alt="Python"
+              width={100}
+              height={100}
+              className="mx-auto mb-6 rounded-2xl shadow-lg"
+              priority
+            />
+            <h1 className="text-4xl sm:text-6xl font-extrabold text-white mb-4">
               Private Tutoring Resources
             </h1>
-            <p className="text-xl text-slate-600 mb-2">
+            <p className="text-xl text-slate-200 mb-2">
               Computer Science with Martin Wong 📚
             </p>
-            <p className="text-lg text-slate-500 max-w-2xl mx-auto mb-10">
+            <p className="text-lg text-slate-300 max-w-2xl mx-auto mb-10">
               Python fundamentals, dictionaries, algorithms, and more — all through gamified, Roblox-themed exercises.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
