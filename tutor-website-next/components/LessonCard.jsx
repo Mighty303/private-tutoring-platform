@@ -19,6 +19,7 @@ const tagColors = {
   DFS: "bg-emerald-100 text-emerald-700",
   Recursion: "bg-lime-100 text-lime-700",
   Answers: "bg-green-100 text-green-700",
+  Heaps: "bg-amber-100 text-amber-700",
 };
 
 const cardBorders = {

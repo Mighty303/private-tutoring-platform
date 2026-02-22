@@ -24,6 +24,20 @@ const fileMap = {
   "dfs-bfs": "sundays/2. DFS_BFS.md",
   graphs: "sundays/3. Graphs.md",
 
+  // Heap exercises
+  "heap-intro": "sundays/heaps/intro.md",
+  "heap-ex1": "sundays/heaps/exercise1.md",
+  "heap-ex2": "sundays/heaps/exercise2.md",
+  "heap-ex3": "sundays/heaps/exercise3.md",
+  "heap-ex4": "sundays/heaps/exercise4.md",
+  "heap-ex5": "sundays/heaps/exercise5.md",
+  "heap-ex6": "sundays/heaps/exercise6.md",
+  "heap-ex7": "sundays/heaps/exercise7.md",
+  "heap-ex8": "sundays/heaps/exercise8.md",
+  "heap-ex9": "sundays/heaps/exercise9.md",
+  "heap-ex10": "sundays/heaps/exercise10.md",
+  "heap-tips": "sundays/heaps/tips.md",
+
   // Sunday answers
   "algorithms-answers": "sundays/answers/1. Algorithms_answer.md",
   "dfs-bfs-answers": "sundays/answers/2. DFS_BFS_answers.md",

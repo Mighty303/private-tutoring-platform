@@ -36,6 +36,18 @@ export default function SundaysPage() {
               basePath="/sundays"
             />
           ))}
+          {/* Heaps hub card */}
+          <LessonCard
+            lesson={{
+              id: "heaps",
+              title: "Heaps — Priority Queues",
+              emoji: "🏔️",
+              description: "Heap data structure, bubble up/down, priority queues, and k-th element problems. 12 subpages!",
+              tags: ["Algorithms", "Heaps"],
+              color: "amber",
+            }}
+            basePath="/sundays"
+          />
         </div>
 
         {/* Answer Keys */}

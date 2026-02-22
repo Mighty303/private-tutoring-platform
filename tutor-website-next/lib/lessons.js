@@ -119,6 +119,105 @@ export const sundayLessons = [
   },
 ];
 
+export const heapExercises = [
+  {
+    id: "heap-intro",
+    title: "Heap Intro & Concepts",
+    emoji: "🏔️",
+    description: "What heaps are, how they're stored, bubble up/down, Python's heapq module, and max-heap trick.",
+    tags: ["Heaps", "Reference"],
+    color: "amber",
+  },
+  {
+    id: "heap-ex1",
+    title: "Build a Min-Heap",
+    emoji: "�️",
+    description: "Implement your own min-heap from scratch — no heapq allowed!",
+    tags: ["Heaps", "Exercises"],
+    color: "orange",
+  },
+  {
+    id: "heap-ex2",
+    title: "Bubble Up",
+    emoji: "⬆️",
+    description: "Write the bubble-up function to restore heap property after insertion.",
+    tags: ["Heaps", "Exercises"],
+    color: "sky",
+  },
+  {
+    id: "heap-ex3",
+    title: "Bubble Down",
+    emoji: "⬇️",
+    description: "Write the bubble-down function to restore heap property after extraction.",
+    tags: ["Heaps", "Exercises"],
+    color: "cyan",
+  },
+  {
+    id: "heap-ex4",
+    title: "K Smallest Elements",
+    emoji: "🔢",
+    description: "Use a heap to efficiently find the k smallest elements in a list.",
+    tags: ["Heaps", "Exercises"],
+    color: "emerald",
+  },
+  {
+    id: "heap-ex5",
+    title: "K Largest Elements",
+    emoji: "📏",
+    description: "Use the max-heap trick to find the k largest elements.",
+    tags: ["Heaps", "Exercises"],
+    color: "indigo",
+  },
+  {
+    id: "heap-ex6",
+    title: "Heap Sort",
+    emoji: "📊",
+    description: "Sort a list using only heap operations — no built-in sort!",
+    tags: ["Heaps", "Algorithms"],
+    color: "violet",
+  },
+  {
+    id: "heap-ex7",
+    title: "Merge K Sorted Lists",
+    emoji: "🔗",
+    description: "Efficiently merge multiple sorted lists into one using a heap.",
+    tags: ["Heaps", "Algorithms"],
+    color: "purple",
+  },
+  {
+    id: "heap-ex8",
+    title: "Running Median",
+    emoji: "📈",
+    description: "Track the median as numbers arrive using two heaps.",
+    tags: ["Heaps", "Algorithms"],
+    color: "rose",
+  },
+  {
+    id: "heap-ex9",
+    title: "Task Scheduler",
+    emoji: "⏰",
+    description: "Process tasks in priority order using a heap-based scheduler.",
+    tags: ["Heaps", "Exercises"],
+    color: "lime",
+  },
+  {
+    id: "heap-ex10",
+    title: "Kth Largest in a Stream",
+    emoji: "🌊",
+    description: "Build a class that tracks the kth largest element as values stream in.",
+    tags: ["Heaps", "Exercises"],
+    color: "teal",
+  },
+  {
+    id: "heap-tips",
+    title: "Heap Tips & Reference",
+    emoji: "💡",
+    description: "Time complexities, when to use heaps, common mistakes, and debug checklist.",
+    tags: ["Heaps", "Reference"],
+    color: "blue",
+  },
+];
+
 export const sundayAnswers = [
   {
     id: "algorithms-answers",
@@ -218,6 +317,7 @@ export function getLessonById(id) {
     ...saturdayLessons,
     ...dictionaryExercises,
     ...sundayLessons,
+    ...heapExercises,
     ...sundayAnswers,
   ];
   return all.find((l) => l.id === id) || null;
@@ -228,6 +328,7 @@ export function getAllLessons() {
     ...saturdayLessons,
     ...dictionaryExercises,
     ...sundayLessons,
+    ...heapExercises,
     ...sundayAnswers,
   ];
 }

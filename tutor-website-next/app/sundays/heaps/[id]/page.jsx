@@ -1,0 +1,138 @@
+import Link from "next/link";
+import { getContent, getAllContentIds } from "@/lib/content";
+import { getLessonById, heapExercises } from "@/lib/lessons";
+import MarkdownRenderer from "@/components/MarkdownRenderer";
+import HeapAnimation from "@/components/HeapAnimation";
+import { notFound } from "next/navigation";
+
+export async function generateStaticParams() {
+  const ids = getAllContentIds().filter((id) => id.startsWith("heap-"));
+  return ids.map((id) => ({ id }));
+}
+
+export async function generateMetadata({ params }) {
+  const { id } = await params;
+  const lesson = getLessonById(id);
+  return {
+    title: lesson ? `${lesson.title} — CS Tutor` : "Exercise — CS Tutor",
+  };
+}
+
+export default async function HeapLessonPage({ params }) {
+  const { id } = await params;
+  const lesson = getLessonById(id);
+  const content = getContent(id);
+
+  if (!lesson || !content) notFound();
+
+  const currentIndex = heapExercises.findIndex((l) => l.id === id);
+  const prev = currentIndex > 0 ? heapExercises[currentIndex - 1] : null;
+  const next =
+    currentIndex < heapExercises.length - 1
+      ? heapExercises[currentIndex + 1]
+      : null;
+
+  return (
+    <div className="min-h-screen bg-white">
+      {/* Top bar */}
+      <div className="bg-slate-50 border-b border-slate-200">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <Link
+            href="/sundays/heaps"
+            className="inline-flex items-center text-sm text-slate-500 hover:text-indigo-600 mb-3 transition-colors"
+          >
+            ← Back to Heaps
+          </Link>
+          <div className="flex items-center gap-3">
+            <span className="text-3xl">{lesson.emoji}</span>
+            <div>
+              <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-800">
+                {lesson.title}
+              </h1>
+              <p className="text-sm text-slate-400 mt-1">
+                {currentIndex + 1} of {heapExercises.length}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Content */}
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <div className="prose">
+          <MarkdownRenderer content={content} />
+        </div>
+        {id === "heap-intro" && <HeapAnimation />}
+      </div>
+
+      {/* Prev / Next navigation */}
+      <div className="border-t border-slate-200 bg-slate-50">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <div className="flex items-stretch gap-4">
+            {/* Previous */}
+            {prev ? (
+              <Link
+                href={`/sundays/heaps/${prev.id}`}
+                className="group flex-1 flex items-center gap-3 bg-white rounded-xl border border-slate-200 px-5 py-4 hover:border-indigo-300 hover:shadow-md transition-all duration-200"
+              >
+                <svg
+                  className="w-5 h-5 shrink-0 text-slate-400 group-hover:text-indigo-500 group-hover:-translate-x-1 transition-all"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 19l-7-7 7-7"
+                  />
+                </svg>
+                <div className="min-w-0">
+                  <p className="text-xs text-slate-400 font-medium">
+                    Previous
+                  </p>
+                  <p className="text-sm font-bold text-slate-700 group-hover:text-indigo-600 truncate transition-colors">
+                    {prev.emoji} {prev.title}
+                  </p>
+                </div>
+              </Link>
+            ) : (
+              <div className="flex-1" />
+            )}
+
+            {/* Next */}
+            {next ? (
+              <Link
+                href={`/sundays/heaps/${next.id}`}
+                className="group flex-1 flex items-center justify-end gap-3 bg-white rounded-xl border border-slate-200 px-5 py-4 hover:border-indigo-300 hover:shadow-md transition-all duration-200"
+              >
+                <div className="min-w-0 text-right">
+                  <p className="text-xs text-slate-400 font-medium">Next</p>
+                  <p className="text-sm font-bold text-slate-700 group-hover:text-indigo-600 truncate transition-colors">
+                    {next.emoji} {next.title}
+                  </p>
+                </div>
+                <svg
+                  className="w-5 h-5 shrink-0 text-slate-400 group-hover:text-indigo-500 group-hover:translate-x-1 transition-all"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 5l7 7-7 7"
+                  />
+                </svg>
+              </Link>
+            ) : (
+              <div className="flex-1" />
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
