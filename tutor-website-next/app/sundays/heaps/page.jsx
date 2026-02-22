@@ -26,7 +26,7 @@ export default function HeapsPage() {
             ← Back to Sunday Lessons
           </Link>
           <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-800 dark:text-white mb-2">
-            🏔️ Heaps — Priority Queues
+            Heaps — Priority Queues
           </h1>
           <p className="text-lg text-slate-500 dark:text-slate-400">
             Learn heaps through interactive exercises — from basics to advanced

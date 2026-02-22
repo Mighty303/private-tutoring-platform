@@ -19,7 +19,7 @@ export default function SundaysPage() {
             ← Back to Home
           </Link>
           <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-800 dark:text-white mb-2">
-            🏆 Sunday Lessons
+            Sunday Lessons
           </h1>
           <p className="text-lg text-slate-500 dark:text-slate-400">
             Algorithms, DFS/BFS, and Waterloo CCC prep
@@ -52,7 +52,7 @@ export default function SundaysPage() {
 
         {/* Answer Keys */}
         <h2 className="text-2xl font-bold text-slate-700 dark:text-slate-200 mb-4">
-          🔑 Answer Keys
+          Answer Keys
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {sundayAnswers.map((lesson) => (

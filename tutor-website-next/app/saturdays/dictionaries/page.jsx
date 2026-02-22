@@ -26,7 +26,7 @@ export default function DictionariesPage() {
             ← Back to Saturdays
           </Link>
           <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-800 dark:text-white mb-2">
-            📖 Dictionary Exercises
+            Dictionary Exercises
           </h1>
           <p className="text-lg text-slate-500 dark:text-slate-400">
             Learn dictionaries through Roblox catalog shop exercises
@@ -47,7 +47,7 @@ export default function DictionariesPage() {
 
         {/* Projects */}
         <h2 className="text-2xl font-bold text-slate-700 dark:text-slate-200 mb-4">
-          🌟 Mini Projects
+          Mini Projects
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {projects.map((lesson) => (

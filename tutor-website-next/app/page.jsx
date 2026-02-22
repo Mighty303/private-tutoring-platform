@@ -8,7 +8,7 @@ const statusColors = {
   upcoming: { bg: "bg-slate-50 dark:bg-slate-800/50", border: "border-slate-200 dark:border-slate-700", badge: "bg-slate-100 text-slate-500 dark:bg-slate-700 dark:text-slate-400", icon: "🔮" },
 };
 
-function QuickLink({ href, emoji, title, desc, color }) {
+function QuickLink({ href, title, desc, color }) {
   return (
     <Link
       href={href}
@@ -16,7 +16,6 @@ function QuickLink({ href, emoji, title, desc, color }) {
     >
       <div className={`absolute inset-0 bg-linear-to-br ${color}`} />
       <div className="relative">
-        <span className="text-3xl mb-3 block">{emoji}</span>
         <h3 className="font-bold text-lg mb-1">{title}</h3>
         <p className="text-sm text-white/80">{desc}</p>
       </div>
@@ -54,7 +53,7 @@ export default function HomePage() {
               Private Tutoring Resources
             </h1>
             <p className="text-xl text-slate-200 mb-2">
-              Computer Science with Martin Wong 📚
+              Computer Science with Martin Wong
             </p>
             <p className="text-lg text-slate-300 max-w-2xl mx-auto mb-10">
               Python fundamentals, dictionaries, algorithms, and more — all through gamified, Roblox-themed exercises.
@@ -64,13 +63,13 @@ export default function HomePage() {
                 href="/saturdays"
                 className="inline-flex items-center gap-2 bg-indigo-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-indigo-700 shadow-lg shadow-indigo-500/25 transition-all hover:-translate-y-0.5"
               >
-                🐍 Saturday Lessons
+                Saturday Lessons
               </Link>
               <Link
                 href="/sundays"
                 className="inline-flex items-center gap-2 bg-white text-indigo-600 dark:bg-slate-800 dark:text-indigo-400 px-6 py-3 rounded-xl font-semibold border-2 border-indigo-200 dark:border-indigo-700 hover:border-indigo-400 dark:hover:border-indigo-500 transition-all hover:-translate-y-0.5"
               >
-                🏆 Sunday Lessons
+                Sunday Lessons
               </Link>
             </div>
           </div>
@@ -82,28 +81,24 @@ export default function HomePage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           <QuickLink
             href="/saturdays"
-            emoji="🐍"
             title="Python Basics"
             desc="Cheatsheet, reviews, and practice"
             color="from-indigo-500 to-indigo-600"
           />
           <QuickLink
             href="/saturdays/dictionaries"
-            emoji="📖"
             title="Dictionaries"
             desc="Roblox-themed exercises & projects"
             color="from-amber-500 to-orange-500"
           />
           <QuickLink
             href="/sundays"
-            emoji="🏆"
             title="Algorithms"
             desc="CCC prep & competitive programming"
             color="from-purple-500 to-purple-600"
           />
           <QuickLink
             href="/saturdays/cheatsheet"
-            emoji="📋"
             title="Cheatsheet"
             desc="Quick Python reference guide"
             color="from-emerald-500 to-teal-500"

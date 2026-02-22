@@ -19,7 +19,7 @@ export default function SaturdaysPage() {
             ← Back to Home
           </Link>
           <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-800 dark:text-white mb-2">
-            🐍 Saturday Lessons
+            Saturday Lessons
           </h1>
           <p className="text-lg text-slate-500 dark:text-slate-400">
             Python fundamentals for grade 7 — gamified, Roblox-themed exercises
@@ -40,7 +40,7 @@ export default function SaturdaysPage() {
         {/* Link to dictionaries */}
         <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700 rounded-xl p-6">
           <h3 className="font-bold text-lg text-amber-800 dark:text-amber-300 mb-2">
-            📖 Dictionary Exercises
+            Dictionary Exercises
           </h3>
           <p className="text-amber-700 dark:text-amber-400 mb-4">
             Roblox-themed dictionary exercises and projects — part of Milestone
