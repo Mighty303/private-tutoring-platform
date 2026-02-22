@@ -23,14 +23,6 @@ export const saturdayLessons = [
     tags: ["Exercises", "Review"],
     color: "teal",
   },
-  {
-    id: "functions",
-    title: "Functions Practice",
-    emoji: "⚙️",
-    description: "Advanced function exercises with a problem-solving framework — XP calculators, health systems, spam detectors, and more.",
-    tags: ["Functions", "Intermediate"],
-    color: "violet",
-  },
 ];
 
 export const dictionaryExercises = [
@@ -189,6 +181,73 @@ export const sundayAnswers = [
   },
 ];
 
+export const functionExercises = [
+  {
+    id: "func-intro",
+    title: "Functions — What & Why",
+    emoji: "📖",
+    description: "What functions are, return vs print, and how to call them.",
+    tags: ["Functions", "Reference"],
+    color: "violet",
+  },
+  {
+    id: "func-ex1",
+    title: "XP Calculator",
+    emoji: "⭐",
+    description: "Calculate experience points needed to level up.",
+    tags: ["Functions", "Easy"],
+    color: "amber",
+  },
+  {
+    id: "func-ex2",
+    title: "Health System",
+    emoji: "❤️",
+    description: "Manage player health with healing, damage, and capping.",
+    tags: ["Functions", "Easy"],
+    color: "rose",
+  },
+  {
+    id: "func-ex3",
+    title: "Username Checker",
+    emoji: "👤",
+    description: "Validate usernames with length and space rules.",
+    tags: ["Functions", "Easy"],
+    color: "sky",
+  },
+  {
+    id: "func-ex4",
+    title: "Item Counter",
+    emoji: "🎒",
+    description: "Count items in an inventory list, case-insensitive.",
+    tags: ["Functions", "Medium"],
+    color: "emerald",
+  },
+  {
+    id: "func-ex5",
+    title: "Greeting Bot",
+    emoji: "🤖",
+    description: "Return different greetings based on message count.",
+    tags: ["Functions", "Medium"],
+    color: "indigo",
+  },
+  {
+    id: "func-ex6",
+    title: "Shop Calculator",
+    emoji: "🛒",
+    description: "Calculate shop totals with a bulk discount.",
+    tags: ["Functions", "Medium"],
+    color: "orange",
+  },
+  {
+    id: "func-tips",
+    title: "Tips & Common Mistakes",
+    emoji: "💡",
+    description: "Common mistakes, print vs return, and how to read error messages.",
+    tags: ["Functions", "Reference"],
+    color: "blue",
+  },
+];
+
 export const milestones = [
   {
     number: 1,
@@ -271,6 +330,7 @@ export function getLessonById(id) {
     ...sundayLessons,
     ...heapExercises,
     ...sundayAnswers,
+    ...functionExercises,
   ];
   return all.find((l) => l.id === id) || null;
 }
@@ -282,5 +342,6 @@ export function getAllLessons() {
     ...sundayLessons,
     ...heapExercises,
     ...sundayAnswers,
+    ...functionExercises,
   ];
 }

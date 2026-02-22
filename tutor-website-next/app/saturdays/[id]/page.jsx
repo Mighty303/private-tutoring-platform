@@ -6,7 +6,7 @@ import { notFound } from "next/navigation";
 
 export async function generateStaticParams() {
   const ids = getAllContentIds().filter(
-    (id) => ["cheatsheet", "review", "review2", "functions"].includes(id)
+    (id) => ["cheatsheet", "review", "review2"].includes(id)
   );
   return ids.map((id) => ({ id }));
 }

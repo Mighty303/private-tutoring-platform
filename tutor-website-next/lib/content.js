@@ -8,7 +8,16 @@ const fileMap = {
   cheatsheet: "saturdays/Cheatsheet.md",
   review: "saturdays/Review.md",
   review2: "saturdays/Review2.md",
-  functions: "saturdays/Functions.md",
+
+  // Function exercises
+  "func-intro": "saturdays/functions/intro.md",
+  "func-ex1": "saturdays/functions/exercise1.md",
+  "func-ex2": "saturdays/functions/exercise2.md",
+  "func-ex3": "saturdays/functions/exercise3.md",
+  "func-ex4": "saturdays/functions/exercise4.md",
+  "func-ex5": "saturdays/functions/exercise5.md",
+  "func-ex6": "saturdays/functions/exercise6.md",
+  "func-tips": "saturdays/functions/tips.md",
 
   // Dictionary exercises
   "dict-ex0": "saturdays/dictionaries/exercise0.md",

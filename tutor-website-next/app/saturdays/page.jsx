@@ -37,6 +37,23 @@ export default function SaturdaysPage() {
           ))}
         </div>
 
+        {/* Link to functions */}
+        <div className="bg-violet-50 dark:bg-violet-900/20 border border-violet-200 dark:border-violet-700 rounded-xl p-6 mb-6">
+          <h3 className="font-bold text-lg text-violet-800 dark:text-violet-300 mb-2">
+            Functions Practice
+          </h3>
+          <p className="text-violet-700 dark:text-violet-400 mb-4">
+            Learn functions step by step — XP calculators, health systems, shop
+            discounts, and more.
+          </p>
+          <Link
+            href="/saturdays/functions"
+            className="inline-flex items-center gap-2 bg-violet-600 text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-violet-700 transition-colors text-sm"
+          >
+            View Function Exercises →
+          </Link>
+        </div>
+
         {/* Link to dictionaries */}
         <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700 rounded-xl p-6">
           <h3 className="font-bold text-lg text-amber-800 dark:text-amber-300 mb-2">
