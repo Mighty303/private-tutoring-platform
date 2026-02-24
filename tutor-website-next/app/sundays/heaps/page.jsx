@@ -1,5 +1,4 @@
 import Link from "next/link";
-import HeapAnimation from "@/components/HeapAnimation";
 import { heapExercises } from "@/lib/lessons";
 
 const tagColors = {
@@ -34,10 +33,24 @@ export default function HeapsPage() {
           </p>
         </div>
 
-        {/* Animation */}
-        <div className="mb-12">
-          <HeapAnimation />
-        </div>
+        {/* Animation card */}
+        <Link
+          href="/sundays/heaps/animation"
+          className="group flex items-center gap-4 bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-200 dark:border-indigo-700 rounded-xl px-5 py-4 mb-6 shadow-sm hover:shadow-md hover:border-indigo-400 dark:hover:border-indigo-500 transition-all duration-200"
+        >
+          <span className="text-2xl shrink-0">🎬</span>
+          <div className="flex-1 min-w-0">
+            <h3 className="text-base font-bold text-indigo-800 dark:text-indigo-300 group-hover:text-indigo-600 dark:group-hover:text-indigo-200 transition-colors">
+              How Heaps Work
+            </h3>
+            <p className="text-sm text-indigo-600 dark:text-indigo-400">
+              Interactive visualization — insert and extract from a min-heap
+            </p>
+          </div>
+          <svg className="w-5 h-5 shrink-0 text-indigo-400 group-hover:text-indigo-600 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+        </Link>
 
         {/* Numbered list */}
         <div className="space-y-3">
