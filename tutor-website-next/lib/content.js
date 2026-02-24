@@ -8,6 +8,24 @@ const fileMap = {
   cheatsheet: "saturdays/Cheatsheet.md",
   review: "saturdays/Review.md",
   review2: "saturdays/Review2.md",
+  "nested-loops": "saturdays/NestedLoops.md",
+  "nested-lists": "saturdays/NestedLists.md",
+
+  // Nested loop exercises
+  "nloop-intro": "saturdays/nested-loops/intro.md",
+  "nloop-ex1": "saturdays/nested-loops/exercise1.md",
+  "nloop-ex2": "saturdays/nested-loops/exercise2.md",
+  "nloop-ex3": "saturdays/nested-loops/exercise3.md",
+  "nloop-ex4": "saturdays/nested-loops/exercise4.md",
+  "nloop-tips": "saturdays/nested-loops/tips.md",
+
+  // Nested list exercises
+  "nlist-intro": "saturdays/nested-lists/intro.md",
+  "nlist-ex1": "saturdays/nested-lists/exercise1.md",
+  "nlist-ex2": "saturdays/nested-lists/exercise2.md",
+  "nlist-ex3": "saturdays/nested-lists/exercise3.md",
+  "nlist-ex4": "saturdays/nested-lists/exercise4.md",
+  "nlist-tips": "saturdays/nested-lists/tips.md",
 
   // Function exercises
   "func-intro": "saturdays/functions/intro.md",

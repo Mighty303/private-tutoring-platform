@@ -37,6 +37,40 @@ export default function SaturdaysPage() {
           ))}
         </div>
 
+        {/* Link to nested loops */}
+        <div className="bg-sky-50 dark:bg-sky-900/20 border border-sky-200 dark:border-sky-700 rounded-xl p-6 mb-6">
+          <h3 className="font-bold text-lg text-sky-800 dark:text-sky-300 mb-2">
+            Nested Loops Practice
+          </h3>
+          <p className="text-sky-700 dark:text-sky-400 mb-4">
+            Loops inside loops — grids, patterns, multiplication tables, and
+            matching pairs.
+          </p>
+          <Link
+            href="/saturdays/nested-loops"
+            className="inline-flex items-center gap-2 bg-sky-600 text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-sky-700 transition-colors text-sm"
+          >
+            View Nested Loops →
+          </Link>
+        </div>
+
+        {/* Link to nested lists */}
+        <div className="bg-rose-50 dark:bg-rose-900/20 border border-rose-200 dark:border-rose-700 rounded-xl p-6 mb-6">
+          <h3 className="font-bold text-lg text-rose-800 dark:text-rose-300 mb-2">
+            Nested Lists Practice
+          </h3>
+          <p className="text-rose-700 dark:text-rose-400 mb-4">
+            Lists inside lists — 2D grids, game boards, searching, and
+            patterns.
+          </p>
+          <Link
+            href="/saturdays/nested-lists"
+            className="inline-flex items-center gap-2 bg-rose-600 text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-rose-700 transition-colors text-sm"
+          >
+            View Nested Lists →
+          </Link>
+        </div>
+
         {/* Link to functions */}
         <div className="bg-violet-50 dark:bg-violet-900/20 border border-violet-200 dark:border-violet-700 rounded-xl p-6 mb-6">
           <h3 className="font-bold text-lg text-violet-800 dark:text-violet-300 mb-2">

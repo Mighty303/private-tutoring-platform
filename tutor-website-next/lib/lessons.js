@@ -248,6 +248,108 @@ export const functionExercises = [
   },
 ];
 
+export const nestedLoopExercises = [
+  {
+    id: "nloop-intro",
+    title: "Nested Loops — How They Work",
+    emoji: "📖",
+    description: "Grids, triangles, multiplication tables, break behavior, and counting iterations.",
+    tags: ["Loops", "Reference"],
+    color: "sky",
+  },
+  {
+    id: "nloop-ex1",
+    title: "Number Grid",
+    emoji: "🔢",
+    description: "Print a repeating number grid using nested loops.",
+    tags: ["Loops", "Easy"],
+    color: "amber",
+  },
+  {
+    id: "nloop-ex2",
+    title: "Times Table",
+    emoji: "✖️",
+    description: "Print the full times table for any number.",
+    tags: ["Loops", "Easy"],
+    color: "emerald",
+  },
+  {
+    id: "nloop-ex3",
+    title: "Coordinate Pairs",
+    emoji: "📍",
+    description: "Print all (row, col) pairs for a grid.",
+    tags: ["Loops", "Medium"],
+    color: "indigo",
+  },
+  {
+    id: "nloop-ex4",
+    title: "Matching Pairs",
+    emoji: "🤝",
+    description: "Find all unique pairs from a list of items.",
+    tags: ["Loops", "Medium"],
+    color: "rose",
+  },
+  {
+    id: "nloop-tips",
+    title: "Tips & Common Mistakes",
+    emoji: "💡",
+    description: "Variable names, break behavior, off-by-one errors, and debugging.",
+    tags: ["Loops", "Reference"],
+    color: "blue",
+  },
+];
+
+export const nestedListExercises = [
+  {
+    id: "nlist-intro",
+    title: "Nested Lists — How They Work",
+    emoji: "📖",
+    description: "2D grids, accessing elements, looping, searching, and tic-tac-toe.",
+    tags: ["Lists", "Reference"],
+    color: "rose",
+  },
+  {
+    id: "nlist-ex1",
+    title: "Sum Each Row",
+    emoji: "➕",
+    description: "Calculate and print the sum of each row in a grid.",
+    tags: ["Lists", "Easy"],
+    color: "amber",
+  },
+  {
+    id: "nlist-ex2",
+    title: "Find the Largest",
+    emoji: "🏆",
+    description: "Find the largest number in a 2D grid.",
+    tags: ["Lists", "Easy"],
+    color: "emerald",
+  },
+  {
+    id: "nlist-ex3",
+    title: "Count a Value",
+    emoji: "🔍",
+    description: "Count how many times a value appears in a grid.",
+    tags: ["Lists", "Medium"],
+    color: "indigo",
+  },
+  {
+    id: "nlist-ex4",
+    title: "Checkerboard",
+    emoji: "♟️",
+    description: "Create and print a checkerboard pattern.",
+    tags: ["Lists", "Medium"],
+    color: "violet",
+  },
+  {
+    id: "nlist-tips",
+    title: "Tips & Common Mistakes",
+    emoji: "💡",
+    description: "Index order, grid creation traps, resetting variables, and debugging.",
+    tags: ["Lists", "Reference"],
+    color: "blue",
+  },
+];
+
 export const milestones = [
   {
     number: 1,
@@ -331,6 +433,8 @@ export function getLessonById(id) {
     ...heapExercises,
     ...sundayAnswers,
     ...functionExercises,
+    ...nestedLoopExercises,
+    ...nestedListExercises,
   ];
   return all.find((l) => l.id === id) || null;
 }
@@ -343,5 +447,7 @@ export function getAllLessons() {
     ...heapExercises,
     ...sundayAnswers,
     ...functionExercises,
+    ...nestedLoopExercises,
+    ...nestedListExercises,
   ];
 }
