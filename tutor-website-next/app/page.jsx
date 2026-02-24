@@ -56,7 +56,7 @@ export default function HomePage() {
               Computer Science with Martin Wong
             </p>
             <p className="text-lg text-slate-300 max-w-2xl mx-auto mb-10">
-              Python fundamentals, dictionaries, algorithms, and more — all through gamified, Roblox-themed exercises.
+              Python fundamentals, data structures and algorithms.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <Link
@@ -152,7 +152,7 @@ export default function HomePage() {
       {/* Footer */}
       <footer className="border-t border-slate-200 dark:border-slate-800 mt-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-center text-sm text-slate-400 dark:text-slate-500">
-          Martin Wong · Private Tutoring Resources · Last Updated: January 2025
+          Martin Wong · Private Tutoring Resources · {new Date().getFullYear()}
         </div>
       </footer>
     </div>
