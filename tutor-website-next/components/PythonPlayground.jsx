@@ -12,7 +12,7 @@ export default function PythonPlayground({
   // exerciseId — reserved for future submission saving
 }) {
   const [code, setCode] = useState(starterCode);
-  const { isLoading, isReady, error, isRunning, output, runCode, clearOutput } =
+  const { isLoading, isReady, error, isRunning, output, pythonVersion, runCode, clearOutput } =
     usePyodide();
   const [hint, setHint] = useState(null);
   const [hintUsed, setHintUsed] = useState(false);
@@ -153,11 +153,18 @@ export default function PythonPlayground({
       )}
 
       {/* Editor */}
-      <CodeEditor
-        value={code}
-        onChange={setCode}
-        height="250px"
-      />
+      <div>
+        <div className="flex items-center justify-between px-3 py-1.5 bg-slate-800 dark:bg-slate-900 border border-b-0 border-slate-700 rounded-t-lg">
+          <span className="text-xs font-medium text-slate-400">
+            Python {pythonVersion || "…"}
+          </span>
+        </div>
+        <CodeEditor
+          value={code}
+          onChange={setCode}
+          height="250px"
+        />
+      </div>
 
       {/* Controls */}
       <div className="flex items-center gap-3 my-3">

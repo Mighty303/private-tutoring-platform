@@ -28,7 +28,7 @@ export default function CodeEditor({
   );
 
   return (
-    <div className="rounded-lg overflow-hidden border border-slate-700">
+    <div className="rounded-b-lg overflow-hidden border border-slate-700">
       <Editor
         height={height}
         defaultLanguage="python"

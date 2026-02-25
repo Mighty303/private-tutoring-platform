@@ -5,6 +5,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 // Module-level singleton so runtime persists across component remounts
 let pyodideInstance = null;
 let pyodideLoadingPromise = null;
+let cachedPythonVersion = null;
 
 export default function usePyodide() {
   const [isLoading, setIsLoading] = useState(!pyodideInstance);
@@ -12,6 +13,7 @@ export default function usePyodide() {
   const [error, setError] = useState(null);
   const [isRunning, setIsRunning] = useState(false);
   const [output, setOutput] = useState([]);
+  const [pythonVersion, setPythonVersion] = useState(cachedPythonVersion);
   const abortRef = useRef(false);
 
   // Load Pyodide once
@@ -48,6 +50,14 @@ export default function usePyodide() {
 
       try {
         pyodideInstance = await pyodideLoadingPromise;
+        // Cache the Python version string
+        if (!cachedPythonVersion) {
+          const ver = pyodideInstance.runPython(
+            "import sys; sys.version.split()[0]"
+          );
+          cachedPythonVersion = ver;
+        }
+        setPythonVersion(cachedPythonVersion);
         setIsReady(true);
         setIsLoading(false);
       } catch (err) {
@@ -193,6 +203,7 @@ sys.stderr = sys.__stderr__
     error,
     isRunning,
     output,
+    pythonVersion,
     runCode,
     clearOutput,
   };
