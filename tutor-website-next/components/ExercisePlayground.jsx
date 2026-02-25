@@ -60,8 +60,32 @@ function extractStarterCode(markdown) {
   return "# Write your code here\n";
 }
 
+/**
+ * Extracts a concise exercise description from markdown for the AI hint prompt.
+ * Takes the title + task section, strips code blocks and HTML.
+ */
+function extractExerciseDescription(markdown) {
+  if (!markdown) return "";
+
+  // Get everything up to the first "## Hints" or "## Solution" or "<details>"
+  const taskSection = markdown.split(/##\s*(?:Hints|Solution)|<details>/i)[0] || markdown;
+
+  // Strip code blocks, HTML tags, image links, and excessive whitespace
+  return taskSection
+    .replace(/```[\s\S]*?```/g, "")
+    .replace(/<[^>]+>/g, "")
+    .replace(/!\[.*?\]\(.*?\)/g, "")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim()
+    .slice(0, 800); // Cap length for the prompt
+}
+
 export default function ExercisePlayground({ content, exerciseId, title }) {
   const starterCode = useMemo(() => extractStarterCode(content), [content]);
+  const exerciseDescription = useMemo(
+    () => extractExerciseDescription(content),
+    [content]
+  );
 
   return (
     <div className="mt-8 pt-6 border-t border-slate-200 dark:border-slate-700">
@@ -75,6 +99,7 @@ export default function ExercisePlayground({ content, exerciseId, title }) {
         starterCode={starterCode}
         title={title ? `Code: ${title}` : "Code Editor"}
         exerciseId={exerciseId}
+        exerciseDescription={exerciseDescription}
       />
     </div>
   );
