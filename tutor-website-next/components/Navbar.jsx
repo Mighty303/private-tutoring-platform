@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState, useEffect, useSyncExternalStore } from "react";
+import UserMenu from "./UserMenu";
 
 const navItems = [
   { href: "/", label: "Home" },
@@ -96,6 +97,9 @@ export default function Navbar() {
                 </svg>
               )}
             </button>
+
+            {/* User menu */}
+            <UserMenu />
           </div>
 
           {/* Mobile right side */}
@@ -156,6 +160,10 @@ export default function Navbar() {
                 </Link>
               );
             })}
+            {/* Mobile user menu */}
+            <div className="px-4 pt-2 border-t border-slate-200 dark:border-slate-700 mt-2">
+              <UserMenu />
+            </div>
           </div>
         )}
       </div>
