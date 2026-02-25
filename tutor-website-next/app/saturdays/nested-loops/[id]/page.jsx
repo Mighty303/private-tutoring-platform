@@ -2,6 +2,7 @@ import Link from "next/link";
 import { getContent, getAllContentIds } from "@/lib/content";
 import { getLessonById, nestedLoopExercises } from "@/lib/lessons";
 import MarkdownRenderer from "@/components/MarkdownRenderer";
+import ExercisePlayground from "@/components/ExercisePlayground";
 import { notFound } from "next/navigation";
 
 export async function generateStaticParams() {
@@ -61,6 +62,11 @@ export default async function NestedLoopExercisePage({ params }) {
         <div className="prose">
           <MarkdownRenderer content={content} />
         </div>
+        <ExercisePlayground
+          content={content}
+          exerciseId={id}
+          title={lesson.title}
+        />
       </div>
 
       {/* Prev / Next navigation */}

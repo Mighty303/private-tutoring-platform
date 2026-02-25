@@ -2,6 +2,7 @@ import Link from "next/link";
 import { getContent, getAllContentIds } from "@/lib/content";
 import { getLessonById, heapExercises } from "@/lib/lessons";
 import MarkdownRenderer from "@/components/MarkdownRenderer";
+import ExercisePlayground from "@/components/ExercisePlayground";
 import HeapAnimation from "@/components/HeapAnimation";
 import { notFound } from "next/navigation";
 
@@ -63,6 +64,11 @@ export default async function HeapLessonPage({ params }) {
           <MarkdownRenderer content={content} />
         </div>
         {id === "heap-intro" && <HeapAnimation />}
+        <ExercisePlayground
+          content={content}
+          exerciseId={id}
+          title={lesson.title}
+        />
       </div>
 
       {/* Prev / Next navigation */}

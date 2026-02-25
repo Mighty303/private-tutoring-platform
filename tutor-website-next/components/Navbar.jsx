@@ -10,6 +10,7 @@ const navItems = [
   { href: "/", label: "Home" },
   { href: "/saturdays", label: "Saturdays" },
   { href: "/sundays", label: "Sundays" },
+  { href: "/playground", label: "Playground" },
 ];
 
 function getThemeSnapshot() {
