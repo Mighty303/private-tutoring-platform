@@ -4,6 +4,7 @@ import { useState, useCallback, useEffect } from "react";
 import usePyodide from "@/hooks/usePyodide";
 import CodeEditor from "./CodeEditor";
 import OutputConsole from "./OutputConsole";
+import TestResults from "./TestResults";
 
 // Helper to build a localStorage key for an exercise
 function cacheKey(exerciseId) {
@@ -15,6 +16,7 @@ export default function PythonPlayground({
   title,
   exerciseDescription,
   exerciseId,
+  testCases = [],
 }) {
   // Initialise code from localStorage (if available) or starterCode
   const [code, setCode] = useState(() => {
@@ -28,7 +30,7 @@ export default function PythonPlayground({
       return starterCode;
     }
   });
-  const { isLoading, isReady, error, isRunning, output, pythonVersion, runCode, clearOutput } =
+  const { isLoading, isReady, error, isRunning, output, pythonVersion, runCode, clearOutput, runTests } =
     usePyodide();
 
   // Persist code to localStorage on every change
@@ -51,6 +53,15 @@ export default function PythonPlayground({
   const [askLoading, setAskLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [testResults, setTestResults] = useState(null); // { results, allPassed }
+  const [toast, setToast] = useState(null); // { type: "success" | "error", message }
+
+  // Auto-dismiss toast after 5 seconds
+  useEffect(() => {
+    if (!toast) return;
+    const timer = setTimeout(() => setToast(null), 5000);
+    return () => clearTimeout(timer);
+  }, [toast]);
 
   const handleRun = useCallback(() => {
     runCode(code);
@@ -64,6 +75,8 @@ export default function PythonPlayground({
     setAskAnswer(null);
     setQuestion("");
     setSubmitted(false);
+    setTestResults(null);
+    setToast(null);
     // Clear the cached code so a future refresh loads starter code
     const key = cacheKey(exerciseId);
     if (key) {
@@ -78,21 +91,57 @@ export default function PythonPlayground({
   const handleSubmit = useCallback(async () => {
     if (!exerciseId || submitting) return;
     setSubmitting(true);
+    setToast(null);
+    setTestResults(null);
+
     try {
-      const res = await fetch("/api/submissions", {
+      // 1. Run local test cases in Pyodide (if available)
+      if (testCases.length > 0) {
+        const { results, allPassed } = await runTests(code, testCases);
+        setTestResults({ results, allPassed });
+
+        if (!allPassed) {
+          const passCount = results.filter((r) => r.passed).length;
+          setToast({
+            type: "error",
+            message: `${passCount}/${results.length} test cases passed. Fix the failing tests and try again.`,
+          });
+          setSubmitting(false);
+          return;
+        }
+      }
+
+      // 2. All local tests passed (or no tests) — check with LLM for edge cases
+      const checkRes = await fetch("/api/submissions/check", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ exerciseSlug: exerciseId, code }),
+        body: JSON.stringify({
+          code,
+          exerciseDescription: exerciseDescription || "",
+        }),
       });
-      if (res.ok) {
+
+      if (!checkRes.ok) throw new Error("Check failed");
+      const { passed, message } = await checkRes.json();
+
+      if (passed) {
+        // 3. Save submission
+        await fetch("/api/submissions", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ exerciseSlug: exerciseId, code }),
+        });
         setSubmitted(true);
+        setToast({ type: "success", message: message || "Your code is correct!" });
+      } else {
+        setToast({ type: "error", message: message || "Not quite right — check your logic and try again." });
       }
     } catch {
-      // Silently fail — submission is non-blocking
+      setToast({ type: "error", message: "Couldn't check your code right now. Try again later." });
     } finally {
       setSubmitting(false);
     }
-  }, [exerciseId, code, submitting]);
+  }, [exerciseId, code, exerciseDescription, testCases, submitting, runTests]);
 
   const handleGetHint = useCallback(async () => {
     if (hintUsed || hintLoading) return;
@@ -164,7 +213,49 @@ export default function PythonPlayground({
   );
 
   return (
-    <div className="my-6" onKeyDown={handleKeyDown}>
+    <div className="my-6 relative" onKeyDown={handleKeyDown}>
+      {/* Toast notification */}
+      {toast && (
+        <div
+          className={`fixed top-6 right-6 z-50 max-w-sm px-5 py-4 rounded-xl shadow-2xl border backdrop-blur-sm transition-all animate-slide-in-right flex items-start gap-3 ${
+            toast.type === "success"
+              ? "bg-emerald-50/95 dark:bg-emerald-900/90 border-emerald-300 dark:border-emerald-600"
+              : "bg-red-50/95 dark:bg-red-900/90 border-red-300 dark:border-red-600"
+          }`}
+        >
+          <span className="text-xl shrink-0 mt-0.5">
+            {toast.type === "success" ? "✅" : "❌"}
+          </span>
+          <div className="flex-1">
+            <p
+              className={`text-sm font-semibold ${
+                toast.type === "success"
+                  ? "text-emerald-800 dark:text-emerald-200"
+                  : "text-red-800 dark:text-red-200"
+              }`}
+            >
+              {toast.type === "success" ? "Passed!" : "Not Passed"}
+            </p>
+            <p
+              className={`text-sm mt-0.5 ${
+                toast.type === "success"
+                  ? "text-emerald-700 dark:text-emerald-300"
+                  : "text-red-700 dark:text-red-300"
+              }`}
+            >
+              {toast.message}
+            </p>
+          </div>
+          <button
+            onClick={() => setToast(null)}
+            className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 shrink-0"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+      )}
       {/* Header */}
       {title && (
         <div className="flex items-center gap-2 mb-3">
@@ -438,6 +529,14 @@ export default function PythonPlayground({
             </div>
           )}
         </div>
+      )}
+
+      {/* Test case results — LeetCode style */}
+      {testResults && (
+        <TestResults
+          results={testResults.results}
+          allPassed={testResults.allPassed}
+        />
       )}
 
       {/* Console output */}

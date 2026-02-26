@@ -225,6 +225,91 @@ sys.stderr = sys.__stderr__
     setOutput([]);
   }, []);
 
+  /**
+   * Run a set of test cases against user code.
+   * Each test case: { input: "func(args)", expected: "value" }
+   * Returns: { results: [{ input, expected, actual, passed, error }], allPassed }
+   */
+  const runTests = useCallback(async (code, testCases) => {
+    if (!pyodideInstance) {
+      return { results: [], allPassed: false };
+    }
+
+    const results = [];
+
+    for (const tc of testCases) {
+      try {
+        // Reset stdout for each test
+        pyodideInstance.runPython(`
+import sys, io
+class _TC_Out:
+    def __init__(self):
+        self.parts = []
+    def write(self, t):
+        if t:
+            self.parts.append(t)
+    def flush(self):
+        pass
+    def getvalue(self):
+        return "".join(self.parts)
+_tc_stdout = _TC_Out()
+sys.stdout = _tc_stdout
+sys.stderr = _tc_stdout
+`);
+
+        // Run user code to define functions
+        await pyodideInstance.runPythonAsync(code);
+
+        // Evaluate the test expression
+        // If the input looks like a print() call, capture stdout
+        // Otherwise evaluate as an expression
+        const isPrint = tc.input.trim().startsWith("print(");
+
+        let actual;
+        if (isPrint) {
+          // Reset capture, run the print, grab stdout
+          pyodideInstance.runPython("_tc_stdout.parts.clear()");
+          await pyodideInstance.runPythonAsync(tc.input);
+          actual = pyodideInstance.runPython("_tc_stdout.getvalue()").trim();
+        } else {
+          // Evaluate as expression and get repr
+          const val = await pyodideInstance.runPythonAsync(tc.input);
+          actual = val != null ? String(val) : "None";
+        }
+
+        const passed = actual === tc.expected.trim();
+        results.push({ input: tc.input, expected: tc.expected, actual, passed });
+      } catch (err) {
+        const errMsg = (err.message || String(err))
+          .replace(/^PythonError:\s*/i, "")
+          .trim();
+        // Extract just the last line (the actual error)
+        const lines = errMsg.split("\n").filter((l) => l.trim());
+        const short = lines[lines.length - 1] || errMsg;
+        results.push({
+          input: tc.input,
+          expected: tc.expected,
+          actual: "",
+          passed: false,
+          error: short,
+        });
+      } finally {
+        try {
+          pyodideInstance.runPython(`
+import sys
+sys.stdout = sys.__stdout__
+sys.stderr = sys.__stderr__
+`);
+        } catch {
+          // ignore
+        }
+      }
+    }
+
+    const allPassed = results.length > 0 && results.every((r) => r.passed);
+    return { results, allPassed };
+  }, []);
+
   return {
     isLoading,
     isReady,
@@ -234,5 +319,6 @@ sys.stderr = sys.__stderr__
     pythonVersion,
     runCode,
     clearOutput,
+    runTests,
   };
 }

@@ -5,11 +5,6 @@ import PythonPlayground from "./PythonPlayground";
 
 /**
  * Extracts starter code from exercise markdown.
- * Priority:
- *   1. Code block under a "## Starter Code" heading
- *   2. Code block that contains "def " or "class " (likely a template)
- *   3. A generated stub from the task description
- *   4. Generic placeholder
  */
 function extractStarterCode(markdown) {
   if (!markdown) return "# Write your code here\n";
@@ -43,7 +38,6 @@ function extractStarterCode(markdown) {
   if (funcNameMatch) {
     const funcName = funcNameMatch[1];
     const params = funcNameMatch[2];
-    // Find example print() calls to append as test code
     const exampleBlock = allBlocks.find((b) => b.includes(`${funcName}(`));
     const testLines = exampleBlock
       ? "\n\n# Test your function:\n" +
@@ -62,22 +56,81 @@ function extractStarterCode(markdown) {
 
 /**
  * Extracts a concise exercise description from markdown for the AI hint prompt.
- * Takes the title + task section, strips code blocks and HTML.
  */
 function extractExerciseDescription(markdown) {
   if (!markdown) return "";
 
-  // Get everything up to the first "## Hints" or "## Solution" or "<details>"
   const taskSection = markdown.split(/##\s*(?:Hints|Solution)|<details>/i)[0] || markdown;
 
-  // Strip code blocks, HTML tags, image links, and excessive whitespace
   return taskSection
     .replace(/```[\s\S]*?```/g, "")
     .replace(/<[^>]+>/g, "")
     .replace(/!\[.*?\]\(.*?\)/g, "")
     .replace(/\n{3,}/g, "\n\n")
     .trim()
-    .slice(0, 800); // Cap length for the prompt
+    .slice(0, 800);
+}
+
+/**
+ * Extracts test cases from exercise markdown.
+ * Looks for patterns like:
+ *   print(func(args))  # Should print: value
+ *   print(func(args))  # Output: value
+ *   print(func(args))
+ *   # Output: value
+ *
+ * Returns: Array<{ input: string, expected: string }>
+ */
+function extractTestCases(markdown) {
+  if (!markdown) return [];
+
+  const testCases = [];
+
+  // Collect all Python code blocks from the Examples or Starter Code sections
+  const allBlocks = [];
+  const blockRegex = /```python\n([\s\S]*?)```/g;
+  let m;
+  while ((m = blockRegex.exec(markdown)) !== null) {
+    allBlocks.push(m[1]);
+  }
+
+  for (const block of allBlocks) {
+    const lines = block.split("\n");
+
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i].trim();
+
+      // Pattern 1: print(func(args))   # Should print: value
+      //            print(func(args))   # Output: value
+      const inlineMatch = line.match(
+        /^(print\(.+\))\s*#\s*(?:Should print|Output|Expected|=>|→)\s*:\s*(.+)/i
+      );
+      if (inlineMatch) {
+        testCases.push({
+          input: inlineMatch[1].trim(),
+          expected: inlineMatch[2].trim(),
+        });
+        continue;
+      }
+
+      // Pattern 2: print(func(args)) on one line, # Output: value on next line
+      if (line.startsWith("print(") && !line.includes("#")) {
+        const nextLine = (lines[i + 1] || "").trim();
+        const commentMatch = nextLine.match(
+          /^#\s*(?:Should print|Output|Expected|=>|→)\s*:\s*(.+)/i
+        );
+        if (commentMatch) {
+          testCases.push({
+            input: line,
+            expected: commentMatch[1].trim(),
+          });
+          continue;
+        }
+      }
+    }
+  }
+
+  return testCases;
 }
 
 export default function ExercisePlayground({ content, exerciseId, title }) {
@@ -86,6 +139,7 @@ export default function ExercisePlayground({ content, exerciseId, title }) {
     () => extractExerciseDescription(content),
     [content]
   );
+  const testCases = useMemo(() => extractTestCases(content), [content]);
 
   return (
     <div className="mt-8 pt-6 border-t border-slate-200 dark:border-slate-700">
@@ -100,6 +154,7 @@ export default function ExercisePlayground({ content, exerciseId, title }) {
         title={title ? `Code: ${title}` : "Code Editor"}
         exerciseId={exerciseId}
         exerciseDescription={exerciseDescription}
+        testCases={testCases}
       />
     </div>
   );
