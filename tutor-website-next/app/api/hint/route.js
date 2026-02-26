@@ -1,8 +1,8 @@
-import Replicate from "replicate";
+import Anthropic from "@anthropic-ai/sdk";
 import { NextResponse } from "next/server";
 
-const replicate = new Replicate({
-  auth: process.env.REPLICATE_API_TOKEN,
+const anthropic = new Anthropic({
+  apiKey: process.env.ANTHROPIC_API_KEY,
 });
 
 const SYSTEM_PROMPT = `You are a friendly Python tutor helping a student who is stuck on a coding exercise.
@@ -19,7 +19,7 @@ RULES:
 
 export async function POST(request) {
   try {
-    if (!process.env.REPLICATE_API_TOKEN) {
+    if (!process.env.ANTHROPIC_API_KEY) {
       return NextResponse.json(
         { error: "Hint service not configured" },
         { status: 503 }
@@ -41,18 +41,15 @@ export async function POST(request) {
       userMessage += `\n\nThey got this error when running it:\n${executionError}`;
     }
 
-    // Use Meta Llama 3 via Replicate
-    const output = await replicate.run("meta/meta-llama-3-8b-instruct", {
-      input: {
-        prompt: `<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\n${SYSTEM_PROMPT}<|eot_id|><|start_header_id|>user<|end_header_id|>\n\n${userMessage}<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n`,
-        max_tokens: 200,
-        temperature: 0.5,
-        top_p: 0.9,
-      },
+    const message = await anthropic.messages.create({
+      model: "claude-sonnet-4-5-20250514",
+      max_tokens: 200,
+      system: SYSTEM_PROMPT,
+      messages: [{ role: "user", content: userMessage }],
+      temperature: 0.5,
     });
 
-    // Replicate returns an array of string chunks for text models
-    const hint = Array.isArray(output) ? output.join("") : String(output);
+    const hint = message.content[0]?.text || "";
 
     return NextResponse.json({ hint: hint.trim() });
   } catch (err) {

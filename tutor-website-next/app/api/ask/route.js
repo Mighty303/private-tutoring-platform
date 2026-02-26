@@ -1,8 +1,8 @@
-import Replicate from "replicate";
+import Anthropic from "@anthropic-ai/sdk";
 import { NextResponse } from "next/server";
 
-const replicate = new Replicate({
-  auth: process.env.REPLICATE_API_TOKEN,
+const anthropic = new Anthropic({
+  apiKey: process.env.ANTHROPIC_API_KEY,
 });
 
 const SYSTEM_PROMPT = `You are a friendly Python tutor. A student is working on a coding exercise and has a question.
@@ -20,7 +20,7 @@ RULES:
 
 export async function POST(request) {
   try {
-    if (!process.env.REPLICATE_API_TOKEN) {
+    if (!process.env.ANTHROPIC_API_KEY) {
       return NextResponse.json(
         { error: "Ask service not configured" },
         { status: 503 }
@@ -44,16 +44,15 @@ export async function POST(request) {
 
     userMessage += `Student's question: ${question.trim()}`;
 
-    const output = await replicate.run("meta/meta-llama-3-8b-instruct", {
-      input: {
-        prompt: `<|begin_of_text|><|start_header_id|>system<|end_header_id|>\n\n${SYSTEM_PROMPT}<|eot_id|><|start_header_id|>user<|end_header_id|>\n\n${userMessage}<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n`,
-        max_tokens: 300,
-        temperature: 0.5,
-        top_p: 0.9,
-      },
+    const message = await anthropic.messages.create({
+      model: "claude-sonnet-4-5-20250514",
+      max_tokens: 300,
+      system: SYSTEM_PROMPT,
+      messages: [{ role: "user", content: userMessage }],
+      temperature: 0.5,
     });
 
-    const answer = Array.isArray(output) ? output.join("") : String(output);
+    const answer = message.content[0]?.text || "";
 
     return NextResponse.json({ answer: answer.trim() });
   } catch (err) {

@@ -17,6 +17,16 @@ export default function AdminDashboard() {
   const [usersLoading, setUsersLoading] = useState(true);
   const [confirmDelete, setConfirmDelete] = useState(null); // user id
 
+  // Submissions state
+  const [submissions, setSubmissions] = useState([]);
+  const [subsLoading, setSubsLoading] = useState(false);
+  const [subsLoaded, setSubsLoaded] = useState(false);
+  const [exerciseFilter, setExerciseFilter] = useState("");
+  const [studentFilter, setStudentFilter] = useState("");
+  const [expandedSub, setExpandedSub] = useState(null); // submission id
+  const [analyzing, setAnalyzing] = useState(null); // submission id being analyzed
+  const [analyses, setAnalyses] = useState({}); // { submissionId: analysis string }
+
   useEffect(() => {
     let cancelled = false;
     Promise.all([
@@ -64,6 +74,52 @@ export default function AdminDashboard() {
       refreshClassrooms();
     }
   }
+
+  async function loadSubmissions() {
+    setSubsLoading(true);
+    const params = new URLSearchParams();
+    if (exerciseFilter) params.set("exercise", exerciseFilter);
+    if (studentFilter) params.set("student", studentFilter);
+
+    try {
+      const res = await fetch(`/api/submissions/all?${params.toString()}`);
+      const data = await res.json();
+      setSubmissions(Array.isArray(data) ? data : []);
+      setSubsLoaded(true);
+    } catch {
+      setSubmissions([]);
+    } finally {
+      setSubsLoading(false);
+    }
+  }
+
+  async function analyzeSubmission(sub) {
+    setAnalyzing(sub.id);
+    try {
+      const res = await fetch("/api/submissions/analyze", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          code: sub.code,
+          exerciseSlug: sub.exercise_slug,
+          studentName: sub.user_name,
+        }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setAnalyses((prev) => ({ ...prev, [sub.id]: data.analysis }));
+      } else {
+        setAnalyses((prev) => ({ ...prev, [sub.id]: "Failed to generate analysis." }));
+      }
+    } catch {
+      setAnalyses((prev) => ({ ...prev, [sub.id]: "Failed to generate analysis." }));
+    } finally {
+      setAnalyzing(null);
+    }
+  }
+
+  // Get unique exercise slugs from loaded submissions for the dropdown
+  const exerciseSlugs = [...new Set(submissions.map((s) => s.exercise_slug))].sort();
 
   async function createClassroom(e) {
     e.preventDefault();
@@ -465,6 +521,204 @@ export default function AdminDashboard() {
                   );
                 })}
               </div>
+            </div>
+          )}
+        </div>
+
+        {/* Code Submissions */}
+        <div className="mt-12 space-y-4">
+          <div className="flex items-center justify-between">
+            <h2 className="text-lg font-semibold text-slate-800 dark:text-white">
+              Code Submissions
+            </h2>
+            <button
+              onClick={loadSubmissions}
+              disabled={subsLoading}
+              className="inline-flex items-center gap-2 bg-indigo-600 text-white px-4 py-2 rounded-xl font-semibold text-sm hover:bg-indigo-700 transition-colors disabled:opacity-50 cursor-pointer"
+            >
+              {subsLoading ? (
+                <>
+                  <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                  </svg>
+                  Loading…
+                </>
+              ) : (
+                <>
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                  </svg>
+                  {subsLoaded ? "Refresh" : "Load Submissions"}
+                </>
+              )}
+            </button>
+          </div>
+
+          {/* Filters */}
+          {subsLoaded && (
+            <div className="flex flex-col sm:flex-row gap-3">
+              <div className="flex-1">
+                <label className="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">
+                  Filter by Exercise
+                </label>
+                <select
+                  value={exerciseFilter}
+                  onChange={(e) => setExerciseFilter(e.target.value)}
+                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                >
+                  <option value="">All Exercises</option>
+                  {exerciseSlugs.map((slug) => (
+                    <option key={slug} value={slug}>{slug}</option>
+                  ))}
+                </select>
+              </div>
+              <div className="flex-1">
+                <label className="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">
+                  Filter by Student
+                </label>
+                <select
+                  value={studentFilter}
+                  onChange={(e) => setStudentFilter(e.target.value)}
+                  className="w-full px-3 py-2 text-sm rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                >
+                  <option value="">All Students</option>
+                  {users.filter((u) => u.role !== "admin").map((u) => (
+                    <option key={u.id} value={u.id}>{u.name} ({u.email})</option>
+                  ))}
+                </select>
+              </div>
+              <div className="flex items-end">
+                <button
+                  onClick={loadSubmissions}
+                  disabled={subsLoading}
+                  className="px-4 py-2 text-sm font-semibold bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 rounded-xl hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors cursor-pointer disabled:opacity-50"
+                >
+                  Apply
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Submissions list */}
+          {!subsLoaded ? (
+            <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-700 p-8 text-center">
+              <p className="text-slate-500 dark:text-slate-400">
+                Click &quot;Load Submissions&quot; to view student code.
+              </p>
+            </div>
+          ) : submissions.length === 0 ? (
+            <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-700 p-8 text-center">
+              <p className="text-slate-500 dark:text-slate-400">No submissions found.</p>
+            </div>
+          ) : (
+            <div className="space-y-3">
+              {submissions.map((sub) => (
+                <div
+                  key={sub.id}
+                  className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-700 overflow-hidden"
+                >
+                  {/* Submission header */}
+                  <div
+                    className="p-4 flex items-center justify-between cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors"
+                    onClick={() => setExpandedSub(expandedSub === sub.id ? null : sub.id)}
+                  >
+                    <div className="flex items-center gap-3 min-w-0">
+                      {sub.user_image ? (
+                        <Image
+                          src={sub.user_image}
+                          alt={sub.user_name || ""}
+                          width={32}
+                          height={32}
+                          className="rounded-full shrink-0"
+                        />
+                      ) : (
+                        <div className="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900 flex items-center justify-center text-xs font-bold text-indigo-600 dark:text-indigo-400 shrink-0">
+                          {sub.user_name?.charAt(0) || "?"}
+                        </div>
+                      )}
+                      <div className="min-w-0">
+                        <p className="text-sm font-medium text-slate-800 dark:text-white truncate">
+                          {sub.user_name}
+                        </p>
+                        <p className="text-xs text-slate-400 truncate">
+                          {sub.user_email}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3 shrink-0 ml-3">
+                      <span className="text-xs font-medium bg-violet-100 text-violet-700 dark:bg-violet-900/50 dark:text-violet-300 px-2.5 py-1 rounded-full">
+                        {sub.exercise_slug}
+                      </span>
+                      <span className="text-xs text-slate-400 hidden sm:inline">
+                        {new Date(sub.created_at).toLocaleString()}
+                      </span>
+                      <svg
+                        className={`w-5 h-5 text-slate-400 transition-transform ${expandedSub === sub.id ? "rotate-180" : ""}`}
+                        fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </div>
+                  </div>
+
+                  {/* Expanded: code + analysis */}
+                  {expandedSub === sub.id && (
+                    <div className="border-t border-slate-100 dark:border-slate-700 p-5 space-y-4">
+                      {/* Code display */}
+                      <div>
+                        <h4 className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">
+                          Submitted Code
+                        </h4>
+                        <pre className="bg-slate-900 text-slate-100 text-sm p-4 rounded-xl overflow-x-auto font-mono leading-relaxed">
+                          <code>{sub.code}</code>
+                        </pre>
+                      </div>
+
+                      {/* Analyze button */}
+                      <div>
+                        <button
+                          onClick={() => analyzeSubmission(sub)}
+                          disabled={analyzing === sub.id}
+                          className="inline-flex items-center gap-2 bg-purple-600 text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-purple-700 transition-colors disabled:opacity-50 cursor-pointer"
+                        >
+                          {analyzing === sub.id ? (
+                            <>
+                              <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                              </svg>
+                              Analyzing…
+                            </>
+                          ) : (
+                            <>
+                              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                              </svg>
+                              {analyses[sub.id] ? "Re-analyze" : "Analyze with AI"}
+                            </>
+                          )}
+                        </button>
+                      </div>
+
+                      {/* Analysis result */}
+                      {analyses[sub.id] && (
+                        <div className="bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-700 rounded-xl p-4">
+                          <div className="flex items-center gap-2 mb-2">
+                            <span className="text-base">🤖</span>
+                            <h4 className="text-sm font-semibold text-purple-800 dark:text-purple-300">
+                              AI Analysis
+                            </h4>
+                          </div>
+                          <div className="text-sm text-purple-900 dark:text-purple-200 whitespace-pre-wrap leading-relaxed">
+                            {analyses[sub.id]}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              ))}
             </div>
           )}
         </div>
