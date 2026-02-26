@@ -280,18 +280,49 @@ sys.stderr = _tc_stdout
         const passed = actual === tc.expected.trim();
         results.push({ input: tc.input, expected: tc.expected, actual, passed });
       } catch (err) {
-        const errMsg = (err.message || String(err))
-          .replace(/^PythonError:\s*/i, "")
-          .trim();
-        // Extract just the last line (the actual error)
-        const lines = errMsg.split("\n").filter((l) => l.trim());
-        const short = lines[lines.length - 1] || errMsg;
+        // Same multi-strategy extraction as runCode
+        let errorText = "";
+        const rawMessage = err.message || "";
+        const rawString = String(err);
+        const candidate = rawMessage.length > rawString.length ? rawMessage : rawString;
+        const stripped = candidate.replace(/^PythonError:\s*/i, "").trim();
+
+        if (stripped && stripped !== "PythonError" && stripped.length > 5) {
+          // Extract just the last line (e.g. "NameError: name 'x' is not defined")
+          const lines = stripped.split("\n").filter((l) => l.trim());
+          errorText = lines[lines.length - 1] || stripped;
+        }
+
+        // Fallback: pull from Python's sys.last_value
+        if (!errorText) {
+          try {
+            const pyErr = pyodideInstance.runPython(`
+import traceback as _tb, sys as _sys
+_result = ""
+_err = _sys.last_value if hasattr(_sys, 'last_value') and _sys.last_value else None
+if _err:
+    _lines = _tb.format_exception(type(_err), _err, _err.__traceback__)
+    _result = _lines[-1].strip() if _lines else ""
+_result
+            `);
+            if (pyErr && pyErr.trim()) {
+              errorText = pyErr.trim();
+            }
+          } catch {
+            // ignore
+          }
+        }
+
+        if (!errorText) {
+          errorText = rawString !== "[object Object]" ? rawString : "Runtime error";
+        }
+
         results.push({
           input: tc.input,
           expected: tc.expected,
           actual: "",
           passed: false,
-          error: short,
+          error: errorText,
         });
       } finally {
         try {
