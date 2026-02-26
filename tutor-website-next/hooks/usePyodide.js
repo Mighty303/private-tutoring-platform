@@ -138,28 +138,56 @@ sys.stderr = _stderr_capture
           },
         ]);
       } else {
-        // Extract the Python error message from Pyodide's PythonError
-        let cleanError;
+        // Extract the Python traceback from Pyodide's PythonError.
+        // Pyodide wraps Python exceptions in a JS PythonError whose
+        // .message is often just "PythonError".  The *real* formatted
+        // traceback lives in the Python-side exception that is still
+        // accessible via sys.last_traceback / the __traceback__ attr.
+        let cleanError = "";
 
-        if (err.type) {
-          // Pyodide PythonError — has .type (e.g. "NameError") and .message
-          // The .message includes the full traceback
-          cleanError = err.message || `${err.type}: ${String(err)}`;
-        } else {
-          cleanError = err.message || String(err);
-        }
+        // Strategy 1: Use Pyodide's built-in format if available
+        // (err may expose .message with the full traceback in some builds)
+        const rawMessage = err.message || "";
+        const rawString = String(err);
 
-        // Strip the "PythonError: " wrapper prefix if present
-        cleanError = cleanError
-          .replace(/^PythonError:\s*/, "")
+        // Pick whichever is longer / more informative
+        const candidate =
+          rawMessage.length > rawString.length ? rawMessage : rawString;
+        const stripped = candidate
+          .replace(/^PythonError:\s*/i, "")
           .trim();
 
-        // If we still just have the class name with no detail, show something useful
-        if (!cleanError || cleanError === "PythonError") {
-          cleanError = String(err);
-          if (cleanError === "[object Object]") {
-            cleanError = "An unknown Python error occurred.";
+        if (
+          stripped &&
+          stripped !== "PythonError" &&
+          stripped.length > 5
+        ) {
+          cleanError = stripped;
+        }
+
+        // Strategy 2: Pull the traceback from Python if we still
+        // don't have a useful message
+        if (!cleanError) {
+          try {
+            const tbError = pyodideInstance.runPython(`
+import traceback as _tb, sys as _sys
+_err = _sys.last_value if hasattr(_sys, 'last_value') else None
+"".join(_tb.format_exception(type(_err), _err, _err.__traceback__)) if _err else ""
+            `);
+            if (tbError && tbError.trim()) {
+              cleanError = tbError.trim();
+            }
+          } catch {
+            // ignore — Python state may be unusable
           }
+        }
+
+        // Strategy 3: Absolute fallback
+        if (!cleanError) {
+          cleanError =
+            rawString !== "[object Object]"
+              ? rawString
+              : "An unknown Python error occurred.";
         }
 
         // Also capture any partial stdout

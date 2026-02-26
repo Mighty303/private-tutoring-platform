@@ -1,9 +1,14 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import usePyodide from "@/hooks/usePyodide";
 import CodeEditor from "./CodeEditor";
 import OutputConsole from "./OutputConsole";
+
+// Helper to build a localStorage key for an exercise
+function cacheKey(exerciseId) {
+  return exerciseId ? `playground-code:${exerciseId}` : null;
+}
 
 export default function PythonPlayground({
   starterCode = "# Write your Python code here\nprint('Hello, world!')\n",
@@ -11,9 +16,32 @@ export default function PythonPlayground({
   exerciseDescription,
   exerciseId,
 }) {
-  const [code, setCode] = useState(starterCode);
+  // Initialise code from localStorage (if available) or starterCode
+  const [code, setCode] = useState(() => {
+    if (typeof window === "undefined") return starterCode;
+    const key = cacheKey(exerciseId);
+    if (!key) return starterCode;
+    try {
+      const saved = localStorage.getItem(key);
+      return saved !== null ? saved : starterCode;
+    } catch {
+      return starterCode;
+    }
+  });
   const { isLoading, isReady, error, isRunning, output, pythonVersion, runCode, clearOutput } =
     usePyodide();
+
+  // Persist code to localStorage on every change
+  useEffect(() => {
+    const key = cacheKey(exerciseId);
+    if (!key) return;
+    try {
+      localStorage.setItem(key, code);
+    } catch {
+      // Storage full or unavailable — ignore
+    }
+  }, [code, exerciseId]);
+
   const [hint, setHint] = useState(null);
   const [hintUsed, setHintUsed] = useState(false);
   const [hintLoading, setHintLoading] = useState(false);
@@ -36,7 +64,16 @@ export default function PythonPlayground({
     setAskAnswer(null);
     setQuestion("");
     setSubmitted(false);
-  }, [starterCode, clearOutput]);
+    // Clear the cached code so a future refresh loads starter code
+    const key = cacheKey(exerciseId);
+    if (key) {
+      try {
+        localStorage.removeItem(key);
+      } catch {
+        // ignore
+      }
+    }
+  }, [starterCode, clearOutput, exerciseId]);
 
   const handleSubmit = useCallback(async () => {
     if (!exerciseId || submitting) return;
