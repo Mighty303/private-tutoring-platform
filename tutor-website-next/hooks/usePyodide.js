@@ -82,10 +82,12 @@ export default function usePyodide() {
     abortRef.current = false;
 
     try {
-      // Set up stdout/stderr capture
+      // Set up stdout/stderr capture + execution time guard via sys.settrace.
+      // The trace function runs inside the Python interpreter loop itself, so
+      // it catches infinite loops even though they block the JS main thread.
       pyodideInstance.runPython(`
 import sys
-import io
+import time as _time
 
 class OutputCapture:
     def __init__(self):
@@ -102,17 +104,26 @@ _stdout_capture = OutputCapture()
 _stderr_capture = OutputCapture()
 sys.stdout = _stdout_capture
 sys.stderr = _stderr_capture
+
+_guard_counter = 0
+_guard_start = _time.time()
+_GUARD_LIMIT = 5
+
+def _execution_guard(frame, event, arg):
+    global _guard_counter
+    _guard_counter += 1
+    if _guard_counter & 0x2FFF == 0:
+        if _time.time() - _guard_start > _GUARD_LIMIT:
+            sys.settrace(None)
+            raise RuntimeError(
+                "Execution timed out (5 second limit).\\nYour code may contain an infinite loop."
+            )
+    return _execution_guard
+
+sys.settrace(_execution_guard)
       `);
 
-      // Execute with timeout
-      const TIMEOUT = 5000; // 5 seconds
-
-      const executionPromise = pyodideInstance.runPythonAsync(code);
-      const timeoutPromise = new Promise((_, reject) =>
-        setTimeout(() => reject(new Error("__TIMEOUT__")), TIMEOUT)
-      );
-
-      await Promise.race([executionPromise, timeoutPromise]);
+      await pyodideInstance.runPythonAsync(code);
 
       // Capture output
       const stdout = pyodideInstance.runPython("_stdout_capture.getvalue()");
@@ -130,86 +141,65 @@ sys.stderr = _stderr_capture
       }
       setOutput(newOutput);
     } catch (err) {
-      if (err.message === "__TIMEOUT__") {
-        setOutput([
-          {
-            type: "error",
-            text: "⏱️ Execution timed out (5 second limit).\nYour code may contain an infinite loop.",
-          },
-        ]);
-      } else {
-        // Extract the Python traceback from Pyodide's PythonError.
-        // Pyodide wraps Python exceptions in a JS PythonError whose
-        // .message is often just "PythonError".  The *real* formatted
-        // traceback lives in the Python-side exception that is still
-        // accessible via sys.last_traceback / the __traceback__ attr.
-        let cleanError = "";
+      let cleanError = "";
 
-        // Strategy 1: Use Pyodide's built-in format if available
-        // (err may expose .message with the full traceback in some builds)
-        const rawMessage = err.message || "";
-        const rawString = String(err);
+      const rawMessage = err.message || "";
+      const rawString = String(err);
 
-        // Pick whichever is longer / more informative
-        const candidate =
-          rawMessage.length > rawString.length ? rawMessage : rawString;
-        const stripped = candidate
-          .replace(/^PythonError:\s*/i, "")
-          .trim();
+      const candidate =
+        rawMessage.length > rawString.length ? rawMessage : rawString;
+      const stripped = candidate
+        .replace(/^PythonError:\s*/i, "")
+        .trim();
 
-        if (
-          stripped &&
-          stripped !== "PythonError" &&
-          stripped.length > 5
-        ) {
-          cleanError = stripped;
-        }
+      if (
+        stripped &&
+        stripped !== "PythonError" &&
+        stripped.length > 5
+      ) {
+        cleanError = stripped;
+      }
 
-        // Strategy 2: Pull the traceback from Python if we still
-        // don't have a useful message
-        if (!cleanError) {
-          try {
-            const tbError = pyodideInstance.runPython(`
+      if (!cleanError) {
+        try {
+          const tbError = pyodideInstance.runPython(`
 import traceback as _tb, sys as _sys
 _err = _sys.last_value if hasattr(_sys, 'last_value') else None
 "".join(_tb.format_exception(type(_err), _err, _err.__traceback__)) if _err else ""
-            `);
-            if (tbError && tbError.trim()) {
-              cleanError = tbError.trim();
-            }
-          } catch {
-            // ignore — Python state may be unusable
+          `);
+          if (tbError && tbError.trim()) {
+            cleanError = tbError.trim();
           }
-        }
-
-        // Strategy 3: Absolute fallback
-        if (!cleanError) {
-          cleanError =
-            rawString !== "[object Object]"
-              ? rawString
-              : "An unknown Python error occurred.";
-        }
-
-        // Also capture any partial stdout
-        let partialStdout = "";
-        try {
-          partialStdout = pyodideInstance.runPython("_stdout_capture.getvalue()");
         } catch {
           // ignore
         }
-
-        const newOutput = [];
-        if (partialStdout) {
-          newOutput.push({ type: "stdout", text: partialStdout });
-        }
-        newOutput.push({ type: "error", text: cleanError });
-        setOutput(newOutput);
       }
+
+      if (!cleanError) {
+        cleanError =
+          rawString !== "[object Object]"
+            ? rawString
+            : "An unknown Python error occurred.";
+      }
+
+      let partialStdout = "";
+      try {
+        partialStdout = pyodideInstance.runPython("_stdout_capture.getvalue()");
+      } catch {
+        // ignore
+      }
+
+      const newOutput = [];
+      if (partialStdout) {
+        newOutput.push({ type: "stdout", text: partialStdout });
+      }
+      newOutput.push({ type: "error", text: cleanError });
+      setOutput(newOutput);
     } finally {
-      // Reset stdout/stderr
       try {
         pyodideInstance.runPython(`
 import sys
+sys.settrace(None)
 sys.stdout = sys.__stdout__
 sys.stderr = sys.__stderr__
         `);
@@ -239,9 +229,9 @@ sys.stderr = sys.__stderr__
 
     for (const tc of testCases) {
       try {
-        // Reset stdout for each test
         pyodideInstance.runPython(`
-import sys, io
+import sys, time as _time
+
 class _TC_Out:
     def __init__(self):
         self.parts = []
@@ -252,9 +242,27 @@ class _TC_Out:
         pass
     def getvalue(self):
         return "".join(self.parts)
+
 _tc_stdout = _TC_Out()
 sys.stdout = _tc_stdout
 sys.stderr = _tc_stdout
+
+_guard_counter = 0
+_guard_start = _time.time()
+_GUARD_LIMIT = 5
+
+def _execution_guard(frame, event, arg):
+    global _guard_counter
+    _guard_counter += 1
+    if _guard_counter & 0x2FFF == 0:
+        if _time.time() - _guard_start > _GUARD_LIMIT:
+            sys.settrace(None)
+            raise RuntimeError(
+                "Execution timed out (5 second limit).\\nYour code may contain an infinite loop."
+            )
+    return _execution_guard
+
+sys.settrace(_execution_guard)
 `);
 
         // Run user code to define functions
@@ -328,6 +336,7 @@ _result
         try {
           pyodideInstance.runPython(`
 import sys
+sys.settrace(None)
 sys.stdout = sys.__stdout__
 sys.stderr = sys.__stderr__
 `);
