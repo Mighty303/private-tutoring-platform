@@ -5,6 +5,7 @@ import {
   functionExercises,
   discordBotExercises,
   loopExercises,
+  loopPart2Exercises,
   nestedLoopExercises,
   nestedListExercises,
   dictionaryExercises,
@@ -65,6 +66,28 @@ export default function SaturdaysPage() {
             className="inline-flex items-center gap-2 bg-emerald-600 text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-emerald-700 transition-colors text-sm"
           >
             View Loops →
+          </Link>
+        </div>
+
+        {/* Link to loops part 2 */}
+        <div className="bg-teal-50 dark:bg-teal-900/20 border border-teal-200 dark:border-teal-700 rounded-xl p-6 mb-6">
+          <h3 className="font-bold text-lg text-teal-800 dark:text-teal-300 mb-2">
+            Loops Part 2 — break &amp; continue
+          </h3>
+          <p className="text-teal-700 dark:text-teal-400 mb-4">
+            More challenging loop exercises with no starter code — learn break,
+            continue, and while True patterns.
+          </p>
+          <ExerciseProgressTracker
+            exercises={loopPart2Exercises}
+            color="teal"
+            className="mt-4 mb-4"
+          />
+          <Link
+            href="/saturdays/loops-2"
+            className="inline-flex items-center gap-2 bg-teal-600 text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-teal-700 transition-colors text-sm"
+          >
+            View Loops Part 2 →
           </Link>
         </div>
 

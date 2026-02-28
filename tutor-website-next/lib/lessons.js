@@ -322,6 +322,57 @@ export const loopExercises = [
   },
 ];
 
+export const loopPart2Exercises = [
+  {
+    id: "loop2-intro",
+    title: "break & continue — How They Work",
+    emoji: "📖",
+    description: "Exit loops early with break, skip iterations with continue, and the while True pattern.",
+    tags: ["Loops", "Reference"],
+    color: "teal",
+  },
+  {
+    id: "loop2-ex1",
+    title: "Find the Exit",
+    emoji: "🚪",
+    description: "Explore a dungeon and break out when you find the exit.",
+    tags: ["Loops", "Medium"],
+    color: "amber",
+  },
+  {
+    id: "loop2-ex2",
+    title: "Dodge the Obstacles",
+    emoji: "⚡",
+    description: "Use continue to skip spikes and collect items on a path.",
+    tags: ["Loops", "Medium"],
+    color: "rose",
+  },
+  {
+    id: "loop2-ex3",
+    title: "Loot Filter",
+    emoji: "💎",
+    description: "Skip cheap loot with continue and stop when your bag is full with break.",
+    tags: ["Loops", "Hard"],
+    color: "violet",
+  },
+  {
+    id: "loop2-ex4",
+    title: "Boss Battle",
+    emoji: "🐉",
+    description: "Fight a boss using while True, continue for shields, and break for the kill.",
+    tags: ["Loops", "Hard"],
+    color: "red",
+  },
+  {
+    id: "loop2-tips",
+    title: "Tips & Common Mistakes",
+    emoji: "💡",
+    description: "Unreachable code, missing updates, infinite loops, and break vs continue.",
+    tags: ["Loops", "Reference"],
+    color: "blue",
+  },
+];
+
 export const nestedLoopExercises = [
   {
     id: "nloop-intro",
@@ -509,6 +560,7 @@ export function getLessonById(id) {
     ...functionExercises,
     ...discordBotExercises,
     ...loopExercises,
+    ...loopPart2Exercises,
     ...nestedLoopExercises,
     ...nestedListExercises,
   ];
@@ -525,6 +577,7 @@ export function getAllLessons() {
     ...functionExercises,
     ...discordBotExercises,
     ...loopExercises,
+    ...loopPart2Exercises,
     ...nestedLoopExercises,
     ...nestedListExercises,
   ];

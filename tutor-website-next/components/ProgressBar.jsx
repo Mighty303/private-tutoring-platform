@@ -37,6 +37,7 @@ export default function ProgressBar({
     rose: "from-rose-500 to-rose-400",
     amber: "from-amber-500 to-amber-400",
     emerald: "from-emerald-500 to-emerald-400",
+    teal: "from-teal-500 to-teal-400",
     discord: "from-[#5865F2] to-[#7289DA]",
   };
 
@@ -47,6 +48,7 @@ export default function ProgressBar({
     rose: "bg-rose-100 dark:bg-rose-950/40",
     amber: "bg-amber-100 dark:bg-amber-950/40",
     emerald: "bg-emerald-100 dark:bg-emerald-950/40",
+    teal: "bg-teal-100 dark:bg-teal-950/40",
     discord: "bg-[#5865F2]/10 dark:bg-[#5865F2]/20",
   };
 
@@ -57,6 +59,7 @@ export default function ProgressBar({
     rose: "text-rose-600 dark:text-rose-400",
     amber: "text-amber-600 dark:text-amber-400",
     emerald: "text-emerald-600 dark:text-emerald-400",
+    teal: "text-teal-600 dark:text-teal-400",
     discord: "text-[#5865F2]",
   };
 

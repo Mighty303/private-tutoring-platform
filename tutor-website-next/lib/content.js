@@ -19,6 +19,14 @@ const fileMap = {
   "loop-ex4": "saturdays/loops/exercise4.md",
   "loop-tips": "saturdays/loops/tips.md",
 
+  // Loop Part 2 exercises (break & continue)
+  "loop2-intro": "saturdays/loops-2/intro.md",
+  "loop2-ex1": "saturdays/loops-2/exercise1.md",
+  "loop2-ex2": "saturdays/loops-2/exercise2.md",
+  "loop2-ex3": "saturdays/loops-2/exercise3.md",
+  "loop2-ex4": "saturdays/loops-2/exercise4.md",
+  "loop2-tips": "saturdays/loops-2/tips.md",
+
   // Nested loop exercises
   "nloop-intro": "saturdays/nested-loops/intro.md",
   "nloop-ex1": "saturdays/nested-loops/exercise1.md",
