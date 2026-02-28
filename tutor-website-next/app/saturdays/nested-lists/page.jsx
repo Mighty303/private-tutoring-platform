@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { nestedListExercises } from "@/lib/lessons";
+import ExerciseProgressTracker, { ExerciseCheckmark } from "@/components/ExerciseProgressTracker";
 
 const tagColors = {
   Lists: "bg-rose-100 text-rose-700",
@@ -51,6 +52,14 @@ export default function NestedListsPage() {
           </svg>
         </Link>
 
+        {/* Progress */}
+        <ExerciseProgressTracker
+          exercises={nestedListExercises}
+          label="Nested Lists Exercises"
+          color="emerald"
+          className="mb-6"
+        />
+
         {/* Numbered list */}
         <div className="space-y-3">
           {nestedListExercises.map((lesson, index) => (
@@ -90,6 +99,8 @@ export default function NestedListsPage() {
                   </span>
                 ))}
               </div>
+
+              <ExerciseCheckmark exerciseId={lesson.id} />
 
               {/* Arrow */}
               <svg

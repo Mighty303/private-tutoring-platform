@@ -3,6 +3,7 @@
 import { useState, useCallback, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import usePyodide from "@/hooks/usePyodide";
+import { markExerciseComplete, invalidateCompletedCache } from "@/hooks/useExerciseProgress";
 import CodeEditor from "./CodeEditor";
 import OutputConsole from "./OutputConsole";
 import TestResults from "./TestResults";
@@ -57,6 +58,8 @@ export default function PythonPlayground({
   const [submitting, setSubmitting] = useState(false);
   const [testResults, setTestResults] = useState(null); // { results, allPassed }
   const [toast, setToast] = useState(null); // { type: "success" | "error", message }
+  const [feedback, setFeedback] = useState(null);
+  const [feedbackLoading, setFeedbackLoading] = useState(false);
   const { data: session } = useSession();
   const [isClassroomMember, setIsClassroomMember] = useState(false);
   const [membershipChecked, setMembershipChecked] = useState(false);
@@ -104,9 +107,13 @@ export default function PythonPlayground({
     return () => clearTimeout(timer);
   }, [toast]);
 
-  const handleRun = useCallback(() => {
+  const handleRun = useCallback(async () => {
     runCode(code);
-  }, [code, runCode]);
+    if (testCases.length > 0) {
+      const { results, allPassed } = await runTests(code, testCases);
+      setTestResults({ results, allPassed });
+    }
+  }, [code, runCode, testCases, runTests]);
 
   const handleReset = useCallback(() => {
     setCode(starterCode);
@@ -118,6 +125,7 @@ export default function PythonPlayground({
     setSubmitted(false);
     setTestResults(null);
     setToast(null);
+    setFeedback(null);
     // Clear the cached code so a future refresh loads starter code
     const key = cacheKey(exerciseId);
     if (key) {
@@ -129,60 +137,85 @@ export default function PythonPlayground({
     }
   }, [starterCode, clearOutput, exerciseId]);
 
-  const handleSubmit = useCallback(async () => {
-    if (!exerciseId || submitting) return;
-    setSubmitting(true);
-    setToast(null);
-    setTestResults(null);
-
+  const fetchFeedback = useCallback(async (passCount, totalCount) => {
+    if (!exerciseDescription) return;
+    setFeedbackLoading(true);
     try {
-      // 1. Run local test cases in Pyodide (if available)
-      if (testCases.length > 0) {
-        const { results, allPassed } = await runTests(code, testCases);
-        setTestResults({ results, allPassed });
-
-        if (!allPassed) {
-          const passCount = results.filter((r) => r.passed).length;
-          setToast({
-            type: "error",
-            message: `${passCount}/${results.length} test cases passed. Fix the failing tests and try again.`,
-          });
-          setSubmitting(false);
-          return;
-        }
-      }
-
-      // 2. All local tests passed (or no tests) — check with LLM for edge cases
-      const checkRes = await fetch("/api/submissions/check", {
+      const res = await fetch("/api/submissions/feedback", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           code,
-          exerciseDescription: exerciseDescription || "",
+          exerciseDescription,
+          testResults: { passed: passCount, total: totalCount },
         }),
       });
+      if (res.ok) {
+        const data = await res.json();
+        setFeedback(data.feedback);
+      }
+    } catch {
+      // Non-critical — silently fail
+    } finally {
+      setFeedbackLoading(false);
+    }
+  }, [code, exerciseDescription]);
 
-      if (!checkRes.ok) throw new Error("Check failed");
-      const { passed, message } = await checkRes.json();
+  const handleSubmit = useCallback(async () => {
+    if (!exerciseId || submitting) return;
+    setSubmitting(true);
+    setToast(null);
+    setFeedback(null);
 
-      if (passed) {
-        // 3. Save submission
+    try {
+      if (testCases.length > 0) {
+        const { results, allPassed } = await runTests(code, testCases);
+        setTestResults({ results, allPassed });
+        const passCount = results.filter((r) => r.passed).length;
+
+        if (!allPassed) {
+          setToast({
+            type: "error",
+            message: `${passCount}/${results.length} test cases passed. Fix the failing tests and try again.`,
+          });
+          fetchFeedback(passCount, results.length);
+          setSubmitting(false);
+          return;
+        }
+
+        // All tests passed — save submission to DB
         await fetch("/api/submissions", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ exerciseSlug: exerciseId, code }),
         });
         setSubmitted(true);
-        setToast({ type: "success", message: message || "Your code is correct!" });
+        invalidateCompletedCache();
+        markExerciseComplete(exerciseId);
+        setToast({
+          type: "success",
+          message: `All ${results.length} test cases passed!`,
+        });
+        fetchFeedback(passCount, results.length);
       } else {
-        setToast({ type: "error", message: message || "Not quite right — check your logic and try again." });
+        // No test cases — save directly
+        await fetch("/api/submissions", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ exerciseSlug: exerciseId, code }),
+        });
+        setSubmitted(true);
+        invalidateCompletedCache();
+        markExerciseComplete(exerciseId);
+        setToast({ type: "success", message: "Code submitted!" });
+        fetchFeedback(0, 0);
       }
     } catch {
-      setToast({ type: "error", message: "Couldn't check your code right now. Try again later." });
+      setToast({ type: "error", message: "Couldn't submit right now. Try again later." });
     } finally {
       setSubmitting(false);
     }
-  }, [exerciseId, code, exerciseDescription, testCases, submitting, runTests]);
+  }, [exerciseId, code, testCases, submitting, runTests, fetchFeedback]);
 
   const handleGetHint = useCallback(async () => {
     if (hintUsed || hintLoading) return;
@@ -596,6 +629,31 @@ export default function PythonPlayground({
           results={testResults.results}
           allPassed={testResults.allPassed}
         />
+      )}
+
+      {/* AI Feedback — improvement suggestions */}
+      {(feedback || feedbackLoading) && (
+        <div className="my-3 px-4 py-3 bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-200 dark:border-indigo-700 rounded-xl">
+          <div className="flex items-start gap-2">
+            <span className="text-base mt-0.5 shrink-0">🤖</span>
+            <div className="flex-1">
+              <p className="text-sm font-semibold text-indigo-800 dark:text-indigo-300 mb-1">
+                Improvement Suggestions
+              </p>
+              {feedbackLoading ? (
+                <div className="flex items-center gap-2">
+                  <svg className="w-4 h-4 text-indigo-400 animate-spin" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                  </svg>
+                  <span className="text-sm text-indigo-600 dark:text-indigo-400">Analyzing your code…</span>
+                </div>
+              ) : (
+                <p className="text-sm text-indigo-700 dark:text-indigo-400 whitespace-pre-wrap">{feedback}</p>
+              )}
+            </div>
+          </div>
+        </div>
       )}
 
       {/* Console output */}

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { functionExercises, discordBotExercises } from "@/lib/lessons";
+import ExerciseProgressTracker, { ExerciseCheckmark } from "@/components/ExerciseProgressTracker";
 
 const tagColors = {
   Functions: "bg-violet-100 text-violet-700",
@@ -53,6 +54,14 @@ export default function FunctionsPage() {
           </svg>
         </Link>
 
+        {/* Progress */}
+        <ExerciseProgressTracker
+          exercises={functionExercises}
+          label="Function Exercises"
+          color="emerald"
+          className="mb-6"
+        />
+
         {/* Numbered list */}
         <div className="space-y-3">
           {functionExercises.map((lesson, index) => (
@@ -85,6 +94,7 @@ export default function FunctionsPage() {
                   </span>
                 ))}
               </div>
+              <ExerciseCheckmark exerciseId={lesson.id} />
               <svg
                 className="w-5 h-5 shrink-0 text-slate-400 group-hover:text-violet-500 group-hover:translate-x-1 transition-all"
                 fill="none"
@@ -141,6 +151,13 @@ export default function FunctionsPage() {
           </svg>
         </a>
 
+        <ExerciseProgressTracker
+          exercises={discordBotExercises}
+          label="Discord Bot Exercises"
+          color="emerald"
+          className="mb-6"
+        />
+
         <div className="space-y-3">
           {discordBotExercises.map((lesson, index) => (
             <Link
@@ -172,6 +189,7 @@ export default function FunctionsPage() {
                   </span>
                 ))}
               </div>
+              <ExerciseCheckmark exerciseId={lesson.id} />
               <svg
                 className="w-5 h-5 shrink-0 text-slate-400 group-hover:text-[#5865F2] group-hover:translate-x-1 transition-all"
                 fill="none"

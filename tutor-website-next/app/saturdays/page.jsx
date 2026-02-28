@@ -1,6 +1,14 @@
 import Link from "next/link";
 import LessonCard from "@/components/LessonCard";
-import { saturdayLessons } from "@/lib/lessons";
+import {
+  saturdayLessons,
+  functionExercises,
+  discordBotExercises,
+  nestedLoopExercises,
+  nestedListExercises,
+  dictionaryExercises,
+} from "@/lib/lessons";
+import ExerciseProgressTracker from "@/components/ExerciseProgressTracker";
 
 export const metadata = {
   title: "Saturday Lessons — CS Tutor",
@@ -46,6 +54,11 @@ export default function SaturdaysPage() {
             Loops inside loops — grids, patterns, multiplication tables, and
             matching pairs.
           </p>
+          <ExerciseProgressTracker
+            exercises={nestedLoopExercises}
+            color="emerald"
+            className="mt-4 mb-4"
+          />
           <Link
             href="/saturdays/nested-loops"
             className="inline-flex items-center gap-2 bg-sky-600 text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-sky-700 transition-colors text-sm"
@@ -63,6 +76,11 @@ export default function SaturdaysPage() {
             Lists inside lists — 2D grids, game boards, searching, and
             patterns.
           </p>
+          <ExerciseProgressTracker
+            exercises={nestedListExercises}
+            color="emerald"
+            className="mt-4 mb-4"
+          />
           <Link
             href="/saturdays/nested-lists"
             className="inline-flex items-center gap-2 bg-rose-600 text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-rose-700 transition-colors text-sm"
@@ -80,6 +98,11 @@ export default function SaturdaysPage() {
             Learn functions step by step — XP calculators, health systems, shop
             discounts, and more.
           </p>
+          <ExerciseProgressTracker
+            exercises={[...functionExercises, ...discordBotExercises]}
+            color="emerald"
+            className="mt-4 mb-4"
+          />
           <Link
             href="/saturdays/functions"
             className="inline-flex items-center gap-2 bg-violet-600 text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-violet-700 transition-colors text-sm"
@@ -97,6 +120,11 @@ export default function SaturdaysPage() {
             Roblox-themed dictionary exercises and projects — part of Milestone
             2.
           </p>
+          <ExerciseProgressTracker
+            exercises={dictionaryExercises}
+            color="emerald"
+            className="mt-4 mb-4"
+          />
           <Link
             href="/saturdays/dictionaries"
             className="inline-flex items-center gap-2 bg-amber-600 text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-amber-700 transition-colors text-sm"

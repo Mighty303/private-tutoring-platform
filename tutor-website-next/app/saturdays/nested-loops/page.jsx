@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { nestedLoopExercises } from "@/lib/lessons";
+import ExerciseProgressTracker, { ExerciseCheckmark } from "@/components/ExerciseProgressTracker";
 
 const tagColors = {
   Loops: "bg-sky-100 text-sky-700",
@@ -51,6 +52,14 @@ export default function NestedLoopsPage() {
           </svg>
         </Link>
 
+        {/* Progress */}
+        <ExerciseProgressTracker
+          exercises={nestedLoopExercises}
+          label="Nested Loops Exercises"
+          color="emerald"
+          className="mb-6"
+        />
+
         {/* Numbered list */}
         <div className="space-y-3">
           {nestedLoopExercises.map((lesson, index) => (
@@ -90,6 +99,8 @@ export default function NestedLoopsPage() {
                   </span>
                 ))}
               </div>
+
+              <ExerciseCheckmark exerciseId={lesson.id} />
 
               {/* Arrow */}
               <svg

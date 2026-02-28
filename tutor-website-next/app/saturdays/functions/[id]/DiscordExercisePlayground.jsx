@@ -3,6 +3,18 @@
 import { useMemo } from "react";
 import DiscordPlayground from "@/components/DiscordPlayground";
 
+function extractExerciseDescription(markdown) {
+  if (!markdown) return "";
+  const taskSection = markdown.split(/##\s*(?:Hints|Solution)|<details>/i)[0] || markdown;
+  return taskSection
+    .replace(/```[\s\S]*?```/g, "")
+    .replace(/<[^>]+>/g, "")
+    .replace(/!\[.*?\]\(.*?\)/g, "")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim()
+    .slice(0, 800);
+}
+
 function extractStarterCode(markdown) {
   if (!markdown) return "# Write your code here\n";
 
@@ -30,6 +42,7 @@ function extractStarterCode(markdown) {
 
 export default function DiscordExercisePlayground({ content, exerciseId, title }) {
   const starterCode = useMemo(() => extractStarterCode(content), [content]);
+  const exerciseDescription = useMemo(() => extractExerciseDescription(content), [content]);
 
   return (
     <div className="mt-8 pt-6 border-t border-[#5865F2]/20">
@@ -49,6 +62,7 @@ export default function DiscordExercisePlayground({ content, exerciseId, title }
         starterCode={starterCode}
         title={title ? `Code: ${title}` : "Discord Bot Code"}
         exerciseId={exerciseId}
+        exerciseDescription={exerciseDescription}
       />
     </div>
   );

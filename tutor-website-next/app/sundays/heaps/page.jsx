@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { heapExercises } from "@/lib/lessons";
+import ExerciseProgressTracker, { ExerciseCheckmark } from "@/components/ExerciseProgressTracker";
 
 const tagColors = {
   Heaps: "bg-amber-100 text-amber-700",
@@ -52,6 +53,14 @@ export default function HeapsPage() {
           </svg>
         </Link>
 
+        {/* Progress */}
+        <ExerciseProgressTracker
+          exercises={heapExercises}
+          label="Heap Exercises"
+          color="emerald"
+          className="mb-6"
+        />
+
         {/* Numbered list */}
         <div className="space-y-3">
           {heapExercises.map((lesson, index) => (
@@ -91,6 +100,8 @@ export default function HeapsPage() {
                   </span>
                 ))}
               </div>
+
+              <ExerciseCheckmark exerciseId={lesson.id} />
 
               {/* Arrow */}
               <svg

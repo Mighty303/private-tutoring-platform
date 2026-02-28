@@ -3,6 +3,7 @@
 import { useState, useCallback, useEffect, useMemo } from "react";
 import { useSession } from "next-auth/react";
 import usePyodide from "@/hooks/usePyodide";
+import { markExerciseComplete, invalidateCompletedCache } from "@/hooks/useExerciseProgress";
 import CodeEditor from "./CodeEditor";
 import OutputConsole from "./OutputConsole";
 
@@ -43,6 +44,7 @@ export default function DiscordPlayground({
   starterCode = "# Write your Python code here\n",
   title,
   exerciseId,
+  exerciseDescription = "",
   classroomId,
 }) {
   const [code, setCode] = useState(() => {
@@ -111,6 +113,12 @@ export default function DiscordPlayground({
   const [sending, setSending] = useState(false);
   const [discordError, setDiscordError] = useState(null);
 
+  const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [toast, setToast] = useState(null);
+  const [feedback, setFeedback] = useState(null);
+  const [feedbackLoading, setFeedbackLoading] = useState(false);
+
   const lastOutput = useMemo(() => {
     const textParts = output
       .filter((o) => o.type === "stdout" || o.type === "output")
@@ -170,6 +178,7 @@ export default function DiscordPlayground({
               : msg
           )
         );
+        markExerciseComplete(exerciseId);
       }
     } catch {
       setDiscordError("Network error — couldn't reach the server.");
@@ -177,7 +186,52 @@ export default function DiscordPlayground({
     } finally {
       setSending(false);
     }
-  }, [sending, lastOutput, discordMessages.length]);
+  }, [sending, lastOutput, discordMessages.length, exerciseId]);
+
+  useEffect(() => {
+    if (!toast) return;
+    const timer = setTimeout(() => setToast(null), 5000);
+    return () => clearTimeout(timer);
+  }, [toast]);
+
+  const handleSubmit = useCallback(async () => {
+    if (!exerciseId || submitting) return;
+    setSubmitting(true);
+    setToast(null);
+    setFeedback(null);
+
+    try {
+      await fetch("/api/submissions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ exerciseSlug: exerciseId, code }),
+      });
+      setSubmitted(true);
+      invalidateCompletedCache();
+      markExerciseComplete(exerciseId);
+      setToast({ type: "success", message: "Code submitted!" });
+
+      if (exerciseDescription) {
+        setFeedbackLoading(true);
+        fetch("/api/submissions/feedback", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            code,
+            exerciseDescription,
+          }),
+        })
+          .then((res) => res.ok ? res.json() : null)
+          .then((data) => { if (data?.feedback) setFeedback(data.feedback); })
+          .catch(() => {})
+          .finally(() => setFeedbackLoading(false));
+      }
+    } catch {
+      setToast({ type: "error", message: "Couldn't submit right now. Try again later." });
+    } finally {
+      setSubmitting(false);
+    }
+  }, [exerciseId, code, exerciseDescription, submitting]);
 
   const handleKeyDown = useCallback(
     (e) => {
@@ -191,6 +245,45 @@ export default function DiscordPlayground({
 
   return (
     <div className="my-6 relative" onKeyDown={handleKeyDown}>
+      {/* Toast notification */}
+      {toast && (
+        <div
+          className={`fixed top-6 right-6 z-50 max-w-sm px-5 py-4 rounded-xl shadow-2xl border backdrop-blur-sm transition-all animate-slide-in-right flex items-start gap-3 ${
+            toast.type === "success"
+              ? "bg-emerald-50/95 dark:bg-emerald-900/90 border-emerald-300 dark:border-emerald-600"
+              : "bg-red-50/95 dark:bg-red-900/90 border-red-300 dark:border-red-600"
+          }`}
+        >
+          <span className="text-xl shrink-0 mt-0.5">
+            {toast.type === "success" ? "✅" : "❌"}
+          </span>
+          <div className="flex-1">
+            <p className={`text-sm font-semibold ${
+              toast.type === "success"
+                ? "text-emerald-800 dark:text-emerald-200"
+                : "text-red-800 dark:text-red-200"
+            }`}>
+              {toast.type === "success" ? "Passed!" : "Not Passed"}
+            </p>
+            <p className={`text-sm mt-0.5 ${
+              toast.type === "success"
+                ? "text-emerald-700 dark:text-emerald-300"
+                : "text-red-700 dark:text-red-300"
+            }`}>
+              {toast.message}
+            </p>
+          </div>
+          <button
+            onClick={() => setToast(null)}
+            className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 shrink-0"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+      )}
+
       {title && (
         <div className="flex items-center gap-2 mb-3">
           <h3 className="text-base font-bold text-slate-800 dark:text-white">
@@ -310,6 +403,43 @@ export default function DiscordPlayground({
           Reset
         </button>
 
+        {exerciseId && (
+          <button
+            onClick={handleSubmit}
+            disabled={submitting || submitted || isRunning}
+            className={`inline-flex items-center gap-2 px-4 py-2 text-white text-sm font-semibold rounded-lg transition-colors shadow-sm ${
+              submitted
+                ? "bg-emerald-600 cursor-default"
+                : "bg-indigo-600 hover:bg-indigo-700 disabled:bg-slate-600 disabled:cursor-not-allowed"
+            }`}
+            title={submitted ? "Code submitted!" : "Submit your code for grading"}
+          >
+            {submitting ? (
+              <>
+                <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                </svg>
+                Submitting…
+              </>
+            ) : submitted ? (
+              <>
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+                Submitted
+              </>
+            ) : (
+              <>
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                </svg>
+                Submit
+              </>
+            )}
+          </button>
+        )}
+
         <span className={`hidden sm:inline text-xs ml-auto ${lastOutput ? "text-slate-400" : "text-amber-500 font-medium"}`}>
           {lastOutput ? "Ready to send!" : "Run your code first, then send to Discord"}
         </span>
@@ -321,6 +451,31 @@ export default function DiscordPlayground({
           <span className="text-sm font-medium text-red-700 dark:text-red-300">
             Discord: {discordError}
           </span>
+        </div>
+      )}
+
+      {/* AI Feedback — improvement suggestions */}
+      {(feedback || feedbackLoading) && (
+        <div className="mb-3 px-4 py-3 bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-200 dark:border-indigo-700 rounded-xl">
+          <div className="flex items-start gap-2">
+            <span className="text-base mt-0.5 shrink-0">🤖</span>
+            <div className="flex-1">
+              <p className="text-sm font-semibold text-indigo-800 dark:text-indigo-300 mb-1">
+                Improvement Suggestions
+              </p>
+              {feedbackLoading ? (
+                <div className="flex items-center gap-2">
+                  <svg className="w-4 h-4 text-indigo-400 animate-spin" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                  </svg>
+                  <span className="text-sm text-indigo-600 dark:text-indigo-400">Analyzing your code…</span>
+                </div>
+              ) : (
+                <p className="text-sm text-indigo-700 dark:text-indigo-400 whitespace-pre-wrap">{feedback}</p>
+              )}
+            </div>
+          </div>
         </div>
       )}
 

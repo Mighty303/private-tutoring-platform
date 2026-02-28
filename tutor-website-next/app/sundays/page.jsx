@@ -1,6 +1,7 @@
 import Link from "next/link";
 import LessonCard from "@/components/LessonCard";
-import { sundayLessons, sundayAnswers } from "@/lib/lessons";
+import { sundayLessons, sundayAnswers, heapExercises } from "@/lib/lessons";
+import ExerciseProgressTracker from "@/components/ExerciseProgressTracker";
 
 export const metadata = {
   title: "Sunday Lessons — CS Tutor",
@@ -37,17 +38,30 @@ export default function SundaysPage() {
             />
           ))}
           {/* Heaps hub card */}
-          <LessonCard
-            lesson={{
-              id: "heaps",
-              title: "Heaps — Priority Queues",
-              emoji: "🏔️",
-              description: "Heap data structure, priority queues, and practical exercises using Python's heapq module.",
-              tags: ["Algorithms", "Heaps"],
-              color: "amber",
-            }}
-            basePath="/sundays"
-          />
+          <div className="block bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 border-l-4 border-l-amber-500 shadow-sm">
+            <div className="p-6">
+              <div className="flex items-start justify-between mb-3">
+                <span className="text-3xl">🏔️</span>
+              </div>
+              <h3 className="text-lg font-bold text-slate-800 dark:text-white mb-2">
+                Heaps — Priority Queues
+              </h3>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mb-3 line-clamp-2">
+                Heap data structure, priority queues, and practical exercises using Python&apos;s heapq module.
+              </p>
+              <ExerciseProgressTracker
+                exercises={heapExercises}
+                color="emerald"
+                className="mb-3"
+              />
+              <Link
+                href="/sundays/heaps"
+                className="inline-flex items-center gap-1 text-sm font-semibold text-amber-600 hover:text-amber-700 dark:text-amber-400 dark:hover:text-amber-300 transition-colors"
+              >
+                View Exercises →
+              </Link>
+            </div>
+          </div>
         </div>
 
         {/* Answer Keys */}

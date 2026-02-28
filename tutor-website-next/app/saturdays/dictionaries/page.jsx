@@ -1,6 +1,7 @@
 import Link from "next/link";
 import LessonCard from "@/components/LessonCard";
 import { dictionaryExercises } from "@/lib/lessons";
+import ExerciseProgressTracker from "@/components/ExerciseProgressTracker";
 
 export const metadata = {
   title: "Dictionary Exercises — CS Tutor",
@@ -32,6 +33,14 @@ export default function DictionariesPage() {
             Learn dictionaries through Roblox catalog shop exercises
           </p>
         </div>
+
+        {/* Progress */}
+        <ExerciseProgressTracker
+          exercises={dictionaryExercises}
+          label="Dictionary Exercises"
+          color="emerald"
+          className="mb-8"
+        />
 
         {/* Exercises */}
         <h2 className="text-2xl font-bold text-slate-700 dark:text-slate-200 mb-4">Exercises</h2>
