@@ -11,6 +11,7 @@ const navItems = [
   { href: "/saturdays", label: "Saturdays" },
   { href: "/sundays", label: "Sundays" },
   { href: "/playground", label: "Playground" },
+  { href: "/tutors", label: "Tutor" },
 ];
 
 function getThemeSnapshot() {
