@@ -6,6 +6,7 @@ import usePyodide from "@/hooks/usePyodide";
 import { markExerciseComplete, invalidateCompletedCache } from "@/hooks/useExerciseProgress";
 import CodeEditor from "./CodeEditor";
 import OutputConsole from "./OutputConsole";
+import TestResults from "./TestResults";
 
 function cacheKey(exerciseId) {
   return exerciseId ? `discord-code:${exerciseId}` : null;
@@ -46,6 +47,7 @@ export default function DiscordPlayground({
   exerciseId,
   exerciseDescription = "",
   classroomId,
+  testCases = [],
 }) {
   const [code, setCode] = useState(() => {
     if (typeof window === "undefined") return starterCode;
@@ -59,7 +61,7 @@ export default function DiscordPlayground({
     }
   });
 
-  const { isLoading, isReady, error, isRunning, output, pythonVersion, runCode, clearOutput } =
+  const { isLoading, isReady, error, isRunning, output, pythonVersion, runCode, clearOutput, runTests } =
     usePyodide();
 
   useEffect(() => {
@@ -115,6 +117,7 @@ export default function DiscordPlayground({
 
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [testResults, setTestResults] = useState(null);
   const [toast, setToast] = useState(null);
   const [feedback, setFeedback] = useState(null);
   const [feedbackLoading, setFeedbackLoading] = useState(false);
@@ -127,16 +130,23 @@ export default function DiscordPlayground({
     return textParts.trim();
   }, [output]);
 
-  const handleRun = useCallback(() => {
+  const handleRun = useCallback(async () => {
     runCode(code);
     setDiscordError(null);
-  }, [code, runCode]);
+    if (testCases.length > 0) {
+      const { results, allPassed } = await runTests(code, testCases);
+      setTestResults({ results, allPassed });
+    }
+  }, [code, runCode, testCases, runTests]);
 
   const handleReset = useCallback(() => {
     setCode(starterCode);
     clearOutput();
     setDiscordMessages([]);
     setDiscordError(null);
+    setTestResults(null);
+    setToast(null);
+    setFeedback(null);
     const key = cacheKey(exerciseId);
     if (key) {
       try {
@@ -194,6 +204,30 @@ export default function DiscordPlayground({
     return () => clearTimeout(timer);
   }, [toast]);
 
+  const fetchFeedback = useCallback(async (passCount, totalCount) => {
+    if (!exerciseDescription) return;
+    setFeedbackLoading(true);
+    try {
+      const res = await fetch("/api/submissions/feedback", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          code,
+          exerciseDescription,
+          testResults: { passed: passCount, total: totalCount },
+        }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data?.feedback) setFeedback(data.feedback);
+      }
+    } catch {
+      // Non-critical
+    } finally {
+      setFeedbackLoading(false);
+    }
+  }, [code, exerciseDescription]);
+
   const handleSubmit = useCallback(async () => {
     if (!exerciseId || submitting) return;
     setSubmitting(true);
@@ -201,37 +235,52 @@ export default function DiscordPlayground({
     setFeedback(null);
 
     try {
-      await fetch("/api/submissions", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ exerciseSlug: exerciseId, code }),
-      });
-      setSubmitted(true);
-      invalidateCompletedCache();
-      markExerciseComplete(exerciseId);
-      setToast({ type: "success", message: "Code submitted!" });
+      if (testCases.length > 0) {
+        const { results, allPassed } = await runTests(code, testCases);
+        setTestResults({ results, allPassed });
+        const passCount = results.filter((r) => r.passed).length;
 
-      if (exerciseDescription) {
-        setFeedbackLoading(true);
-        fetch("/api/submissions/feedback", {
+        if (!allPassed) {
+          setToast({
+            type: "error",
+            message: `${passCount}/${results.length} test cases passed. Fix the failing tests and try again.`,
+          });
+          fetchFeedback(passCount, results.length);
+          setSubmitting(false);
+          return;
+        }
+
+        await fetch("/api/submissions", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            code,
-            exerciseDescription,
-          }),
-        })
-          .then((res) => res.ok ? res.json() : null)
-          .then((data) => { if (data?.feedback) setFeedback(data.feedback); })
-          .catch(() => {})
-          .finally(() => setFeedbackLoading(false));
+          body: JSON.stringify({ exerciseSlug: exerciseId, code }),
+        });
+        setSubmitted(true);
+        invalidateCompletedCache();
+        markExerciseComplete(exerciseId);
+        setToast({
+          type: "success",
+          message: `All ${results.length} test cases passed!`,
+        });
+        fetchFeedback(passCount, results.length);
+      } else {
+        await fetch("/api/submissions", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ exerciseSlug: exerciseId, code }),
+        });
+        setSubmitted(true);
+        invalidateCompletedCache();
+        markExerciseComplete(exerciseId);
+        setToast({ type: "success", message: "Code submitted!" });
+        fetchFeedback(0, 0);
       }
     } catch {
       setToast({ type: "error", message: "Couldn't submit right now. Try again later." });
     } finally {
       setSubmitting(false);
     }
-  }, [exerciseId, code, exerciseDescription, submitting]);
+  }, [exerciseId, code, testCases, submitting, runTests, fetchFeedback]);
 
   const handleKeyDown = useCallback(
     (e) => {
@@ -477,6 +526,14 @@ export default function DiscordPlayground({
             </div>
           </div>
         </div>
+      )}
+
+      {/* Test case results */}
+      {testResults && (
+        <TestResults
+          results={testResults.results}
+          allPassed={testResults.allPassed}
+        />
       )}
 
       {/* Console output */}

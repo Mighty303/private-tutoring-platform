@@ -69,12 +69,12 @@ def create_profile(username, level, current_xp, max_xp, badges):
     pass
 
 # Test individual functions:
-print(xp_bar(75, 100))
-print(xp_bar(30, 200))
-print(get_rank(5))
-print(get_rank(30))
-print(format_badges(["PvP Champ", "Explorer"]))
-print(format_badges([]))
+print(xp_bar(75, 100))  # Output: ███████░░░ 75/100
+print(xp_bar(30, 200))  # Output: █░░░░░░░░░ 30/200
+print(get_rank(5))  # Output: 🌱 Beginner
+print(get_rank(30))  # Output: 🔮 Mage
+print(format_badges(["PvP Champ", "Explorer"]))  # Output: PvP Champ • Explorer
+print(format_badges([]))  # Output: No badges yet
 print("---")
 
 # Test the full profile:

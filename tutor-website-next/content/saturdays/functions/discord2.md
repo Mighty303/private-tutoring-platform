@@ -51,8 +51,8 @@ print(f"Single roll: {single}")
 rolls = roll_multiple(6, 4)
 print(f"Multiple rolls: {rolls}")
 
-print(format_rolls([3, 5, 1, 6]))
-print(format_rolls([20]))
+print(format_rolls([3, 5, 1, 6]))  # Output: Rolls: 3, 5, 1, 6 | Total: 15
+print(format_rolls([20]))  # Output: Rolls: 20 | Total: 20
 
 # Final bot message:
 random.seed(99)

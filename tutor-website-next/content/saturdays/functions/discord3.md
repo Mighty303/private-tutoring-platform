@@ -48,8 +48,8 @@ def create_poll(question, options):
     pass
 
 # Test your functions:
-print(format_option(0, "Pizza"))
-print(format_option(2, "Sushi"))
+print(format_option(0, "Pizza"))  # Output: 1️⃣ Pizza
+print(format_option(2, "Sushi"))  # Output: 3️⃣ Sushi
 print("---")
 
 poll1 = create_poll("What should we play?", ["Minecraft", "Roblox", "Fortnite"])

@@ -33,10 +33,10 @@ def farewell(name, days_active):
     pass
 
 # Test your functions:
-print(greet("Alex"))
-print(greet("Jordan"))
-print(farewell("Sam", 45))
-print(farewell("Riley", 10))
+print(greet("Alex"))  # Output: Welcome to the server, Alex! Glad to have you here.
+print(greet("Jordan"))  # Output: Welcome to the server, Jordan! Glad to have you here.
+print(farewell("Sam", 45))  # Output: Goodbye Sam! You were a legendary member!
+print(farewell("Riley", 10))  # Output: Goodbye Riley! Hope to see you again soon!
 ```
 
 ---

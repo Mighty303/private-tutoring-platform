@@ -40,9 +40,56 @@ function extractStarterCode(markdown) {
   return "# Write your code here\n";
 }
 
+function extractTestCases(markdown) {
+  if (!markdown) return [];
+
+  const testCases = [];
+  const allBlocks = [];
+  const blockRegex = /```python\n([\s\S]*?)```/g;
+  let m;
+  while ((m = blockRegex.exec(markdown)) !== null) {
+    allBlocks.push(m[1]);
+  }
+
+  for (const block of allBlocks) {
+    const lines = block.split("\n");
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i].trim();
+
+      const inlineMatch = line.match(
+        /^(print\(.+\))\s*#\s*(?:Should print|Output|Expected|=>|→)\s*:\s*(.+)/i
+      );
+      if (inlineMatch) {
+        testCases.push({
+          input: inlineMatch[1].trim(),
+          expected: inlineMatch[2].trim(),
+        });
+        continue;
+      }
+
+      if (line.startsWith("print(") && !line.includes("#")) {
+        const nextLine = (lines[i + 1] || "").trim();
+        const commentMatch = nextLine.match(
+          /^#\s*(?:Should print|Output|Expected|=>|→)\s*:\s*(.+)/i
+        );
+        if (commentMatch) {
+          testCases.push({
+            input: line,
+            expected: commentMatch[1].trim(),
+          });
+          continue;
+        }
+      }
+    }
+  }
+
+  return testCases;
+}
+
 export default function DiscordExercisePlayground({ content, exerciseId, title }) {
   const starterCode = useMemo(() => extractStarterCode(content), [content]);
   const exerciseDescription = useMemo(() => extractExerciseDescription(content), [content]);
+  const testCases = useMemo(() => extractTestCases(content), [content]);
 
   return (
     <div className="mt-8 pt-6 border-t border-[#5865F2]/20">
@@ -63,6 +110,7 @@ export default function DiscordExercisePlayground({ content, exerciseId, title }
         title={title ? `Code: ${title}` : "Discord Bot Code"}
         exerciseId={exerciseId}
         exerciseDescription={exerciseDescription}
+        testCases={testCases}
       />
     </div>
   );
