@@ -271,6 +271,57 @@ export const discordBotExercises = [
   },
 ];
 
+export const loopExercises = [
+  {
+    id: "loop-intro",
+    title: "Loops — How They Work",
+    emoji: "📖",
+    description: "for loops, while loops, range(), break, continue, and the accumulator pattern.",
+    tags: ["Loops", "Reference"],
+    color: "emerald",
+  },
+  {
+    id: "loop-ex1",
+    title: "Countdown Timer",
+    emoji: "🚀",
+    description: "Build a rocket launch countdown with range() going backwards.",
+    tags: ["Loops", "Easy"],
+    color: "amber",
+  },
+  {
+    id: "loop-ex2",
+    title: "XP Grinder",
+    emoji: "⚔️",
+    description: "Use a while loop to grind XP until you level up.",
+    tags: ["Loops", "Medium"],
+    color: "violet",
+  },
+  {
+    id: "loop-ex3",
+    title: "Inventory Lister",
+    emoji: "🎒",
+    description: "Loop through a list and print each item with its number.",
+    tags: ["Loops", "Easy"],
+    color: "sky",
+  },
+  {
+    id: "loop-ex4",
+    title: "Health Regen",
+    emoji: "💚",
+    description: "Heal your character with a while loop until full HP.",
+    tags: ["Loops", "Medium"],
+    color: "rose",
+  },
+  {
+    id: "loop-tips",
+    title: "Tips & Common Mistakes",
+    emoji: "💡",
+    description: "Off-by-one errors, infinite loops, accumulator pattern, and debugging.",
+    tags: ["Loops", "Reference"],
+    color: "blue",
+  },
+];
+
 export const nestedLoopExercises = [
   {
     id: "nloop-intro",
@@ -457,6 +508,7 @@ export function getLessonById(id) {
     ...sundayAnswers,
     ...functionExercises,
     ...discordBotExercises,
+    ...loopExercises,
     ...nestedLoopExercises,
     ...nestedListExercises,
   ];
@@ -472,6 +524,7 @@ export function getAllLessons() {
     ...sundayAnswers,
     ...functionExercises,
     ...discordBotExercises,
+    ...loopExercises,
     ...nestedLoopExercises,
     ...nestedListExercises,
   ];

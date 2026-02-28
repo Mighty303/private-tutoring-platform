@@ -4,6 +4,7 @@ import {
   saturdayLessons,
   functionExercises,
   discordBotExercises,
+  loopExercises,
   nestedLoopExercises,
   nestedListExercises,
   dictionaryExercises,
@@ -43,6 +44,28 @@ export default function SaturdaysPage() {
               basePath="/saturdays"
             />
           ))}
+        </div>
+
+        {/* Link to loops */}
+        <div className="bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-700 rounded-xl p-6 mb-6">
+          <h3 className="font-bold text-lg text-emerald-800 dark:text-emerald-300 mb-2">
+            Loops Practice
+          </h3>
+          <p className="text-emerald-700 dark:text-emerald-400 mb-4">
+            for loops, while loops — countdowns, grinding XP, inventories, and
+            health regen.
+          </p>
+          <ExerciseProgressTracker
+            exercises={loopExercises}
+            color="emerald"
+            className="mt-4 mb-4"
+          />
+          <Link
+            href="/saturdays/loops"
+            className="inline-flex items-center gap-2 bg-emerald-600 text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-emerald-700 transition-colors text-sm"
+          >
+            View Loops →
+          </Link>
         </div>
 
         {/* Link to nested loops */}

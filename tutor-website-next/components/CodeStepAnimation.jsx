@@ -108,6 +108,14 @@ export default function CodeStepAnimation({ title, examples, accentColor = "viol
       arrow: "text-rose-400",
       noteBox: "bg-rose-50 dark:bg-rose-900/20 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-800",
     },
+    emerald: {
+      tabActive: "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-300",
+      btn: "bg-emerald-600 hover:bg-emerald-700",
+      line: "bg-emerald-500/20 border-l-2 border-emerald-400",
+      lineGlow: "bg-emerald-500/5",
+      arrow: "text-emerald-400",
+      noteBox: "bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800",
+    },
   };
   const colors = accent[accentColor] || accent.violet;
 
