@@ -13,6 +13,10 @@ function cacheKey(exerciseId) {
   return exerciseId ? `playground-code:${exerciseId}` : null;
 }
 
+function hintCacheKey(exerciseId) {
+  return exerciseId ? `playground-hint-used:${exerciseId}` : null;
+}
+
 export default function PythonPlayground({
   starterCode = "# Write your Python code here\nprint('Hello, world!')\n",
   title,
@@ -48,7 +52,16 @@ export default function PythonPlayground({
   }, [code, exerciseId]);
 
   const [hint, setHint] = useState(null);
-  const [hintUsed, setHintUsed] = useState(false);
+  const [hintUsed, setHintUsed] = useState(() => {
+    if (typeof window === "undefined") return false;
+    const key = hintCacheKey(exerciseId);
+    if (!key) return false;
+    try {
+      return localStorage.getItem(key) === "1";
+    } catch {
+      return false;
+    }
+  });
   const [hintLoading, setHintLoading] = useState(false);
   const [askOpen, setAskOpen] = useState(false);
   const [question, setQuestion] = useState("");
@@ -119,7 +132,6 @@ export default function PythonPlayground({
     setCode(starterCode);
     clearOutput();
     setHint(null);
-    setHintUsed(false);
     setAskAnswer(null);
     setQuestion("");
     setSubmitted(false);
@@ -239,13 +251,15 @@ export default function PythonPlayground({
       const data = await res.json();
       setHint(data.hint);
       setHintUsed(true);
+      const hKey = hintCacheKey(exerciseId);
+      if (hKey) try { localStorage.setItem(hKey, "1"); } catch {}
     } catch {
       setHint("Sorry, couldn't generate a hint right now. Try again later.");
       // Don't mark as used on failure so they can retry
     } finally {
       setHintLoading(false);
     }
-  }, [code, exerciseDescription, output, hintUsed, hintLoading]);
+  }, [code, exerciseDescription, output, hintUsed, hintLoading, exerciseId]);
 
   const handleAskQuestion = useCallback(async () => {
     if (!question.trim() || askLoading) return;
