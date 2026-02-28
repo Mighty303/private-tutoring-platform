@@ -232,6 +232,45 @@ export const functionExercises = [
   },
 ];
 
+export const discordBotExercises = [
+  {
+    id: "func-discord1",
+    title: "Greeting Bot",
+    emoji: "👋",
+    description: "Write greeting and farewell functions that your bot sends to Discord.",
+    tags: ["Discord", "Functions", "Easy"],
+    color: "indigo",
+    isDiscord: true,
+  },
+  {
+    id: "func-discord2",
+    title: "Dice Roller Bot",
+    emoji: "🎲",
+    description: "Build a dice roller with random, loops, and helper functions.",
+    tags: ["Discord", "Functions", "Medium"],
+    color: "violet",
+    isDiscord: true,
+  },
+  {
+    id: "func-discord3",
+    title: "Poll Bot",
+    emoji: "📊",
+    description: "Create formatted polls using lists, loops, and enumerate.",
+    tags: ["Discord", "Functions", "Medium"],
+    color: "fuchsia",
+    isDiscord: true,
+  },
+  {
+    id: "func-discord4",
+    title: "RPG Profile Card",
+    emoji: "🏰",
+    description: "Build a full profile card with 4 functions working together.",
+    tags: ["Discord", "Functions", "Hard"],
+    color: "rose",
+    isDiscord: true,
+  },
+];
+
 export const nestedLoopExercises = [
   {
     id: "nloop-intro",
@@ -417,6 +456,7 @@ export function getLessonById(id) {
     ...heapExercises,
     ...sundayAnswers,
     ...functionExercises,
+    ...discordBotExercises,
     ...nestedLoopExercises,
     ...nestedListExercises,
   ];
@@ -431,6 +471,7 @@ export function getAllLessons() {
     ...heapExercises,
     ...sundayAnswers,
     ...functionExercises,
+    ...discordBotExercises,
     ...nestedLoopExercises,
     ...nestedListExercises,
   ];

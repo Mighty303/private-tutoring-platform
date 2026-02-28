@@ -35,6 +35,12 @@ const fileMap = {
   "func-ex4": "saturdays/functions/exercise4.md",
   "func-tips": "saturdays/functions/tips.md",
 
+  // Discord bot exercises
+  "func-discord1": "saturdays/functions/discord1.md",
+  "func-discord2": "saturdays/functions/discord2.md",
+  "func-discord3": "saturdays/functions/discord3.md",
+  "func-discord4": "saturdays/functions/discord4.md",
+
   // Dictionary exercises
   "dict-ex0": "saturdays/dictionaries/exercise0.md",
   "dict-ex1": "saturdays/dictionaries/exercise1.md",
