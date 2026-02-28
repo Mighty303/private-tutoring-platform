@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback, useEffect, useMemo } from "react";
+import { useSession } from "next-auth/react";
 import usePyodide from "@/hooks/usePyodide";
 import CodeEditor from "./CodeEditor";
 import OutputConsole from "./OutputConsole";
@@ -42,6 +43,7 @@ export default function DiscordPlayground({
   starterCode = "# Write your Python code here\n",
   title,
   exerciseId,
+  classroomId,
 }) {
   const [code, setCode] = useState(() => {
     if (typeof window === "undefined") return starterCode;
@@ -65,6 +67,45 @@ export default function DiscordPlayground({
       localStorage.setItem(key, code);
     } catch {}
   }, [code, exerciseId]);
+
+  const { data: session, status: sessionStatus } = useSession();
+  const [isClassroomMember, setIsClassroomMember] = useState(false);
+  const [membershipChecked, setMembershipChecked] = useState(false);
+
+  useEffect(() => {
+    if (sessionStatus === "loading") return;
+
+    if (sessionStatus === "unauthenticated" || !session) {
+      setIsClassroomMember(false);
+      setMembershipChecked(true);
+      return;
+    }
+    const adminEmail = process.env.NEXT_PUBLIC_ADMIN_EMAIL;
+    if (session.user?.role === "admin" || (adminEmail && session.user?.email === adminEmail)) {
+      setIsClassroomMember(true);
+      setMembershipChecked(true);
+      return;
+    }
+    if (!classroomId) {
+      setIsClassroomMember(true);
+      setMembershipChecked(true);
+      return;
+    }
+    fetch("/api/classrooms")
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setIsClassroomMember(data.some((c) => String(c.id) === String(classroomId)));
+        } else {
+          setIsClassroomMember(false);
+        }
+        setMembershipChecked(true);
+      })
+      .catch(() => {
+        setIsClassroomMember(false);
+        setMembershipChecked(true);
+      });
+  }, [session, sessionStatus, classroomId]);
 
   const [discordMessages, setDiscordMessages] = useState([]);
   const [sending, setSending] = useState(false);
@@ -216,28 +257,47 @@ export default function DiscordPlayground({
           )}
         </button>
 
-        <button
-          onClick={handleSendToDiscord}
-          disabled={!lastOutput || sending || isRunning}
-          className="inline-flex items-center gap-2 px-4 py-2 bg-[#5865F2] hover:bg-[#4752C4] disabled:bg-slate-600 disabled:cursor-not-allowed text-white text-sm font-semibold rounded-lg transition-colors shadow-sm"
-        >
-          {sending ? (
-            <>
-              <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-              </svg>
-              Sending...
-            </>
+        {membershipChecked && (
+          isClassroomMember ? (
+            <button
+              onClick={handleSendToDiscord}
+              disabled={!lastOutput || sending || isRunning}
+              title={!lastOutput ? "Run your code first to generate output" : "Send output to Discord"}
+              className={`inline-flex items-center gap-2 px-4 py-2 text-white text-sm font-semibold rounded-lg transition-colors shadow-sm ${
+                !lastOutput || sending || isRunning
+                  ? "bg-slate-600 cursor-not-allowed opacity-60"
+                  : "bg-[#5865F2] hover:bg-[#4752C4]"
+              }`}
+            >
+              {sending ? (
+                <>
+                  <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                  </svg>
+                  Sending...
+                </>
+              ) : (
+                <>
+                  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19.27 5.33C17.94 4.71 16.5 4.26 15 4a.09.09 0 0 0-.07.03c-.18.33-.39.76-.53 1.09a16.09 16.09 0 0 0-4.8 0c-.14-.34-.35-.76-.54-1.09-.01-.02-.04-.03-.07-.03-1.5.26-2.93.71-4.27 1.33-.01 0-.02.01-.03.02-2.72 4.07-3.47 8.03-3.1 11.95 0 .02.01.04.03.05 1.8 1.32 3.53 2.12 5.24 2.65.02.01.05 0 .07-.02.4-.55.76-1.13 1.07-1.74.02-.04 0-.08-.04-.09-.57-.22-1.11-.48-1.64-.78-.04-.02-.04-.08-.01-.11.11-.08.22-.17.33-.25.02-.02.05-.02.07-.01 3.44 1.57 7.15 1.57 10.55 0 .02-.01.05-.01.07.01.11.09.22.17.33.26.04.03.04.09-.01.11-.52.31-1.07.56-1.64.78-.04.01-.05.06-.04.09.32.61.68 1.19 1.07 1.74.03.01.05.02.07.02 1.72-.53 3.45-1.33 5.24-2.65.02-.01.03-.03.03-.05.44-4.53-.73-8.46-3.1-11.95-.01-.01-.02-.02-.04-.02zM8.52 14.91c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12 0 1.17-.84 2.12-1.89 2.12zm6.97 0c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12 0 1.17-.83 2.12-1.89 2.12z" />
+                  </svg>
+                  Send to Discord
+                </>
+              )}
+            </button>
           ) : (
-            <>
+            <span
+              className="inline-flex items-center gap-2 px-4 py-2 bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-sm font-semibold rounded-lg shadow-sm cursor-not-allowed"
+              title="You must be logged in and in the classroom to send to Discord"
+            >
               <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M19.27 5.33C17.94 4.71 16.5 4.26 15 4a.09.09 0 0 0-.07.03c-.18.33-.39.76-.53 1.09a16.09 16.09 0 0 0-4.8 0c-.14-.34-.35-.76-.54-1.09-.01-.02-.04-.03-.07-.03-1.5.26-2.93.71-4.27 1.33-.01 0-.02.01-.03.02-2.72 4.07-3.47 8.03-3.1 11.95 0 .02.01.04.03.05 1.8 1.32 3.53 2.12 5.24 2.65.02.01.05 0 .07-.02.4-.55.76-1.13 1.07-1.74.02-.04 0-.08-.04-.09-.57-.22-1.11-.48-1.64-.78-.04-.02-.04-.08-.01-.11.11-.08.22-.17.33-.25.02-.02.05-.02.07-.01 3.44 1.57 7.15 1.57 10.55 0 .02-.01.05-.01.07.01.11.09.22.17.33.26.04.03.04.09-.01.11-.52.31-1.07.56-1.64.78-.04.01-.05.06-.04.09.32.61.68 1.19 1.07 1.74.03.01.05.02.07.02 1.72-.53 3.45-1.33 5.24-2.65.02-.01.03-.03.03-.05.44-4.53-.73-8.46-3.1-11.95-.01-.01-.02-.02-.04-.02zM8.52 14.91c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12 0 1.17-.84 2.12-1.89 2.12zm6.97 0c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12 0 1.17-.83 2.12-1.89 2.12z" />
               </svg>
-              Send to Discord
-            </>
-          )}
-        </button>
+              Discord requires classroom membership
+            </span>
+          )
+        )}
 
         <button
           onClick={handleReset}
@@ -250,8 +310,8 @@ export default function DiscordPlayground({
           Reset
         </button>
 
-        <span className="hidden sm:inline text-xs text-slate-400 ml-auto">
-          Run first, then send to Discord
+        <span className={`hidden sm:inline text-xs ml-auto ${lastOutput ? "text-slate-400" : "text-amber-500 font-medium"}`}>
+          {lastOutput ? "Ready to send!" : "Run your code first, then send to Discord"}
         </span>
       </div>
 
