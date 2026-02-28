@@ -9,17 +9,17 @@ export default function ProgressBar({
   color = "indigo",
   className = "",
 }) {
-  const [animatedWidth, setAnimatedWidth] = useState(0);
-  const [showCelebration, setShowCelebration] = useState(false);
-  const prevCompleted = useRef(0);
-
   const pct = total > 0 ? Math.round((completed / total) * 100) : 0;
   const allDone = completed === total && total > 0;
 
+  const [shouldAnimate, setShouldAnimate] = useState(false);
+  const [showCelebration, setShowCelebration] = useState(false);
+  const prevCompleted = useRef(completed);
+
   useEffect(() => {
-    const timer = setTimeout(() => setAnimatedWidth(pct), 80);
+    const timer = setTimeout(() => setShouldAnimate(true), 1000);
     return () => clearTimeout(timer);
-  }, [pct]);
+  }, []);
 
   useEffect(() => {
     if (allDone && prevCompleted.current < total) {
@@ -94,13 +94,11 @@ export default function ProgressBar({
         className={`relative h-2.5 rounded-full overflow-hidden ${trackColor}`}
       >
         <div
-          className={`absolute inset-y-0 left-0 rounded-full bg-linear-to-r ${barColor} transition-all duration-700 ease-out`}
-          style={{ width: `${animatedWidth}%` }}
-        >
-          {animatedWidth > 0 && (
-            <div className="absolute inset-0 animate-progress-shimmer bg-linear-to-r from-transparent via-white/25 to-transparent" />
-          )}
-        </div>
+          className={`absolute inset-y-0 left-0 rounded-full bg-linear-to-r ${barColor} ${
+            shouldAnimate ? "transition-all duration-700 ease-out" : ""
+          }`}
+          style={{ width: `${pct}%` }}
+        />
 
         {showCelebration && (
           <div className="absolute inset-0 animate-progress-flash rounded-full bg-emerald-300/40 dark:bg-emerald-400/20" />

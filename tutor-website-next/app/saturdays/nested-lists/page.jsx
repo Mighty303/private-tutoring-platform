@@ -56,7 +56,7 @@ export default function NestedListsPage() {
         <ExerciseProgressTracker
           exercises={nestedListExercises}
           label="Nested Lists Exercises"
-          color="emerald"
+          color="rose"
           className="mb-6"
         />
 

@@ -58,7 +58,7 @@ export default function FunctionsPage() {
         <ExerciseProgressTracker
           exercises={functionExercises}
           label="Function Exercises"
-          color="emerald"
+          color="violet"
           className="mb-6"
         />
 
@@ -154,7 +154,7 @@ export default function FunctionsPage() {
         <ExerciseProgressTracker
           exercises={discordBotExercises}
           label="Discord Bot Exercises"
-          color="emerald"
+          color="discord"
           className="mb-6"
         />
 

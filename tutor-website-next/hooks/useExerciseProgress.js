@@ -56,9 +56,7 @@ export function invalidateCompletedCache() {
 }
 
 export default function useExerciseProgress(exerciseIds) {
-  const [completedSet, setCompletedSet] = useState(() =>
-    readLocalOptimistic(exerciseIds)
-  );
+  const [completedSet, setCompletedSet] = useState(() => new Set());
 
   const refresh = useCallback(async () => {
     const local = readLocalOptimistic(exerciseIds);

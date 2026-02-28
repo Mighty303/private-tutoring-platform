@@ -56,7 +56,7 @@ export default function SaturdaysPage() {
           </p>
           <ExerciseProgressTracker
             exercises={nestedLoopExercises}
-            color="emerald"
+            color="sky"
             className="mt-4 mb-4"
           />
           <Link
@@ -78,7 +78,7 @@ export default function SaturdaysPage() {
           </p>
           <ExerciseProgressTracker
             exercises={nestedListExercises}
-            color="emerald"
+            color="rose"
             className="mt-4 mb-4"
           />
           <Link
@@ -100,7 +100,7 @@ export default function SaturdaysPage() {
           </p>
           <ExerciseProgressTracker
             exercises={[...functionExercises, ...discordBotExercises]}
-            color="emerald"
+            color="violet"
             className="mt-4 mb-4"
           />
           <Link
@@ -122,7 +122,7 @@ export default function SaturdaysPage() {
           </p>
           <ExerciseProgressTracker
             exercises={dictionaryExercises}
-            color="emerald"
+            color="amber"
             className="mt-4 mb-4"
           />
           <Link

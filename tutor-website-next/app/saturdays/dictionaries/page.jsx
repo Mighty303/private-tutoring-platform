@@ -38,7 +38,7 @@ export default function DictionariesPage() {
         <ExerciseProgressTracker
           exercises={dictionaryExercises}
           label="Dictionary Exercises"
-          color="emerald"
+          color="amber"
           className="mb-8"
         />
 
