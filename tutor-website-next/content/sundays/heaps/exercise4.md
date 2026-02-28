@@ -70,7 +70,7 @@ def process_tasks(tasks):
     return result
 ```
 
-**Why this works:** Tuples are compared element-by-element. Since priority is first, the heap sorts by priority automatically. Lower numbers = higher urgency = popped first!
+**Why this works:** Tuples are compared element-by-element. Since priority is first, the heap sorts by priority automatically. Lower numbers = higher urgency = popped first! 
 
 </details>
 
