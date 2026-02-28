@@ -108,7 +108,7 @@ export default function PythonPlayground({
   }, [toast]);
 
   const handleRun = useCallback(async () => {
-    runCode(code);
+    await runCode(code);
     if (testCases.length > 0) {
       const { results, allPassed } = await runTests(code, testCases);
       setTestResults({ results, allPassed });
