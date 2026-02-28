@@ -156,31 +156,7 @@ print(update_health(10, -50, 100))  # Output: 0 (can't go negative)
 
 ---
 
-## Exercise 2: Username Validator 👤
-
-**Difficulty:** Easy
-
-Discord and Roblox have rules for usernames. Let's create a username validator!
-
-**Your Task:**
-Write a function `is_valid_username(username)` that checks if a username is valid:
-- Must be between 3 and 20 characters long
-- Cannot contain spaces
-- Cannot be empty
-- Return `True` if valid, `False` if not
-
-**Examples:**
-```python
-print(is_valid_username("CoolGamer123"))  # Output: True
-print(is_valid_username("ab"))  # Output: False (too short)
-print(is_valid_username("Cool Gamer"))  # Output: False (has space)
-print(is_valid_username("ThisUsernameIsWayTooLongForAnyone"))  # Output: False (too long)
-print(is_valid_username(""))  # Output: False (empty)
-```
-
----
-
-## Exercise 3: Inventory Counter 🎒
+## Exercise 2: Inventory Counter 🎒
 
 **Difficulty:** Easy-Medium
 
@@ -203,137 +179,27 @@ print(count_items(backpack, "bow"))  # Output: 0
 
 ---
 
-## Exercise 4: Discord Member Name Filter 💬
+## Exercise 3: Shop Calculator 🛒
 
 **Difficulty:** Medium
 
-You have a list of Discord server members and want to find all members whose names start with a certain letter.
+Build a function for a Roblox shop that calculates the total cost of buying multiple items, with a bulk discount.
 
 **Your Task:**
-Write a function `find_members_by_letter(members, letter)` that:
-- Takes a list of member names and a letter
-- Returns a new list with only members whose names start with that letter (case-insensitive)
-- Keep the original order
+Write a function `shop_total(price, quantity)` that:
+- Takes the price of one item and how many the player wants to buy
+- Returns the total cost
+- If buying **5 or more**, apply a **10% discount** to the total
 
 **Examples:**
 ```python
-server_members = ["Alex", "Jordan", "Sam", "Riley", "Casey", "Andy"]
-
-a_names = find_members_by_letter(server_members, "A")
-print(a_names)  
-# Output: ["Alex", "Andy"]
-
-s_names = find_members_by_letter(server_members, "s")
-print(s_names)  
-# Output: ["Sam"]
-
-z_names = find_members_by_letter(server_members, "Z")
-print(z_names)
-# Output: []
+print(shop_total(100, 3))   # Output: 300
+print(shop_total(100, 5))   # Output: 450.0  (10% off 500)
+print(shop_total(200, 10))  # Output: 1800.0 (10% off 2000)
+print(shop_total(50, 1))    # Output: 50
 ```
 
----
-
-## Exercise 5: Message Spam Detector 🚫
-
-**Difficulty:** Medium
-
-Discord bots often need to detect spam. Let's build a simple spam checker!
-
-**Your Task:**
-Write a function `is_spam(message)` that returns `True` if a message is spam:
-- Message is longer than 100 characters
-- Message has 5 or more repeated characters in a row (like "heyyyyy")
-- Message is all uppercase and longer than 10 characters
-- Otherwise return `False`
-
-**Examples:**
-```python
-print(is_spam("Hey everyone!"))  # Output: False
-print(is_spam("LOOK AT THIS NOW!!!"))  # Output: True (all caps, > 10 chars)
-print(is_spam("heyyyyyy there"))  # Output: True (5+ repeated chars)
-print(is_spam("a" * 101))  # Output: True (too long)
-print(is_spam("HELLO"))  # Output: False (caps but only 5 chars)
-```
-
-**Hint:** To check for repeated characters, loop through the string and count consecutive identical characters.
-
----
-
-## Exercise 6: Simple Command Parser 🤖
-
-**Difficulty:** Medium
-
-Discord bots respond to commands like `!help` or `!ping`. Let's parse simple commands!
-
-**Your Task:**
-Write a function `parse_simple_command(message)` that:
-- Takes a message string
-- If the message starts with `!`, return the command (the word after the `!`)
-- If the message doesn't start with `!`, return `None`
-- The command is just the first word (ignore everything after the first space)
-
-**Examples:**
-```python
-print(parse_simple_command("!help"))  
-# Output: "help"
-
-print(parse_simple_command("!ping"))  
-# Output: "ping"
-
-print(parse_simple_command("!ban @user"))  
-# Output: "ban"
-
-print(parse_simple_command("hello everyone"))  
-# Output: None
-
-print(parse_simple_command("!"))  
-# Output: "" (empty string, but still a command)
-```
-
-**Hint:** Use string slicing to check the first character, and use `split()` to separate words!
-**Hint 2:** 
-```python
-Example: 
-command = "!run ban all users"
-command = command.split() # Output = ["!run", "ban", "all", "users"]
-```
-
----
-
-## 🎓 Challenge: Bot Greeter
-
-**Difficulty:** Hard
-
-Create a bot that greets Discord members differently based on how many messages they've sent!
-
-**Your Task:**
-Write a function `greet_member(username, message_count)` that:
-- Takes a username and their message count
-- Returns a greeting based on their activity:
-  - 0 messages: "Welcome, [username]! Send your first message!"
-  - 1-10 messages: "Hi [username]! You're new here!"
-  - 11-50 messages: "Hey [username]! Good to see you!"
-  - 51-100 messages: "Welcome back, [username]! You're a regular!"
-  - 101+ messages: "Greetings, [username] the Veteran!"
-
-**Examples:**
-```python
-print(greet_member("NewUser", 0))
-# Output: "Welcome, NewUser! Send your first message!"
-
-print(greet_member("Bob", 5))
-# Output: "Hi Bob! You're new here!"
-
-print(greet_member("Alice", 25))
-# Output: "Hey Alice! Good to see you!"
-
-print(greet_member("ProUser", 75))
-# Output: "Welcome back, ProUser! You're a regular!"
-
-print(greet_member("Veteran99", 250))
-# Output: "Greetings, Veteran99 the Veteran!"
-```
+**Bonus:** Write another function `receipt(item_name, price, quantity)` that **prints** a receipt and uses your `shop_total` function inside it!
 
 ---
 

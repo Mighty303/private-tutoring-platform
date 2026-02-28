@@ -208,14 +208,6 @@ export const functionExercises = [
   },
   {
     id: "func-ex3",
-    title: "Username Checker",
-    emoji: "👤",
-    description: "Validate usernames with length and space rules.",
-    tags: ["Functions", "Easy"],
-    color: "sky",
-  },
-  {
-    id: "func-ex4",
     title: "Item Counter",
     emoji: "🎒",
     description: "Count items in an inventory list, case-insensitive.",
@@ -223,15 +215,7 @@ export const functionExercises = [
     color: "emerald",
   },
   {
-    id: "func-ex5",
-    title: "Greeting Bot",
-    emoji: "🤖",
-    description: "Return different greetings based on message count.",
-    tags: ["Functions", "Medium"],
-    color: "indigo",
-  },
-  {
-    id: "func-ex6",
+    id: "func-ex4",
     title: "Shop Calculator",
     emoji: "🛒",
     description: "Calculate shop totals with a bulk discount.",

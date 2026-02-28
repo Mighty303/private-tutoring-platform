@@ -1,29 +1,29 @@
-# Exercise 3: Username Checker
+# Exercise 3: Item Counter
 
 ## Your Task
 
-Games and apps have rules about what usernames are allowed. Write a function that checks if a username is valid.
+In a game inventory, you might have a list like `["sword", "potion", "shield", "potion"]`. Write a function that counts how many times a specific item appears.
 
-Write a function `is_valid(username)` that returns `True` or `False`:
-- Must be **at least 3 characters** long
-- Must be **20 characters or less**
-- Must **not contain any spaces**
+Write a function `count_item(inventory, item)` that:
+- Takes a list of items and the name of an item to search for
+- Returns how many times that item appears
+- Should be **case-insensitive** — "Sword" and "sword" count as the same thing
 
 ---
 
 ## Starter Code
 
 ```python
-def is_valid(username):
+def count_item(inventory, item):
     # Your code here
     pass
 
 # Test your function:
-print(is_valid("CoolGamer"))       # Should print: True
-print(is_valid("ab"))              # Should print: False  (too short)
-print(is_valid("Cool Gamer"))      # Should print: False  (has a space)
-print(is_valid("a" * 25))          # Should print: False  (too long)
-print(is_valid("OK!"))             # Should print: True
+backpack = ["sword", "potion", "shield", "potion", "Sword"]
+
+print(count_item(backpack, "potion"))  # Should print: 2
+print(count_item(backpack, "sword"))   # Should print: 2
+print(count_item(backpack, "bow"))     # Should print: 0
 ```
 
 ---
@@ -33,20 +33,17 @@ print(is_valid("OK!"))             # Should print: True
 <details>
 <summary>Hint 1</summary>
 
-Use `len()` to check the length. Use `" " in username` to check for spaces.
+Use a counter variable. Loop through the list and add 1 each time you find a match.
 
 </details>
 
 <details>
 <summary>Hint 2</summary>
 
-You can check all conditions at once with `and`:
+To compare case-insensitively, convert both strings to lowercase with `.lower()`:
 
 ```python
-if len(username) >= 3 and len(username) <= 20 and " " not in username:
-    return True
-else:
-    return False
+if thing.lower() == item.lower():
 ```
 
 </details>
@@ -55,18 +52,12 @@ else:
 <summary>Solution</summary>
 
 ```python
-def is_valid(username):
-    if len(username) >= 3 and len(username) <= 20 and " " not in username:
-        return True
-    else:
-        return False
-```
-
-Or even shorter:
-
-```python
-def is_valid(username):
-    return len(username) >= 3 and len(username) <= 20 and " " not in username
+def count_item(inventory, item):
+    count = 0
+    for thing in inventory:
+        if thing.lower() == item.lower():
+            count += 1
+    return count
 ```
 
 </details>

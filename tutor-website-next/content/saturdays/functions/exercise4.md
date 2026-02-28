@@ -1,29 +1,28 @@
-# Exercise 4: Item Counter
+# Exercise 4: Shop Calculator
 
 ## Your Task
 
-In a game inventory, you might have a list like `["sword", "potion", "shield", "potion"]`. Write a function that counts how many times a specific item appears.
+Build a function for a Roblox shop that calculates the total cost of buying multiple items, with a bulk discount.
 
-Write a function `count_item(inventory, item)` that:
-- Takes a list of items and the name of an item to search for
-- Returns how many times that item appears
-- Should be **case-insensitive** — "Sword" and "sword" count as the same thing
+Write a function `shop_total(price, quantity)` that:
+- Takes the price of one item and how many the player wants to buy
+- Returns the total cost
+- If buying **5 or more**, apply a **10% discount** to the total
 
 ---
 
 ## Starter Code
 
 ```python
-def count_item(inventory, item):
+def shop_total(price, quantity):
     # Your code here
     pass
 
 # Test your function:
-backpack = ["sword", "potion", "shield", "potion", "Sword"]
-
-print(count_item(backpack, "potion"))  # Should print: 2
-print(count_item(backpack, "sword"))   # Should print: 2
-print(count_item(backpack, "bow"))     # Should print: 0
+print(shop_total(100, 3))   # Should print: 300
+print(shop_total(100, 5))   # Should print: 450.0  (10% off 500)
+print(shop_total(200, 10))  # Should print: 1800.0 (10% off 2000)
+print(shop_total(50, 1))    # Should print: 50
 ```
 
 ---
@@ -33,18 +32,14 @@ print(count_item(backpack, "bow"))     # Should print: 0
 <details>
 <summary>Hint 1</summary>
 
-Use a counter variable. Loop through the list and add 1 each time you find a match.
+First calculate `total = price * quantity`. Then check if `quantity >= 5` to apply the discount.
 
 </details>
 
 <details>
 <summary>Hint 2</summary>
 
-To compare case-insensitively, convert both strings to lowercase with `.lower()`:
-
-```python
-if thing.lower() == item.lower():
-```
+10% discount means the player pays 90% of the total: `total * 0.9`
 
 </details>
 
@@ -52,12 +47,45 @@ if thing.lower() == item.lower():
 <summary>Solution</summary>
 
 ```python
-def count_item(inventory, item):
-    count = 0
-    for thing in inventory:
-        if thing.lower() == item.lower():
-            count += 1
-    return count
+def shop_total(price, quantity):
+    total = price * quantity
+    if quantity >= 5:
+        total = total * 0.9
+    return total
+```
+
+</details>
+
+---
+
+## Bonus
+
+Write a function `receipt(item_name, price, quantity)` that **prints** a receipt like:
+
+```
+--- Receipt ---
+Item: Diamond Sword
+Price: 100 each
+Quantity: 5
+Total: 450.0 (10% discount applied!)
+```
+
+Use your `shop_total` function inside it!
+
+<details>
+<summary>Bonus Solution</summary>
+
+```python
+def receipt(item_name, price, quantity):
+    total = shop_total(price, quantity)
+    print("--- Receipt ---")
+    print(f"Item: {item_name}")
+    print(f"Price: {price} each")
+    print(f"Quantity: {quantity}")
+    if quantity >= 5:
+        print(f"Total: {total} (10% discount applied!)")
+    else:
+        print(f"Total: {total}")
 ```
 
 </details>

@@ -33,8 +33,6 @@ const fileMap = {
   "func-ex2": "saturdays/functions/exercise2.md",
   "func-ex3": "saturdays/functions/exercise3.md",
   "func-ex4": "saturdays/functions/exercise4.md",
-  "func-ex5": "saturdays/functions/exercise5.md",
-  "func-ex6": "saturdays/functions/exercise6.md",
   "func-tips": "saturdays/functions/tips.md",
 
   // Dictionary exercises
