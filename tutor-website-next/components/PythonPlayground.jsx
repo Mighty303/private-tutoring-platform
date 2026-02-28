@@ -528,6 +528,9 @@ export default function PythonPlayground({
         </span>
       </div>
 
+      {/* Console output */}
+      <OutputConsole output={output} isRunning={isRunning} />
+
       {/* Hint display */}
       {hint && (
         <div className="mb-3 px-4 py-3 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700 rounded-lg">
@@ -655,9 +658,6 @@ export default function PythonPlayground({
           </div>
         </div>
       )}
-
-      {/* Console output */}
-      <OutputConsole output={output} isRunning={isRunning} />
 
       {/* Supported features note */}
       <div className="mt-3 text-xs text-slate-400 dark:text-slate-500">
