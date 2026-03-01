@@ -86,11 +86,16 @@ function extractTestCases(markdown) {
 
   const testCases = [];
 
-  // Collect all Python code blocks from the Examples or Starter Code sections
+  // Strip out Bonus Challenge section and <details> blocks (hints/solutions)
+  // so we only extract test cases from Examples and Starter Code
+  let cleaned = markdown
+    .replace(/##\s*Bonus\s*Challenge[\s\S]*/i, "")
+    .replace(/<details>[\s\S]*?<\/details>/g, "");
+
   const allBlocks = [];
   const blockRegex = /```python\n([\s\S]*?)```/g;
   let m;
-  while ((m = blockRegex.exec(markdown)) !== null) {
+  while ((m = blockRegex.exec(cleaned)) !== null) {
     allBlocks.push(m[1]);
   }
 

@@ -34,6 +34,27 @@ print(process_tasks(tasks2))
 
 ---
 
+## Starter Code
+
+```python
+import heapq
+
+def process_tasks(tasks):
+    # Your code here
+    pass
+
+# Test your function:
+tasks = [(3, "Email"), (1, "Fire"), (2, "Meeting"), (1, "Crash")]
+print(process_tasks(tasks))
+# Output: ["Crash", "Fire", "Meeting", "Email"]
+
+tasks2 = [(5, "Cleanup"), (1, "Critical Bug"), (3, "Feature")]
+print(process_tasks(tasks2))
+# Output: ["Critical Bug", "Feature", "Cleanup"]
+```
+
+---
+
 ## Hints
 
 <details>
