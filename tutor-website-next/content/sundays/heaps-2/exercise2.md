@@ -25,12 +25,10 @@ There will always be **at least three distinct scores**.
 ## Examples
 
 ```python
-scores1 = [70, 62, 58, 73]
-bronze_count(scores1)
+print(bronze_count([70, 62, 58, 73]))
 # Output: 62 1
 
-scores2 = [75, 70, 60, 70, 70, 60, 75, 70]
-bronze_count(scores2)
+print(bronze_count([75, 70, 60, 70, 70, 60, 75, 70]))
 # Output: 60 2
 ```
 
@@ -63,13 +61,13 @@ def bronze_count(scores):
     pass
 
 # Test your function:
-bronze_count([70, 62, 58, 73])
+print(bronze_count([70, 62, 58, 73]))
 # Output: 62 1
 
-bronze_count([75, 70, 60, 70, 70, 60, 75, 70])
+print(bronze_count([75, 70, 60, 70, 70, 60, 75, 70]))
 # Output: 60 2
 
-bronze_count([100, 90, 80, 80, 70, 70, 70])
+print(bronze_count([100, 90, 80, 80, 70, 70, 70]))
 # Output: 80 2
 ```
 
@@ -109,7 +107,7 @@ def bronze_count(scores):
     top3 = heapq.nlargest(3, unique)
     bronze_score = top3[2]
     count = scores.count(bronze_score)
-    print(f"{bronze_score} {count}")
+    return f"{bronze_score} {count}"
 ```
 
 **Why this works:**
@@ -129,7 +127,7 @@ def bronze_count(scores):
     unique_sorted = sorted(set(scores), reverse=True)
     bronze_score = unique_sorted[2]
     count = scores.count(bronze_score)
-    print(f"{bronze_score} {count}")
+    return f"{bronze_score} {count}"
 ```
 
 **Time:** O(n log n) due to sorting. Simpler but less efficient for large inputs.
