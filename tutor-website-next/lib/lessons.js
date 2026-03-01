@@ -162,6 +162,33 @@ export const heapExercises = [
   },
 ];
 
+export const heap2Exercises = [
+  {
+    id: "heap2-ex1",
+    title: "Top K Frequent Elements",
+    emoji: "📊",
+    description: "Find the k most frequent elements using a min-heap of size k.",
+    tags: ["Heaps", "Exercises"],
+    color: "amber",
+  },
+  {
+    id: "heap2-ex2",
+    title: "CCC — Bronze Count",
+    emoji: "🥉",
+    description: "CCC J3: Find the 3rd highest score and count how many participants achieved it.",
+    tags: ["Heaps", "CCC"],
+    color: "sky",
+  },
+  {
+    id: "heap2-ex3",
+    title: "Build a Heap from Scratch",
+    emoji: "🔨",
+    description: "Implement bubble up, bubble down, and heapify — no heapq allowed!",
+    tags: ["Heaps", "Exercises"],
+    color: "violet",
+  },
+];
+
 export const sundayAnswers = [
   {
     id: "algorithms-answers",
@@ -556,6 +583,7 @@ export function getLessonById(id) {
     ...dictionaryExercises,
     ...sundayLessons,
     ...heapExercises,
+    ...heap2Exercises,
     ...sundayAnswers,
     ...functionExercises,
     ...discordBotExercises,
@@ -573,6 +601,7 @@ export function getAllLessons() {
     ...dictionaryExercises,
     ...sundayLessons,
     ...heapExercises,
+    ...heap2Exercises,
     ...sundayAnswers,
     ...functionExercises,
     ...discordBotExercises,

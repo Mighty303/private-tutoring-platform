@@ -79,6 +79,11 @@ const fileMap = {
   "heap-ex4": "sundays/heaps/exercise4.md",
   "heap-tips": "sundays/heaps/tips.md",
 
+  // Heap Part 2 exercises
+  "heap2-ex1": "sundays/heaps-2/exercise1.md",
+  "heap2-ex2": "sundays/heaps-2/exercise2.md",
+  "heap2-ex3": "sundays/heaps-2/exercise3.md",
+
   // Sunday answers
   "algorithms-answers": "sundays/answers/1. Algorithms_answer.md",
   "dfs-bfs-answers": "sundays/answers/2. DFS_BFS_answers.md",
