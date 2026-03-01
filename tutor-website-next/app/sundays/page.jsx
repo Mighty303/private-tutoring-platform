@@ -1,6 +1,6 @@
 import Link from "next/link";
 import LessonCard from "@/components/LessonCard";
-import { sundayLessons, sundayAnswers, heapExercises, heap2Exercises } from "@/lib/lessons";
+import { sundayLessons, sundayAnswers, heapExercises, heap2Exercises, graph2Exercises } from "@/lib/lessons";
 import ExerciseProgressTracker from "@/components/ExerciseProgressTracker";
 
 export const metadata = {
@@ -82,6 +82,31 @@ export default function SundaysPage() {
               <Link
                 href="/sundays/heaps-2"
                 className="inline-flex items-center gap-1 text-sm font-semibold text-rose-600 hover:text-rose-700 dark:text-rose-400 dark:hover:text-rose-300 transition-colors"
+              >
+                View Exercises →
+              </Link>
+            </div>
+          </div>
+          {/* Graphs Part 2 hub card */}
+          <div className="block bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 border-l-4 border-l-teal-500 shadow-sm">
+            <div className="p-6">
+              <div className="flex items-start justify-between mb-3">
+                <span className="text-3xl">🔗</span>
+              </div>
+              <h3 className="text-lg font-bold text-slate-800 dark:text-white mb-2">
+                Graphs Part 2 — Adjacency Lists &amp; Cycles
+              </h3>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mb-3 line-clamp-2">
+                Build adjacency lists, detect cycles with DFS, and find valid course orderings.
+              </p>
+              <ExerciseProgressTracker
+                exercises={graph2Exercises}
+                color="emerald"
+                className="mb-3"
+              />
+              <Link
+                href="/sundays/graphs-2"
+                className="inline-flex items-center gap-1 text-sm font-semibold text-teal-600 hover:text-teal-700 dark:text-teal-400 dark:hover:text-teal-300 transition-colors"
               >
                 View Exercises →
               </Link>

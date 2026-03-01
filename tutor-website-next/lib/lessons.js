@@ -189,6 +189,33 @@ export const heap2Exercises = [
   },
 ];
 
+export const graph2Exercises = [
+  {
+    id: "graph2-ex1",
+    title: "Build an Adjacency List",
+    emoji: "🔗",
+    description: "Convert an edge list into an adjacency list for a directed graph.",
+    tags: ["Graphs", "Exercises"],
+    color: "teal",
+  },
+  {
+    id: "graph2-ex2",
+    title: "Course Schedule — Can You Finish?",
+    emoji: "🎓",
+    description: "Detect cycles in a prerequisite graph using DFS with three-color marking.",
+    tags: ["Graphs", "Cycle Detection"],
+    color: "red",
+  },
+  {
+    id: "graph2-ex3",
+    title: "Course Schedule II — Valid Order",
+    emoji: "📋",
+    description: "Find a valid course order using topological sort (DFS or Kahn's algorithm).",
+    tags: ["Graphs", "Topological Sort"],
+    color: "violet",
+  },
+];
+
 export const sundayAnswers = [
   {
     id: "algorithms-answers",
@@ -584,6 +611,7 @@ export function getLessonById(id) {
     ...sundayLessons,
     ...heapExercises,
     ...heap2Exercises,
+    ...graph2Exercises,
     ...sundayAnswers,
     ...functionExercises,
     ...discordBotExercises,
@@ -602,6 +630,7 @@ export function getAllLessons() {
     ...sundayLessons,
     ...heapExercises,
     ...heap2Exercises,
+    ...graph2Exercises,
     ...sundayAnswers,
     ...functionExercises,
     ...discordBotExercises,
