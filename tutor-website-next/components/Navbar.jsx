@@ -9,7 +9,7 @@ import UserMenu from "./UserMenu";
 const navItems = [
   { href: "/", label: "Home" },
   { href: "/saturdays", label: "Saturdays" },
-  { href: "/sundays", label: "Sundays" },
+  { href: "/intermediates", label: "Intermediates" },
   { href: "/playground", label: "Playground" },
   { href: "/tutors", label: "Tutor" },
 ];

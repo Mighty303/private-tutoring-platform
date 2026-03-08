@@ -84,7 +84,7 @@ export const dictionaryExercises = [
   },
 ];
 
-export const sundayLessons = [
+export const IntermediateLessons = [
   {
     id: "algorithms",
     title: "Algorithms — CCC Prep",
@@ -216,7 +216,7 @@ export const graph2Exercises = [
   },
 ];
 
-export const sundayAnswers = [
+export const IntermediateAnswers = [
   {
     id: "algorithms-answers",
     title: "Algorithms — Answer Key",
@@ -608,11 +608,11 @@ export function getLessonById(id) {
   const all = [
     ...saturdayLessons,
     ...dictionaryExercises,
-    ...sundayLessons,
+    ...IntermediateLessons,
     ...heapExercises,
     ...heap2Exercises,
     ...graph2Exercises,
-    ...sundayAnswers,
+    ...IntermediateAnswers,
     ...functionExercises,
     ...discordBotExercises,
     ...loopExercises,
@@ -627,11 +627,11 @@ export function getAllLessons() {
   return [
     ...saturdayLessons,
     ...dictionaryExercises,
-    ...sundayLessons,
+    ...IntermediateLessons,
     ...heapExercises,
     ...heap2Exercises,
     ...graph2Exercises,
-    ...sundayAnswers,
+    ...IntermediateAnswers,
     ...functionExercises,
     ...discordBotExercises,
     ...loopExercises,

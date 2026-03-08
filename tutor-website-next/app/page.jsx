@@ -66,10 +66,10 @@ export default function HomePage() {
                 Saturday Lessons
               </Link>
               <Link
-                href="/sundays"
+                href="/intermediates"
                 className="inline-flex items-center gap-2 bg-white text-indigo-600 dark:bg-slate-800 dark:text-indigo-400 px-6 py-3 rounded-xl font-semibold border-2 border-indigo-200 dark:border-indigo-700 hover:border-indigo-400 dark:hover:border-indigo-500 transition-all hover:-translate-y-0.5"
               >
-                Sunday Lessons
+                Intermediate Lessons
               </Link>
             </div>
           </div>
@@ -92,7 +92,7 @@ export default function HomePage() {
             color="from-amber-500 to-orange-500"
           />
           <QuickLink
-            href="/sundays"
+            href="/intermediates/algorithms"
             title="Algorithms"
             desc="CCC prep & competitive programming"
             color="from-purple-500 to-purple-600"

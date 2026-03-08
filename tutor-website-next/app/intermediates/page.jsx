@@ -1,13 +1,13 @@
 import Link from "next/link";
 import LessonCard from "@/components/LessonCard";
-import { sundayLessons, sundayAnswers, heapExercises, heap2Exercises, graph2Exercises } from "@/lib/lessons";
+import { IntermediateLessons, IntermediateAnswers, heapExercises, heap2Exercises, graph2Exercises } from "@/lib/lessons";
 import ExerciseProgressTracker from "@/components/ExerciseProgressTracker";
 
 export const metadata = {
-  title: "Sunday Lessons — CS Tutor",
+  title: "Intermediate Lessons — CS Tutor",
 };
 
-export default function SundaysPage() {
+export default function IntermediatesPage() {
   return (
     <div className="min-h-screen bg-linear-to-b from-slate-50 to-white dark:from-slate-950 dark:to-slate-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -20,7 +20,7 @@ export default function SundaysPage() {
             ← Back to Home
           </Link>
           <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-800 dark:text-white mb-2">
-            Sunday Lessons
+            Intermediate Lessons
           </h1>
           <p className="text-lg text-slate-500 dark:text-slate-400">
             Algorithms, DFS/BFS, and Waterloo CCC prep
@@ -30,11 +30,11 @@ export default function SundaysPage() {
         {/* Lesson cards */}
         <h2 className="text-2xl font-bold text-slate-700 dark:text-slate-200 mb-4">Lessons</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-          {sundayLessons.map((lesson) => (
+          {IntermediateLessons.map((lesson) => (
             <LessonCard
               key={lesson.id}
               lesson={lesson}
-              basePath="/sundays"
+              basePath="/intermediates"
             />
           ))}
           {/* Heaps hub card */}
@@ -55,7 +55,7 @@ export default function SundaysPage() {
                 className="mb-3"
               />
               <Link
-                href="/sundays/heaps"
+                href="/intermediates/heaps"
                 className="inline-flex items-center gap-1 text-sm font-semibold text-amber-600 hover:text-amber-700 dark:text-amber-400 dark:hover:text-amber-300 transition-colors"
               >
                 View Exercises →
@@ -80,7 +80,7 @@ export default function SundaysPage() {
                 className="mb-3"
               />
               <Link
-                href="/sundays/heaps-2"
+                href="/intermediates/heaps-2"
                 className="inline-flex items-center gap-1 text-sm font-semibold text-rose-600 hover:text-rose-700 dark:text-rose-400 dark:hover:text-rose-300 transition-colors"
               >
                 View Exercises →
@@ -105,7 +105,7 @@ export default function SundaysPage() {
                 className="mb-3"
               />
               <Link
-                href="/sundays/graphs-2"
+                href="/intermediates/graphs-2"
                 className="inline-flex items-center gap-1 text-sm font-semibold text-teal-600 hover:text-teal-700 dark:text-teal-400 dark:hover:text-teal-300 transition-colors"
               >
                 View Exercises →
@@ -119,11 +119,11 @@ export default function SundaysPage() {
           Answer Keys
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {sundayAnswers.map((lesson) => (
+          {IntermediateAnswers.map((lesson) => (
             <LessonCard
               key={lesson.id}
               lesson={lesson}
-              basePath="/sundays"
+              basePath="/intermediates"
             />
           ))}
         </div>

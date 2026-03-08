@@ -18,7 +18,7 @@ export async function generateMetadata({ params }) {
   return { title: lesson ? `${lesson.title} — CS Tutor` : "Lesson — CS Tutor" };
 }
 
-export default async function SundayLessonPage({ params }) {
+export default async function IntermediateLessonPage({ params }) {
   const { id } = await params;
   const lesson = getLessonById(id);
   const content = getContent(id);
@@ -31,10 +31,10 @@ export default async function SundayLessonPage({ params }) {
       <div className="bg-slate-50 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <Link
-            href="/sundays"
+            href="/intermediates"
             className="inline-flex items-center text-sm text-slate-500 hover:text-indigo-600 dark:text-slate-400 dark:hover:text-indigo-400 mb-3 transition-colors"
           >
-            ← Back to Sunday Lessons
+            ← Back to Intermediate Lessons
           </Link>
           <div className="flex items-center gap-3">
             <span className="text-3xl">{lesson.emoji}</span>

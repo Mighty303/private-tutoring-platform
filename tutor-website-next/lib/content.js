@@ -66,7 +66,7 @@ const fileMap = {
   "dict-project-a": "saturdays/dictionaries/project-a.md",
   "dict-project-b": "saturdays/dictionaries/project-b.md",
 
-  // Sunday lessons
+  // Intermediate lessons
   algorithms: "sundays/1. Algorithms.md",
   "dfs-bfs": "sundays/2. DFS_BFS.md",
   graphs: "sundays/3. Graphs.md",
@@ -89,7 +89,7 @@ const fileMap = {
   "graph2-ex2": "sundays/graphs-2/exercise2.md",
   "graph2-ex3": "sundays/graphs-2/exercise3.md",
 
-  // Sunday answers
+  // Intermediate answers
   "algorithms-answers": "sundays/answers/1. Algorithms_answer.md",
   "dfs-bfs-answers": "sundays/answers/2. DFS_BFS_answers.md",
 };

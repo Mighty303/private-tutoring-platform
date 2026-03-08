@@ -1,12 +1,12 @@
 import Link from "next/link";
 import { getContent, getAllContentIds } from "@/lib/content";
-import { getLessonById, graph2Exercises } from "@/lib/lessons";
+import { getLessonById, heap2Exercises } from "@/lib/lessons";
 import MarkdownRenderer from "@/components/MarkdownRenderer";
 import ExercisePlayground from "@/components/ExercisePlayground";
 import { notFound } from "next/navigation";
 
 export async function generateStaticParams() {
-  const ids = getAllContentIds().filter((id) => id.startsWith("graph2-"));
+  const ids = getAllContentIds().filter((id) => id.startsWith("heap2-"));
   return ids.map((id) => ({ id }));
 }
 
@@ -18,18 +18,18 @@ export async function generateMetadata({ params }) {
   };
 }
 
-export default async function Graph2LessonPage({ params }) {
+export default async function Heap2LessonPage({ params }) {
   const { id } = await params;
   const lesson = getLessonById(id);
   const content = getContent(id);
 
   if (!lesson || !content) notFound();
 
-  const currentIndex = graph2Exercises.findIndex((l) => l.id === id);
-  const prev = currentIndex > 0 ? graph2Exercises[currentIndex - 1] : null;
+  const currentIndex = heap2Exercises.findIndex((l) => l.id === id);
+  const prev = currentIndex > 0 ? heap2Exercises[currentIndex - 1] : null;
   const next =
-    currentIndex < graph2Exercises.length - 1
-      ? graph2Exercises[currentIndex + 1]
+    currentIndex < heap2Exercises.length - 1
+      ? heap2Exercises[currentIndex + 1]
       : null;
 
   return (
@@ -38,10 +38,10 @@ export default async function Graph2LessonPage({ params }) {
       <div className="bg-slate-50 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <Link
-            href="/sundays/graphs-2"
+            href="/intermediates/heaps-2"
             className="inline-flex items-center text-sm text-slate-500 hover:text-indigo-600 dark:text-slate-400 dark:hover:text-indigo-400 mb-3 transition-colors"
           >
-            ← Back to Graphs Part 2
+            ← Back to Heaps Part 2
           </Link>
           <div className="flex items-center gap-3">
             <span className="text-3xl">{lesson.emoji}</span>
@@ -50,7 +50,7 @@ export default async function Graph2LessonPage({ params }) {
                 {lesson.title}
               </h1>
               <p className="text-sm text-slate-400 dark:text-slate-500 mt-1">
-                {currentIndex + 1} of {graph2Exercises.length}
+                {currentIndex + 1} of {heap2Exercises.length}
               </p>
             </div>
           </div>
@@ -75,7 +75,7 @@ export default async function Graph2LessonPage({ params }) {
           <div className="flex items-stretch gap-4">
             {prev ? (
               <Link
-                href={`/sundays/graphs-2/${prev.id}`}
+                href={`/intermediates/heaps-2/${prev.id}`}
                 className="group flex-1 flex items-center gap-3 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 px-5 py-4 hover:border-indigo-300 dark:hover:border-indigo-600 hover:shadow-md transition-all duration-200"
               >
                 <svg
@@ -106,7 +106,7 @@ export default async function Graph2LessonPage({ params }) {
 
             {next ? (
               <Link
-                href={`/sundays/graphs-2/${next.id}`}
+                href={`/intermediates/heaps-2/${next.id}`}
                 className="group flex-1 flex items-center justify-end gap-3 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 px-5 py-4 hover:border-indigo-300 dark:hover:border-indigo-600 hover:shadow-md transition-all duration-200"
               >
                 <div className="min-w-0 text-right">

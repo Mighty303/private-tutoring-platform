@@ -1,12 +1,13 @@
 import Link from "next/link";
 import { getContent, getAllContentIds } from "@/lib/content";
-import { getLessonById, heap2Exercises } from "@/lib/lessons";
+import { getLessonById, heapExercises } from "@/lib/lessons";
 import MarkdownRenderer from "@/components/MarkdownRenderer";
 import ExercisePlayground from "@/components/ExercisePlayground";
+import HeapAnimation from "@/components/HeapAnimation";
 import { notFound } from "next/navigation";
 
 export async function generateStaticParams() {
-  const ids = getAllContentIds().filter((id) => id.startsWith("heap2-"));
+  const ids = getAllContentIds().filter((id) => id.startsWith("heap-"));
   return ids.map((id) => ({ id }));
 }
 
@@ -18,18 +19,18 @@ export async function generateMetadata({ params }) {
   };
 }
 
-export default async function Heap2LessonPage({ params }) {
+export default async function HeapLessonPage({ params }) {
   const { id } = await params;
   const lesson = getLessonById(id);
   const content = getContent(id);
 
   if (!lesson || !content) notFound();
 
-  const currentIndex = heap2Exercises.findIndex((l) => l.id === id);
-  const prev = currentIndex > 0 ? heap2Exercises[currentIndex - 1] : null;
+  const currentIndex = heapExercises.findIndex((l) => l.id === id);
+  const prev = currentIndex > 0 ? heapExercises[currentIndex - 1] : null;
   const next =
-    currentIndex < heap2Exercises.length - 1
-      ? heap2Exercises[currentIndex + 1]
+    currentIndex < heapExercises.length - 1
+      ? heapExercises[currentIndex + 1]
       : null;
 
   return (
@@ -38,10 +39,10 @@ export default async function Heap2LessonPage({ params }) {
       <div className="bg-slate-50 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-700">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <Link
-            href="/sundays/heaps-2"
+            href="/intermediates/heaps"
             className="inline-flex items-center text-sm text-slate-500 hover:text-indigo-600 dark:text-slate-400 dark:hover:text-indigo-400 mb-3 transition-colors"
           >
-            ← Back to Heaps Part 2
+            ← Back to Heaps
           </Link>
           <div className="flex items-center gap-3">
             <span className="text-3xl">{lesson.emoji}</span>
@@ -50,7 +51,7 @@ export default async function Heap2LessonPage({ params }) {
                 {lesson.title}
               </h1>
               <p className="text-sm text-slate-400 dark:text-slate-500 mt-1">
-                {currentIndex + 1} of {heap2Exercises.length}
+                {currentIndex + 1} of {heapExercises.length}
               </p>
             </div>
           </div>
@@ -62,6 +63,7 @@ export default async function Heap2LessonPage({ params }) {
         <div className="prose">
           <MarkdownRenderer content={content} />
         </div>
+        {id === "heap-intro" && <HeapAnimation />}
         <ExercisePlayground
           content={content}
           exerciseId={id}
@@ -73,9 +75,10 @@ export default async function Heap2LessonPage({ params }) {
       <div className="border-t border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-stretch gap-4">
+            {/* Previous */}
             {prev ? (
               <Link
-                href={`/sundays/heaps-2/${prev.id}`}
+                href={`/intermediates/heaps/${prev.id}`}
                 className="group flex-1 flex items-center gap-3 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 px-5 py-4 hover:border-indigo-300 dark:hover:border-indigo-600 hover:shadow-md transition-all duration-200"
               >
                 <svg
@@ -104,9 +107,10 @@ export default async function Heap2LessonPage({ params }) {
               <div className="flex-1" />
             )}
 
+            {/* Next */}
             {next ? (
               <Link
-                href={`/sundays/heaps-2/${next.id}`}
+                href={`/intermediates/heaps/${next.id}`}
                 className="group flex-1 flex items-center justify-end gap-3 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 px-5 py-4 hover:border-indigo-300 dark:hover:border-indigo-600 hover:shadow-md transition-all duration-200"
               >
                 <div className="min-w-0 text-right">
