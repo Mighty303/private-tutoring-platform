@@ -20,11 +20,18 @@ export async function POST(request) {
       );
     }
 
+    // Normalize: extract short slug if admin pasted a full URL (e.g. .../grade-10/basics/basics-ex3)
+    let slug = String(exerciseSlug).trim();
+    if (slug.startsWith("http")) {
+      const parts = slug.split("/").filter(Boolean);
+      slug = parts[parts.length - 1] || slug;
+    }
+
     const sql = getDb();
     const codeToSave = code?.trim() || "// Admin passed (grader bug)";
     const rows = await sql`
       INSERT INTO submissions (user_id, exercise_slug, code)
-      VALUES (${Number(userId)}, ${String(exerciseSlug).trim()}, ${codeToSave})
+      VALUES (${Number(userId)}, ${slug}, ${codeToSave})
       RETURNING id, created_at
     `;
 

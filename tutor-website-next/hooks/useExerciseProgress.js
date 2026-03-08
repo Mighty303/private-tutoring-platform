@@ -35,6 +35,16 @@ export function invalidateCompletedCache() {
   _fetchPromise = null;
 }
 
+/** Extract short slug from DB value — handles full URLs (e.g. from admin-pass) vs short slugs */
+function normalizeSlug(slug) {
+  if (!slug || typeof slug !== "string") return slug;
+  if (slug.startsWith("http")) {
+    const parts = slug.split("/").filter(Boolean);
+    return parts[parts.length - 1] || slug;
+  }
+  return slug;
+}
+
 export default function useExerciseProgress(exerciseIds) {
   const [completedSet, setCompletedSet] = useState(() => new Set());
 
@@ -42,7 +52,8 @@ export default function useExerciseProgress(exerciseIds) {
     const db = await fetchCompletedSlugs();
     const completed = new Set();
     for (const slug of db) {
-      if (exerciseIds.includes(slug)) completed.add(slug);
+      const normalized = normalizeSlug(slug);
+      if (exerciseIds.includes(normalized)) completed.add(normalized);
     }
     setCompletedSet(completed);
   }, [exerciseIds]);
