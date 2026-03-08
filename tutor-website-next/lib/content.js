@@ -66,6 +66,22 @@ const fileMap = {
   "dict-project-a": "saturdays/dictionaries/project-a.md",
   "dict-project-b": "saturdays/dictionaries/project-b.md",
 
+  // Basics review exercises (split from Review.md)
+  "basics-ex1": "saturdays/basics/exercise1.md",
+  "basics-ex3": "saturdays/basics/exercise3.md",
+  "basics-ex4": "saturdays/basics/exercise4.md",
+  "basics-ex5": "saturdays/basics/exercise5.md",
+  "basics-ex6": "saturdays/basics/exercise6.md",
+  "basics-ex7": "saturdays/basics/exercise7.md",
+  "basics-ex8": "saturdays/basics/exercise8.md",
+  "basics-bonus": "saturdays/basics/bonus.md",
+
+  // Basics 2 — Algorithm review
+  "basics2-ex1": "saturdays/basics-2/exercise1.md",
+  "basics2-ex2": "saturdays/basics-2/exercise2.md",
+  "basics2-ex3": "saturdays/basics-2/exercise3.md",
+  "basics2-ex4": "saturdays/basics-2/exercise4.md",
+
   // Intermediate lessons
   algorithms: "sundays/1. Algorithms.md",
   "dfs-bfs": "sundays/2. DFS_BFS.md",

@@ -189,6 +189,108 @@ export const heap2Exercises = [
   },
 ];
 
+export const basicsExercises = [
+  {
+    id: "basics-ex1",
+    title: "Character Stats",
+    emoji: "🎨",
+    description: "Variables, type casting, and strings — create a Roblox character with name, level, health, and coins.",
+    tags: ["Variables", "Strings"],
+    color: "amber",
+  },
+  {
+    id: "basics-ex3",
+    title: "Player Sign Up",
+    emoji: "📝",
+    description: "Input, strings, and type casting — ask for username and age, then display welcome info.",
+    tags: ["Input", "Strings"],
+    color: "emerald",
+  },
+  {
+    id: "basics-ex4",
+    title: "VIP Check",
+    emoji: "🎫",
+    description: "Conditionals and indentation — VIP access, score ranks, and shop logic.",
+    tags: ["Conditionals"],
+    color: "indigo",
+  },
+  {
+    id: "basics-ex5",
+    title: "Backpack Manager",
+    emoji: "🎒",
+    description: "Lists and for loops — add, remove, index, and loop through inventory.",
+    tags: ["Lists", "For Loops"],
+    color: "violet",
+  },
+  {
+    id: "basics-ex6",
+    title: "Coin Hunt",
+    emoji: "💰",
+    description: "While loops — collect coins until 100+, then an interactive collect/stop loop.",
+    tags: ["While Loops"],
+    color: "rose",
+  },
+  {
+    id: "basics-ex7",
+    title: "Top Players",
+    emoji: "🏆",
+    description: "For loops with medals, score totals, and a countdown.",
+    tags: ["For Loops"],
+    color: "sky",
+  },
+  {
+    id: "basics-ex8",
+    title: "Battle Time",
+    emoji: "⚔️",
+    description: "Functions — show_health, calc_damage, and combining them.",
+    tags: ["Functions"],
+    color: "teal",
+  },
+  {
+    id: "basics-bonus",
+    title: "Simple Battle",
+    emoji: "🎮",
+    description: "Full battle loop — Player vs Goblin with attack prompts until someone wins.",
+    tags: ["Bonus", "Loops", "Conditionals"],
+    color: "fuchsia",
+  },
+];
+
+export const basics2Exercises = [
+  {
+    id: "basics2-ex1",
+    title: "Reverse an Array",
+    emoji: "🔄",
+    description: "Implement reversing a list without using the built-in reverse() method.",
+    tags: ["Lists", "Algorithms"],
+    color: "amber",
+  },
+  {
+    id: "basics2-ex2",
+    title: "Remove Duplicates",
+    emoji: "📋",
+    description: "Remove duplicate values from a list while preserving order — no set() allowed.",
+    tags: ["Lists", "Algorithms"],
+    color: "emerald",
+  },
+  {
+    id: "basics2-ex3",
+    title: "Find the Minimum",
+    emoji: "📉",
+    description: "Find the smallest number in a list without using the built-in min() function.",
+    tags: ["Lists", "Algorithms"],
+    color: "indigo",
+  },
+  {
+    id: "basics2-ex4",
+    title: "Summation",
+    emoji: "∑",
+    description: "Compute the sum 1 + 2 + ... + (n-1) using sigma notation — e.g. n=10 returns 45.",
+    tags: ["Operators", "Loops"],
+    color: "orange",
+  },
+];
+
 export const graph2Exercises = [
   {
     id: "graph2-ex1",
@@ -216,24 +318,6 @@ export const graph2Exercises = [
   },
 ];
 
-export const IntermediateAnswers = [
-  {
-    id: "algorithms-answers",
-    title: "Algorithms — Answer Key",
-    emoji: "🔑",
-    description: "Complete solutions with explanations for all algorithm exercises.",
-    tags: ["Answers", "Algorithms"],
-    color: "green",
-  },
-  {
-    id: "dfs-bfs-answers",
-    title: "DFS & BFS — Answer Key",
-    emoji: "🔑",
-    description: "Complete solutions for grid traversal and DFS/BFS exercises.",
-    tags: ["Answers", "Grids"],
-    color: "green",
-  },
-];
 
 export const functionExercises = [
   {
@@ -609,10 +693,11 @@ export function getLessonById(id) {
     ...saturdayLessons,
     ...dictionaryExercises,
     ...IntermediateLessons,
+    ...basicsExercises,
+    ...basics2Exercises,
     ...heapExercises,
     ...heap2Exercises,
     ...graph2Exercises,
-    ...IntermediateAnswers,
     ...functionExercises,
     ...discordBotExercises,
     ...loopExercises,
@@ -628,10 +713,11 @@ export function getAllLessons() {
     ...saturdayLessons,
     ...dictionaryExercises,
     ...IntermediateLessons,
+    ...basicsExercises,
+    ...basics2Exercises,
     ...heapExercises,
     ...heap2Exercises,
     ...graph2Exercises,
-    ...IntermediateAnswers,
     ...functionExercises,
     ...discordBotExercises,
     ...loopExercises,
