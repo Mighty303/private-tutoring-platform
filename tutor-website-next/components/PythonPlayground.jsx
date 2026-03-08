@@ -23,6 +23,7 @@ export default function PythonPlayground({
   exerciseDescription,
   exerciseId,
   testCases = [],
+  inputLines = [],
   classroomId, // pass classroomId for membership check
 }) {
   // Initialise code from localStorage (if available) or starterCode
@@ -121,12 +122,12 @@ export default function PythonPlayground({
   }, [toast]);
 
   const handleRun = useCallback(async () => {
-    await runCode(code);
+    await runCode(code, { inputLines });
     if (testCases.length > 0) {
       const { results, allPassed } = await runTests(code, testCases);
       setTestResults({ results, allPassed });
     }
-  }, [code, runCode, testCases, runTests]);
+  }, [code, runCode, testCases, runTests, inputLines]);
 
   const handleReset = useCallback(() => {
     setCode(starterCode);
@@ -543,7 +544,7 @@ export default function PythonPlayground({
       </div>
 
       {/* Console output */}
-      <OutputConsole output={output} isRunning={isRunning} />
+      <OutputConsole output={output} isRunning={isRunning} onClear={clearOutput} />
 
       {/* Hint display */}
       {hint && (

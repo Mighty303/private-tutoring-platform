@@ -72,6 +72,23 @@ function extractExerciseDescription(markdown) {
 }
 
 /**
+ * Extracts input lines for exercises that use input().
+ * Looks for "## Input Lines (for browser)" section.
+ * Returns: string[] or empty array
+ */
+function extractInputLines(markdown) {
+  if (!markdown) return [];
+  const match = markdown.match(
+    /##\s*Input\s*Lines\s*\(for\s*browser\)\s*\n([\s\S]*?)(?=\n##\s|$)/i
+  );
+  if (!match) return [];
+  return match[1]
+    .split("\n")
+    .map((s) => s.trim())
+    .filter(Boolean);
+}
+
+/**
  * Extracts test cases from exercise markdown.
  * Looks for patterns like:
  *   print(func(args))  # Should print: value
@@ -81,13 +98,31 @@ function extractExerciseDescription(markdown) {
  *
  * Returns: Array<{ input: string, expected: string }>
  */
-function extractTestCases(markdown) {
+function extractExpectedOutput(markdown) {
+  if (!markdown) return null;
+  const match = markdown.match(
+    /##\s*Example\s*Output\s*\n+```\s*\n([\s\S]*?)```/i
+  );
+  return match ? match[1].trim() : null;
+}
+
+function extractTestCases(markdown, inputLines = []) {
   if (!markdown) return [];
 
   const testCases = [];
 
-  // Strip out Bonus Challenge section and <details> blocks (hints/solutions)
-  // so we only extract test cases from Examples and Starter Code
+  // Output-based test from Example Output (for procedural exercises)
+  const expectedOutput = extractExpectedOutput(markdown);
+  if (expectedOutput) {
+    testCases.push({
+      type: "output",
+      input: "(run full program)",
+      expected: expectedOutput,
+      inputLines,
+    });
+  }
+
+  // Function-style tests
   let cleaned = markdown
     .replace(/##\s*Bonus\s*Challenge[\s\S]*/i, "")
     .replace(/<details>[\s\S]*?<\/details>/g, "");
@@ -144,7 +179,11 @@ export default function ExercisePlayground({ content, exerciseId, title }) {
     () => extractExerciseDescription(content),
     [content]
   );
-  const testCases = useMemo(() => extractTestCases(content), [content]);
+  const inputLines = useMemo(() => extractInputLines(content), [content]);
+  const testCases = useMemo(
+    () => extractTestCases(content, inputLines),
+    [content, inputLines]
+  );
 
   return (
     <div className="mt-8 pt-6 border-t border-slate-200 dark:border-slate-700">
@@ -160,6 +199,7 @@ export default function ExercisePlayground({ content, exerciseId, title }) {
         exerciseId={exerciseId}
         exerciseDescription={exerciseDescription}
         testCases={testCases}
+        inputLines={inputLines}
       />
     </div>
   );

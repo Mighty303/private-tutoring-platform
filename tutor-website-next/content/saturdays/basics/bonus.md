@@ -32,3 +32,9 @@ Attack? (yes/no): yes
 Player: 70 HP | Goblin: 0 HP
 You win!
 ```
+
+## Input Lines (for browser)
+
+yes
+yes
+yes

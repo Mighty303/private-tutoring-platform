@@ -25,3 +25,8 @@ Enter age: 13
 D
 Welcome DragonKing! You are 13 years old.
 ```
+
+## Input Lines (for browser)
+
+DragonKing
+13

@@ -7,6 +7,9 @@ let pyodideInstance = null;
 let pyodideLoadingPromise = null;
 let cachedPythonVersion = null;
 
+// Queue for stdin when running code that uses input() — set before each run
+let stdinQueue = [];
+
 export default function usePyodide() {
   const [isLoading, setIsLoading] = useState(!pyodideInstance);
   const [isReady, setIsReady] = useState(!!pyodideInstance);
@@ -57,6 +60,20 @@ export default function usePyodide() {
           );
           cachedPythonVersion = ver;
         }
+        // Set up stdin so input() works in browser — reads from stdinQueue, or prompt() when empty
+        if (typeof pyodideInstance.setStdin === "function") {
+          pyodideInstance.setStdin({
+            stdin() {
+              if (stdinQueue.length > 0) return stdinQueue.shift();
+              if (typeof window !== "undefined" && typeof window.prompt === "function") {
+                const val = window.prompt("Enter input:");
+                return val !== null ? val : undefined;
+              }
+              return undefined;
+            },
+            isatty: false,
+          });
+        }
         setPythonVersion(cachedPythonVersion);
         setIsReady(true);
         setIsLoading(false);
@@ -71,7 +88,8 @@ export default function usePyodide() {
   }, []);
 
   // Run Python code
-  const runCode = useCallback(async (code) => {
+  // options.inputLines: array of strings for input() calls (for browser playground)
+  const runCode = useCallback(async (code, options = {}) => {
     if (!pyodideInstance) {
       setOutput([{ type: "error", text: "Python runtime not ready yet." }]);
       return;
@@ -80,6 +98,12 @@ export default function usePyodide() {
     setIsRunning(true);
     setOutput([]);
     abortRef.current = false;
+
+    // Set stdin queue for exercises that use input()
+    stdinQueue.length = 0;
+    if (Array.isArray(options.inputLines) && options.inputLines.length > 0) {
+      stdinQueue.push(...options.inputLines);
+    }
 
     try {
       // Set up stdout/stderr capture + execution time guard via sys.settrace.
@@ -265,22 +289,32 @@ def _execution_guard(frame, event, arg):
 sys.settrace(_execution_guard)
 `);
 
+        // Output-based test: run full code with inputLines, compare stdout
+        if (tc.type === "output") {
+          stdinQueue.length = 0;
+          if (Array.isArray(tc.inputLines) && tc.inputLines.length > 0) {
+            stdinQueue.push(...tc.inputLines);
+          }
+          await pyodideInstance.runPythonAsync(code);
+          const actual = pyodideInstance.runPython("_tc_stdout.getvalue()").trim();
+          const expected = tc.expected.trim();
+          const passed = actual === expected;
+          results.push({ input: tc.input, expected, actual, passed });
+          continue;
+        }
+
         // Run user code to define functions
         await pyodideInstance.runPythonAsync(code);
 
         // Evaluate the test expression
-        // If the input looks like a print() call, capture stdout
-        // Otherwise evaluate as an expression
         const isPrint = tc.input.trim().startsWith("print(");
 
         let actual;
         if (isPrint) {
-          // Reset capture, run the print, grab stdout
           pyodideInstance.runPython("_tc_stdout.parts.clear()");
           await pyodideInstance.runPythonAsync(tc.input);
           actual = pyodideInstance.runPython("_tc_stdout.getvalue()").trim();
         } else {
-          // Evaluate as expression and get repr
           const val = await pyodideInstance.runPythonAsync(tc.input);
           actual = val != null ? String(val) : "None";
         }

@@ -29,3 +29,9 @@ Collect or stop? collect
 Collect or stop? stop
 Final: 50 coins
 ```
+
+## Input Lines (for browser)
+
+collect
+collect
+stop
