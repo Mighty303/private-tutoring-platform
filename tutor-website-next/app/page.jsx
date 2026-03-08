@@ -106,6 +106,32 @@ export default function HomePage() {
         </div>
       </div>
 
+      {/* Schedule */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <h2 className="text-3xl font-bold text-slate-800 dark:text-white mb-2">Schedule</h2>
+        <p className="text-slate-500 dark:text-slate-400 mb-8">Weekly session times</p>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl p-6 shadow-sm">
+            <div className="flex items-center gap-3 mb-3">
+              <span className="text-2xl">📅</span>
+              <h3 className="font-bold text-lg text-slate-800 dark:text-white">Saturdays 12–2pm</h3>
+            </div>
+            <p className="text-sm font-semibold text-indigo-600 dark:text-indigo-400 mb-2">Grade 7</p>
+            <p className="text-sm text-slate-600 dark:text-slate-400">Basics: variables, conditionals, loops, lists, functions, strings, dictionaries, review exercises</p>
+          </div>
+
+          <div className="bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl p-6 shadow-sm">
+            <div className="flex items-center gap-3 mb-3">
+              <span className="text-2xl">📅</span>
+              <h3 className="font-bold text-lg text-slate-800 dark:text-white">Sundays 1:30–3:30pm</h3>
+            </div>
+            <p className="text-sm font-semibold text-purple-600 dark:text-purple-400 mb-2">Grade 10</p>
+            <p className="text-sm text-slate-600 dark:text-slate-400">Algorithms and data structures: scanning, accumulation, two-pointer, DFS, BFS, grids, graphs, heaps, topological sort</p>
+          </div>
+        </div>
+      </div>
+
       {/* Milestones */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <h2 className="text-3xl font-bold text-slate-800 dark:text-white mb-2">Learning Roadmap</h2>
