@@ -2,33 +2,13 @@
 
 import { useState, useEffect, useCallback } from "react";
 
-const STORAGE_PREFIX = "exercise-completed:";
-
 /**
- * Optimistic mark — writes to localStorage and triggers a re-fetch.
- * Also saves to the DB via /api/submissions (caller should do that separately).
+ * Triggers a re-fetch of progress from the DB.
+ * Call after saving a submission to /api/submissions.
  */
 export function markExerciseComplete(exerciseId) {
   if (!exerciseId) return;
-  try {
-    localStorage.setItem(`${STORAGE_PREFIX}${exerciseId}`, "1");
-    window.dispatchEvent(new Event("exercise-progress"));
-  } catch {
-    // Storage unavailable
-  }
-}
-
-function readLocalOptimistic(ids) {
-  if (typeof window === "undefined") return new Set();
-  const set = new Set();
-  for (const id of ids) {
-    try {
-      if (localStorage.getItem(`${STORAGE_PREFIX}${id}`) === "1") set.add(id);
-    } catch {
-      // ignore
-    }
-  }
-  return set;
+  window.dispatchEvent(new Event("exercise-progress"));
 }
 
 let _cachedDbSlugs = null;
@@ -59,24 +39,36 @@ export default function useExerciseProgress(exerciseIds) {
   const [completedSet, setCompletedSet] = useState(() => new Set());
 
   const refresh = useCallback(async () => {
-    const local = readLocalOptimistic(exerciseIds);
     const db = await fetchCompletedSlugs();
-    const merged = new Set([...local]);
+    const completed = new Set();
     for (const slug of db) {
-      if (exerciseIds.includes(slug)) merged.add(slug);
+      if (exerciseIds.includes(slug)) completed.add(slug);
     }
-    setCompletedSet(merged);
+    setCompletedSet(completed);
   }, [exerciseIds]);
 
   useEffect(() => {
     refresh();
 
     const handler = () => refresh();
+    const onVisibilityChange = () => {
+      if (document.visibilityState === "visible") {
+        invalidateCompletedCache();
+        refresh();
+      }
+    };
+    const pollInterval = setInterval(() => {
+      if (document.visibilityState === "visible") {
+        invalidateCompletedCache();
+        refresh();
+      }
+    }, 60_000); // Refetch every 60s when tab visible (catches admin-passed exercises)
     window.addEventListener("exercise-progress", handler);
-    window.addEventListener("storage", handler);
+    document.addEventListener("visibilitychange", onVisibilityChange);
     return () => {
+      clearInterval(pollInterval);
       window.removeEventListener("exercise-progress", handler);
-      window.removeEventListener("storage", handler);
+      document.removeEventListener("visibilitychange", onVisibilityChange);
     };
   }, [refresh]);
 
