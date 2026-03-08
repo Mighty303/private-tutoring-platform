@@ -26,6 +26,11 @@ export default function AdminDashboard() {
   const [expandedSub, setExpandedSub] = useState(null); // submission id
   const [analyzing, setAnalyzing] = useState(null); // submission id being analyzed
   const [analyses, setAnalyses] = useState({}); // { submissionId: analysis string }
+  const [passStudent, setPassStudent] = useState(""); // userId for grant pass
+  const [passExercise, setPassExercise] = useState(""); // exercise slug
+  const [passExerciseCustom, setPassExerciseCustom] = useState(""); // custom slug when not in list
+  const [passing, setPassing] = useState(null); // userId when granting pass
+  const [passAnotherExercise, setPassAnotherExercise] = useState(null); // submission id when showing pass-another form
 
   useEffect(() => {
     let cancelled = false;
@@ -120,6 +125,38 @@ export default function AdminDashboard() {
 
   // Get unique exercise slugs from loaded submissions for the dropdown
   const exerciseSlugs = [...new Set(submissions.map((s) => s.exercise_slug))].sort();
+
+  async function grantPass(userId, exerciseSlug, code) {
+    if (!userId || !exerciseSlug) return;
+    setPassing(userId);
+    try {
+      const res = await fetch("/api/submissions/admin-pass", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId, exerciseSlug, code }),
+      });
+      if (res.ok) {
+        setPassStudent("");
+        setPassExercise("");
+        setPassExerciseCustom("");
+        loadSubmissions();
+      } else {
+        const data = await res.json();
+        alert(data.error || "Failed to grant pass");
+      }
+    } catch {
+      alert("Failed to grant pass");
+    } finally {
+      setPassing(null);
+    }
+  }
+
+  function handleGrantPass(e) {
+    e.preventDefault();
+    const slug = passExerciseCustom.trim() || passExercise;
+    if (!passStudent || !slug) return;
+    grantPass(Number(passStudent), slug);
+  }
 
   async function createClassroom(e) {
     e.preventDefault();
@@ -600,6 +637,60 @@ export default function AdminDashboard() {
             </div>
           )}
 
+          {/* Grant pass (when grader has a bug) */}
+          {subsLoaded && (
+            <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-2xl p-5">
+              <h4 className="text-sm font-semibold text-amber-800 dark:text-amber-300 mb-3">
+                Grant pass (when grader has a bug)
+              </h4>
+              <form onSubmit={handleGrantPass} className="flex flex-col sm:flex-row gap-3 items-end">
+                <div className="flex-1 min-w-0">
+                  <label className="block text-xs font-medium text-amber-700 dark:text-amber-400 mb-1">Student</label>
+                  <select
+                    value={passStudent}
+                    onChange={(e) => setPassStudent(e.target.value)}
+                    className="w-full px-3 py-2 text-sm rounded-xl border border-amber-200 dark:border-amber-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-amber-500"
+                  >
+                    <option value="">Select student</option>
+                    {users.filter((u) => u.role !== "admin").map((u) => (
+                      <option key={u.id} value={u.id}>{u.name} ({u.email})</option>
+                    ))}
+                  </select>
+                </div>
+                <div className="flex-1 min-w-0">
+                  <label className="block text-xs font-medium text-amber-700 dark:text-amber-400 mb-1">Exercise slug</label>
+                  <select
+                    value={passExercise}
+                    onChange={(e) => setPassExercise(e.target.value)}
+                    className="w-full px-3 py-2 text-sm rounded-xl border border-amber-200 dark:border-amber-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-amber-500"
+                  >
+                    <option value="">Select or type below</option>
+                    {exerciseSlugs.map((slug) => (
+                      <option key={slug} value={slug}>{slug}</option>
+                    ))}
+                  </select>
+                </div>
+                <div className="flex-1 min-w-0">
+                  <label className="block text-xs font-medium text-amber-700 dark:text-amber-400 mb-1">Or custom slug</label>
+                  <input
+                    type="text"
+                    value={passExerciseCustom}
+                    onChange={(e) => setPassExerciseCustom(e.target.value)}
+                    placeholder="e.g. basics-2-exercise1"
+                    className="w-full px-3 py-2 text-sm rounded-xl border border-amber-200 dark:border-amber-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-500"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  disabled={!passStudent || (!passExercise && !passExerciseCustom.trim()) || passing}
+                  className="px-4 py-2 text-sm font-semibold bg-amber-600 text-white rounded-xl hover:bg-amber-700 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed shrink-0"
+                >
+                  {passing ? "Passing…" : "Pass student"}
+                </button>
+              </form>
+            </div>
+          )}
+
           {/* Submissions list */}
           {!subsLoaded ? (
             <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-700 p-8 text-center">
@@ -715,6 +806,59 @@ export default function AdminDashboard() {
                           </div>
                         </div>
                       )}
+
+                      {/* Pass for another exercise */}
+                      <div className="pt-2 border-t border-slate-100 dark:border-slate-700">
+                        {passAnotherExercise === sub.id ? (
+                          <div className="flex flex-wrap gap-2 items-center">
+                            <select
+                              id={`pass-another-${sub.id}`}
+                              className="px-3 py-1.5 text-sm rounded-lg border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-amber-500"
+                            >
+                              {exerciseSlugs.filter((slug) => slug !== sub.exercise_slug).length > 0 ? (
+                                exerciseSlugs.filter((slug) => slug !== sub.exercise_slug).map((slug) => (
+                                  <option key={slug} value={slug}>{slug}</option>
+                                ))
+                              ) : (
+                                <option value="">—</option>
+                              )}
+                            </select>
+                            <input
+                              type="text"
+                              id={`pass-another-custom-${sub.id}`}
+                              placeholder="Or type exercise slug"
+                              className="px-3 py-1.5 text-sm rounded-lg border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-amber-500 w-48"
+                            />
+                            <button
+                              onClick={async () => {
+                                const custom = document.getElementById(`pass-another-custom-${sub.id}`);
+                                const slug = custom?.value?.trim() || document.getElementById(`pass-another-${sub.id}`)?.value;
+                                if (slug) {
+                                  await grantPass(sub.user_id, slug, sub.code);
+                                  setPassAnotherExercise(null);
+                                }
+                              }}
+                              disabled={passing === sub.user_id}
+                              className="px-3 py-1.5 text-sm font-semibold bg-amber-600 text-white rounded-lg hover:bg-amber-700 cursor-pointer disabled:opacity-50"
+                            >
+                              Pass
+                            </button>
+                            <button
+                              onClick={() => setPassAnotherExercise(null)}
+                              className="px-3 py-1.5 text-sm text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 cursor-pointer"
+                            >
+                              Cancel
+                            </button>
+                          </div>
+                        ) : (
+                          <button
+                            onClick={() => setPassAnotherExercise(sub.id)}
+                            className="text-sm text-amber-600 dark:text-amber-400 hover:underline cursor-pointer font-medium"
+                          >
+                            Pass student for another exercise (grader bug)
+                          </button>
+                        )}
+                      </div>
                     </div>
                   )}
                 </div>
