@@ -60,16 +60,16 @@ export default function HomePage() {
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <Link
-                href="/saturdays"
+                href="/grade-7"
                 className="inline-flex items-center gap-2 bg-indigo-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-indigo-700 shadow-lg shadow-indigo-500/25 transition-all hover:-translate-y-0.5"
               >
-                Saturday Lessons
+                Grade 7 Lessons
               </Link>
               <Link
-                href="/intermediates"
+                href="/grade-10"
                 className="inline-flex items-center gap-2 bg-white text-indigo-600 dark:bg-slate-800 dark:text-indigo-400 px-6 py-3 rounded-xl font-semibold border-2 border-indigo-200 dark:border-indigo-700 hover:border-indigo-400 dark:hover:border-indigo-500 transition-all hover:-translate-y-0.5"
               >
-                Intermediate Lessons
+                Grade 10 Lessons
               </Link>
             </div>
           </div>
@@ -80,25 +80,25 @@ export default function HomePage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           <QuickLink
-            href="/saturdays"
+            href="/grade-7"
             title="Python Basics"
             desc="Cheatsheet, reviews, and practice"
             color="from-indigo-500 to-indigo-600"
           />
           <QuickLink
-            href="/saturdays/dictionaries"
+            href="/grade-7/dictionaries"
             title="Dictionaries"
             desc="Roblox-themed exercises & projects"
             color="from-amber-500 to-orange-500"
           />
           <QuickLink
-            href="/intermediates/algorithms"
+            href="/grade-10/algorithms"
             title="Algorithms"
             desc="CCC prep & competitive programming"
             color="from-purple-500 to-purple-600"
           />
           <QuickLink
-            href="/saturdays/cheatsheet"
+            href="/grade-7/cheatsheet"
             title="Cheatsheet"
             desc="Quick Python reference guide"
             color="from-emerald-500 to-teal-500"

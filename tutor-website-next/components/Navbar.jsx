@@ -8,8 +8,8 @@ import UserMenu from "./UserMenu";
 
 const navItems = [
   { href: "/", label: "Home" },
-  { href: "/saturdays", label: "Saturdays" },
-  { href: "/intermediates", label: "Intermediates" },
+  { href: "/grade-7", label: "Grade 7" },
+  { href: "/grade-10", label: "Grade 10" },
   { href: "/playground", label: "Playground" },
   { href: "/tutors", label: "Tutor" },
 ];

@@ -294,9 +294,9 @@ export default function TutorsPage() {
             className="group block bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl p-6 hover:shadow-lg hover:border-indigo-300 dark:hover:border-indigo-600 transition-all duration-300"
           >
             <div className="flex items-start gap-4">
-              <div className="w-10 h-10 rounded-lg bg-amber-500 flex items-center justify-center shrink-0 shadow-sm overflow-hidden">
+              <div className="w-10 h-10 rounded-lg bg-black flex items-center justify-center shrink-0 shadow-sm overflow-hidden">
                 <Image
-                  src="/assets/rivian-logo.png"
+                  src="/assets/rivian-logo.jpg"
                   alt="Rivian"
                   width={24}
                   height={24}
