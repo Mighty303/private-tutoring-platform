@@ -34,17 +34,22 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     let cancelled = false;
-    Promise.all([
-      fetch("/api/classrooms").then((res) => res.json()),
-      fetch("/api/users").then((res) => res.json()),
-    ]).then(([classroomsData, usersData]) => {
+    async function load() {
+      const [classroomsData, usersData, subsData] = await Promise.all([
+        fetch("/api/classrooms").then((res) => res.json()),
+        fetch("/api/users").then((res) => res.json()),
+        fetch("/api/submissions/all").then((res) => res.json()),
+      ]);
       if (!cancelled) {
         setClassrooms(classroomsData);
         setUsers(usersData);
+        setSubmissions(Array.isArray(subsData) ? subsData : []);
+        setSubsLoaded(true);
         setLoading(false);
         setUsersLoading(false);
       }
-    });
+    }
+    load();
     return () => { cancelled = true; };
   }, []);
 
@@ -80,17 +85,12 @@ export default function AdminDashboard() {
     }
   }
 
-  async function loadSubmissions() {
+  async function refreshSubmissions() {
     setSubsLoading(true);
-    const params = new URLSearchParams();
-    if (exerciseFilter) params.set("exercise", exerciseFilter);
-    if (studentFilter) params.set("student", studentFilter);
-
     try {
-      const res = await fetch(`/api/submissions/all?${params.toString()}`);
+      const res = await fetch("/api/submissions/all");
       const data = await res.json();
       setSubmissions(Array.isArray(data) ? data : []);
-      setSubsLoaded(true);
     } catch {
       setSubmissions([]);
     } finally {
@@ -126,6 +126,32 @@ export default function AdminDashboard() {
   // Get unique exercise slugs from loaded submissions for the dropdown
   const exerciseSlugs = [...new Set(submissions.map((s) => s.exercise_slug))].sort();
 
+  // Filter submissions client-side for the code list
+  const filteredSubmissions = submissions.filter((s) => {
+    if (exerciseFilter && s.exercise_slug !== exerciseFilter) return false;
+    if (studentFilter && s.user_id !== Number(studentFilter)) return false;
+    return true;
+  });
+
+  // Group submissions by student for progress view; include all students (from users)
+  const students = users.filter((u) => u.role !== "admin");
+  const progressByStudent = submissions.reduce((acc, sub) => {
+    const id = sub.user_id;
+    if (!acc[id]) acc[id] = { exercises: [] };
+    acc[id].exercises.push({ exercise_slug: sub.exercise_slug, created_at: sub.created_at, id: sub.id });
+    return acc;
+  }, {});
+  const studentProgressList = students.map((u) => {
+    const prog = progressByStudent[u.id] || { exercises: [] };
+    return {
+      user_id: u.id,
+      user_name: u.name,
+      user_email: u.email,
+      user_image: u.image,
+      exercises: [...prog.exercises].sort((a, b) => new Date(b.created_at) - new Date(a.created_at)),
+    };
+  }).sort((a, b) => (a.user_name || "").localeCompare(b.user_name || ""));
+
   async function grantPass(userId, exerciseSlug, code) {
     if (!userId || !exerciseSlug) return;
     setPassing(userId);
@@ -139,7 +165,7 @@ export default function AdminDashboard() {
         setPassStudent("");
         setPassExercise("");
         setPassExerciseCustom("");
-        loadSubmissions();
+        refreshSubmissions();
       } else {
         const data = await res.json();
         alert(data.error || "Failed to grant pass");
@@ -562,35 +588,91 @@ export default function AdminDashboard() {
           )}
         </div>
 
-        {/* Code Submissions */}
+        {/* Student Progress */}
         <div className="mt-12 space-y-4">
           <div className="flex items-center justify-between">
             <h2 className="text-lg font-semibold text-slate-800 dark:text-white">
-              Code Submissions
+              Student Progress
             </h2>
             <button
-              onClick={loadSubmissions}
+              onClick={refreshSubmissions}
               disabled={subsLoading}
-              className="inline-flex items-center gap-2 bg-indigo-600 text-white px-4 py-2 rounded-xl font-semibold text-sm hover:bg-indigo-700 transition-colors disabled:opacity-50 cursor-pointer"
+              className="p-2 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 dark:hover:text-slate-300 dark:hover:bg-slate-800 transition-colors cursor-pointer disabled:opacity-50"
+              title="Refresh"
             >
-              {subsLoading ? (
-                <>
-                  <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                  </svg>
-                  Loading…
-                </>
-              ) : (
-                <>
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                  </svg>
-                  {subsLoaded ? "Refresh" : "Load Submissions"}
-                </>
-              )}
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              </svg>
             </button>
           </div>
+
+          {!subsLoaded ? (
+            <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-700 p-8 flex justify-center">
+              <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-indigo-600" />
+            </div>
+          ) : studentProgressList.length === 0 ? (
+            <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-700 p-8 text-center">
+              <p className="text-slate-500 dark:text-slate-400">No student submissions yet.</p>
+            </div>
+          ) : (
+            <div className="space-y-3">
+              {studentProgressList.map((student) => (
+                <div
+                  key={student.user_id}
+                  className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-700 overflow-hidden"
+                >
+                  <div className="p-4 flex items-center gap-3">
+                    {student.user_image ? (
+                      <Image
+                        src={student.user_image}
+                        alt={student.user_name || ""}
+                        width={40}
+                        height={40}
+                        className="rounded-full shrink-0"
+                      />
+                    ) : (
+                      <div className="w-10 h-10 rounded-full bg-indigo-100 dark:bg-indigo-900 flex items-center justify-center text-sm font-bold text-indigo-600 dark:text-indigo-400 shrink-0">
+                        {student.user_name?.charAt(0) || "?"}
+                      </div>
+                    )}
+                    <div className="flex-1 min-w-0">
+                      <p className="font-medium text-slate-800 dark:text-white truncate">
+                        {student.user_name}
+                      </p>
+                      <p className="text-sm text-slate-500 dark:text-slate-400 truncate">
+                        {student.user_email}
+                      </p>
+                    </div>
+                    <span className="text-sm font-semibold text-indigo-600 dark:text-indigo-400 shrink-0">
+                      {student.exercises.length} submitted
+                    </span>
+                  </div>
+                  <div className="px-4 pb-4 pt-0">
+                    <div className="flex flex-wrap gap-2">
+                      {student.exercises.map((ex) => (
+                        <span
+                          key={ex.id}
+                          className="inline-flex items-center gap-1.5 text-xs font-medium bg-violet-100 text-violet-700 dark:bg-violet-900/50 dark:text-violet-300 px-2.5 py-1 rounded-lg"
+                        >
+                          {ex.exercise_slug}
+                          <span className="text-violet-500 dark:text-violet-400">
+                            {new Date(ex.created_at).toLocaleDateString()}
+                          </span>
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Code Submissions */}
+        <div className="mt-12 space-y-4">
+          <h2 className="text-lg font-semibold text-slate-800 dark:text-white">
+            Code Submissions
+          </h2>
 
           {/* Filters */}
           {subsLoaded && (
@@ -624,15 +706,6 @@ export default function AdminDashboard() {
                     <option key={u.id} value={u.id}>{u.name} ({u.email})</option>
                   ))}
                 </select>
-              </div>
-              <div className="flex items-end">
-                <button
-                  onClick={loadSubmissions}
-                  disabled={subsLoading}
-                  className="px-4 py-2 text-sm font-semibold bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 rounded-xl hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors cursor-pointer disabled:opacity-50"
-                >
-                  Apply
-                </button>
               </div>
             </div>
           )}
@@ -693,18 +766,18 @@ export default function AdminDashboard() {
 
           {/* Submissions list */}
           {!subsLoaded ? (
+            <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-700 p-8 flex justify-center">
+              <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-indigo-600" />
+            </div>
+          ) : filteredSubmissions.length === 0 ? (
             <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-700 p-8 text-center">
               <p className="text-slate-500 dark:text-slate-400">
-                Click &quot;Load Submissions&quot; to view student code.
+                {submissions.length === 0 ? "No submissions yet." : "No submissions match the filters."}
               </p>
-            </div>
-          ) : submissions.length === 0 ? (
-            <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-700 p-8 text-center">
-              <p className="text-slate-500 dark:text-slate-400">No submissions found.</p>
             </div>
           ) : (
             <div className="space-y-3">
-              {submissions.map((sub) => (
+              {filteredSubmissions.map((sub) => (
                 <div
                   key={sub.id}
                   className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-700 overflow-hidden"
