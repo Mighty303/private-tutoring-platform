@@ -318,6 +318,41 @@ export const graph2Exercises = [
   },
 ];
 
+export const backtrackingExercises = [
+  {
+    id: "backtrack-intro",
+    title: "Backtracking Intro & Concepts",
+    emoji: "🔙",
+    description: "What backtracking is, the choose/don't choose pattern, and when to use it.",
+    tags: ["Backtracking", "Reference"],
+    color: "amber",
+  },
+  {
+    id: "backtrack-ex1",
+    title: "Subsets",
+    emoji: "📦",
+    description: "Return all possible subsets of unique integers — the classic backtracking problem.",
+    tags: ["Backtracking", "Medium"],
+    color: "violet",
+  },
+  {
+    id: "backtrack-ex2",
+    title: "Combination Sum",
+    emoji: "🎯",
+    description: "All unique combinations that sum to target — numbers can be reused.",
+    tags: ["Backtracking", "Medium"],
+    color: "indigo",
+  },
+  {
+    id: "backtrack-ex3",
+    title: "Permutations",
+    emoji: "🔀",
+    description: "Return all possible permutations of unique integers — each number used once.",
+    tags: ["Backtracking", "Medium"],
+    color: "rose",
+  },
+];
+
 
 export const functionExercises = [
   {
@@ -698,6 +733,7 @@ export function getLessonById(id) {
     ...heapExercises,
     ...heap2Exercises,
     ...graph2Exercises,
+    ...backtrackingExercises,
     ...functionExercises,
     ...discordBotExercises,
     ...loopExercises,
@@ -718,6 +754,7 @@ export function getAllLessons() {
     ...heapExercises,
     ...heap2Exercises,
     ...graph2Exercises,
+    ...backtrackingExercises,
     ...functionExercises,
     ...discordBotExercises,
     ...loopExercises,

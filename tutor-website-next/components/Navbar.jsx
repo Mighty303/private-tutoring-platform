@@ -11,6 +11,7 @@ const navItems = [
   { href: "/grade-7", label: "Grade 7" },
   { href: "/grade-10", label: "Grade 10" },
   { href: "/playground", label: "Playground" },
+  { href: "/leaderboard", label: "Leaderboard" },
   { href: "/tutors", label: "Tutor" },
 ];
 

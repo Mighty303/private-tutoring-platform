@@ -181,6 +181,14 @@ export default function PythonPlayground({
     setFeedback(null);
 
     try {
+      // Always save attempt to DB so admin can review and approve if close enough
+      const saveRes = await fetch("/api/submissions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ exerciseSlug: exerciseId, code }),
+      });
+      if (!saveRes.ok) throw new Error("Failed to save");
+
       if (testCases.length > 0) {
         const { results, allPassed } = await runTests(code, testCases);
         setTestResults({ results, allPassed });
@@ -196,12 +204,6 @@ export default function PythonPlayground({
           return;
         }
 
-        // All tests passed — save submission to DB
-        await fetch("/api/submissions", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ exerciseSlug: exerciseId, code }),
-        });
         setSubmitted(true);
         invalidateCompletedCache();
         markExerciseComplete(exerciseId);
@@ -211,12 +213,6 @@ export default function PythonPlayground({
         });
         fetchFeedback(passCount, results.length);
       } else {
-        // No test cases — save directly
-        await fetch("/api/submissions", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ exerciseSlug: exerciseId, code }),
-        });
         setSubmitted(true);
         invalidateCompletedCache();
         markExerciseComplete(exerciseId);

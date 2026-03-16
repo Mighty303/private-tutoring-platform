@@ -105,6 +105,12 @@ const fileMap = {
   "graph2-ex2": "sundays/graphs-2/exercise2.md",
   "graph2-ex3": "sundays/graphs-2/exercise3.md",
 
+  // Backtracking exercises
+  "backtrack-intro": "sundays/backtracking/intro.md",
+  "backtrack-ex1": "sundays/backtracking/exercise1.md",
+  "backtrack-ex2": "sundays/backtracking/exercise2.md",
+  "backtrack-ex3": "sundays/backtracking/exercise3.md",
+
   // Intermediate answers
   "algorithms-answers": "sundays/answers/1. Algorithms_answer.md",
   "dfs-bfs-answers": "sundays/answers/2. DFS_BFS_answers.md",

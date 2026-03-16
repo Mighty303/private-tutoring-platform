@@ -1,6 +1,6 @@
 import Link from "next/link";
 import LessonCard from "@/components/LessonCard";
-import { IntermediateLessons, IntermediateAnswers, basicsExercises, basics2Exercises, heapExercises, heap2Exercises, graph2Exercises } from "@/lib/lessons";
+import { IntermediateLessons, IntermediateAnswers, basicsExercises, basics2Exercises, heapExercises, heap2Exercises, graph2Exercises, backtrackingExercises } from "@/lib/lessons";
 import ExerciseProgressTracker from "@/components/ExerciseProgressTracker";
 
 export const metadata = {
@@ -157,6 +157,31 @@ export default function Grade10Page() {
               <Link
                 href="/grade-10/graphs-2"
                 className="inline-flex items-center gap-1 text-sm font-semibold text-teal-600 hover:text-teal-700 dark:text-teal-400 dark:hover:text-teal-300 transition-colors"
+              >
+                View Exercises →
+              </Link>
+            </div>
+          </div>
+          {/* Backtracking hub card */}
+          <div className="block bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 border-l-4 border-l-violet-500 shadow-sm">
+            <div className="p-6">
+              <div className="flex items-start justify-between mb-3">
+                <span className="text-3xl">🔙</span>
+              </div>
+              <h3 className="text-lg font-bold text-slate-800 dark:text-white mb-2">
+                Backtracking — Subsets &amp; Combinations
+              </h3>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mb-3 line-clamp-2">
+                Master backtracking — subsets, combination sum, and permutations.
+              </p>
+              <ExerciseProgressTracker
+                exercises={backtrackingExercises}
+                color="emerald"
+                className="mb-3"
+              />
+              <Link
+                href="/grade-10/backtracking"
+                className="inline-flex items-center gap-1 text-sm font-semibold text-violet-600 hover:text-violet-700 dark:text-violet-400 dark:hover:text-violet-300 transition-colors"
               >
                 View Exercises →
               </Link>
