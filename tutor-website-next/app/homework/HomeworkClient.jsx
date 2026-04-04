@@ -29,7 +29,6 @@ export default function HomeworkClient({ assignments }) {
     return (
       <div className="min-h-screen bg-linear-to-b from-slate-50 to-white dark:from-slate-950 dark:to-slate-900">
         <div className="max-w-2xl mx-auto px-4 py-16 text-center">
-          <div className="text-6xl mb-4">📚</div>
           <h1 className="text-2xl font-bold text-slate-800 dark:text-white mb-2">
             Homework
           </h1>
@@ -46,7 +45,7 @@ export default function HomeworkClient({ assignments }) {
       <div className="max-w-2xl mx-auto px-4 py-10">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-slate-800 dark:text-white">
-            📚 Homework
+            Homework
           </h1>
           <p className="text-slate-500 dark:text-slate-400 mt-1">
             Your assigned exercises
@@ -100,8 +99,8 @@ export default function HomeworkClient({ assignments }) {
                         className="flex items-center justify-between px-5 py-3.5 hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors"
                       >
                         <div className="flex items-center gap-3">
-                          <span className="text-xl">
-                            {lesson?.emoji ?? "📝"}
+                          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-slate-200 bg-slate-50 text-xs font-semibold uppercase text-slate-600 dark:border-slate-600 dark:bg-slate-950/40 dark:text-slate-300">
+                            {(lesson?.title ?? row.exercise_slug).charAt(0)}
                           </span>
                           <span className="text-sm font-medium text-slate-700 dark:text-slate-200">
                             {lesson?.title ?? row.exercise_slug}

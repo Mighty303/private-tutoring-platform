@@ -1,4 +1,6 @@
 import Link from "next/link";
+import LessonEmoji from "@/components/LessonEmoji";
+import { GlobeMark, PlayMark } from "@/components/TrackLinkIcon";
 import { graph2Exercises } from "@/lib/lessons";
 import ExerciseProgressTracker, { ExerciseCheckmark } from "@/components/ExerciseProgressTracker";
 
@@ -39,7 +41,7 @@ export default function Graphs2Page() {
           href="/grade-10/graphs"
           className="group flex items-center gap-4 bg-teal-50 dark:bg-teal-900/20 border border-teal-200 dark:border-teal-700 rounded-xl px-5 py-4 mb-4 shadow-sm hover:shadow-md hover:border-teal-400 dark:hover:border-teal-500 transition-all duration-200"
         >
-          <span className="text-2xl shrink-0">🌐</span>
+          <GlobeMark />
           <div className="flex-1 min-w-0">
             <h3 className="text-base font-bold text-teal-800 dark:text-teal-300 group-hover:text-teal-600 dark:group-hover:text-teal-200 transition-colors">
               Graphs Part 1 — DFS on Grids
@@ -58,7 +60,7 @@ export default function Graphs2Page() {
           href="/grade-10/graphs-2/animation"
           className="group flex items-center gap-4 bg-cyan-50 dark:bg-cyan-900/20 border border-cyan-200 dark:border-cyan-700 rounded-xl px-5 py-4 mb-6 shadow-sm hover:shadow-md hover:border-cyan-400 dark:hover:border-cyan-500 transition-all duration-200"
         >
-          <span className="text-2xl shrink-0">🎬</span>
+          <PlayMark />
           <div className="flex-1 min-w-0">
             <h3 className="text-base font-bold text-cyan-800 dark:text-cyan-300 group-hover:text-cyan-600 dark:group-hover:text-cyan-200 transition-colors">
               Interactive Graph Animation
@@ -92,7 +94,7 @@ export default function Graphs2Page() {
                 {index + 1}
               </span>
 
-              <span className="text-2xl shrink-0">{lesson.emoji}</span>
+              <LessonEmoji emoji={lesson.emoji} className="text-2xl shrink-0" />
 
               <div className="flex-1 min-w-0">
                 <h3 className="text-base font-bold text-slate-800 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">

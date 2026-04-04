@@ -1,3 +1,4 @@
+import LessonEmoji from "@/components/LessonEmoji";
 import Link from "next/link";
 import { getContent, getAllContentIds } from "@/lib/content";
 import { getLessonById, functionExercises, discordBotExercises } from "@/lib/lessons";
@@ -51,7 +52,7 @@ export default async function FunctionExercisePage({ params }) {
             ← Back to Functions
           </Link>
           <div className="flex items-center gap-3">
-            <span className="text-3xl">{lesson.emoji}</span>
+            <LessonEmoji emoji={lesson.emoji} className="text-3xl" />
             <div>
               <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-800 dark:text-white">
                 {lesson.title}
@@ -109,7 +110,7 @@ export default async function FunctionExercisePage({ params }) {
                 <div className="min-w-0">
                   <p className="text-xs text-slate-400 dark:text-slate-500 font-medium">Previous</p>
                   <p className={`text-sm font-bold text-slate-700 dark:text-slate-200 truncate transition-colors ${isDiscord ? "group-hover:text-[#5865F2]" : "group-hover:text-violet-600 dark:group-hover:text-violet-400"}`}>
-                    {prev.emoji} {prev.title}
+                    {prev.title}
                   </p>
                 </div>
               </Link>
@@ -124,7 +125,7 @@ export default async function FunctionExercisePage({ params }) {
                 <div className="min-w-0 text-right">
                   <p className="text-xs text-slate-400 dark:text-slate-500 font-medium">Next</p>
                   <p className={`text-sm font-bold text-slate-700 dark:text-slate-200 truncate transition-colors ${isDiscord ? "group-hover:text-[#5865F2]" : "group-hover:text-violet-600 dark:group-hover:text-violet-400"}`}>
-                    {next.emoji} {next.title}
+                    {next.title}
                   </p>
                 </div>
                 <svg className={`w-5 h-5 shrink-0 text-slate-400 group-hover:translate-x-1 transition-all ${isDiscord ? "group-hover:text-[#5865F2]" : "group-hover:text-violet-500"}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">

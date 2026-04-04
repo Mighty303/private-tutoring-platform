@@ -40,9 +40,6 @@ export default function IntermediatesPage() {
           {/* Heaps hub card */}
           <div className="block bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 border-l-4 border-l-amber-500 shadow-sm">
             <div className="p-6">
-              <div className="flex items-start justify-between mb-3">
-                <span className="text-3xl">🏔️</span>
-              </div>
               <h3 className="text-lg font-bold text-slate-800 dark:text-white mb-2">
                 Heaps — Priority Queues
               </h3>
@@ -65,9 +62,6 @@ export default function IntermediatesPage() {
           {/* Heaps Part 2 hub card */}
           <div className="block bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 border-l-4 border-l-rose-500 shadow-sm">
             <div className="p-6">
-              <div className="flex items-start justify-between mb-3">
-                <span className="text-3xl">🔥</span>
-              </div>
               <h3 className="text-lg font-bold text-slate-800 dark:text-white mb-2">
                 Heaps Part 2 — Top-K &amp; CCC
               </h3>
@@ -90,9 +84,6 @@ export default function IntermediatesPage() {
           {/* Graphs Part 2 hub card */}
           <div className="block bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 border-l-4 border-l-teal-500 shadow-sm">
             <div className="p-6">
-              <div className="flex items-start justify-between mb-3">
-                <span className="text-3xl">🔗</span>
-              </div>
               <h3 className="text-lg font-bold text-slate-800 dark:text-white mb-2">
                 Graphs Part 2 — Adjacency Lists &amp; Cycles
               </h3>
@@ -115,9 +106,6 @@ export default function IntermediatesPage() {
           {/* Backtracking hub card */}
           <div className="block bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 border-l-4 border-l-violet-500 shadow-sm">
             <div className="p-6">
-              <div className="flex items-start justify-between mb-3">
-                <span className="text-3xl">🔙</span>
-              </div>
               <h3 className="text-lg font-bold text-slate-800 dark:text-white mb-2">
                 Backtracking — Subsets &amp; Combinations
               </h3>

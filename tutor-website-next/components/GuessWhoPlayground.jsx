@@ -32,15 +32,16 @@ function parsePythonCharacters(code) {
   }
 }
 
-const FACE_EMOJI = {
-  smile: "😊", happy: "😄", cool: "😎", determined: "😤",
-  sweet: "🥰", silly: "🤪", serious: "😐", sad: "😢",
-  angry: "😠", surprised: "😲", wink: "😉", neutral: "😶",
-};
-const ACCESSORY_ICON = {
-  none: null, shades: "🕶️", cape: "🦸", crown: "👑",
-  wings: "🪽", hat: "🎩", mask: "🎭", bow: "🎀",
-};
+function faceInitial(face) {
+  const s = (face || "?").trim();
+  return s.charAt(0).toUpperCase();
+}
+
+function accessoryAbbrev(accessory) {
+  const a = (accessory || "").toLowerCase();
+  if (!a || a === "none") return null;
+  return a.length <= 4 ? a : a.slice(0, 3) + "…";
+}
 const OUTFIT_COLOR = {
   "classic noob": "#44cf6c", "bacon hair": "#e05a5a", guest: "#94a3b8",
   superhero: "#6366f1", princess: "#ec4899", wizard: "#8b5cf6",
@@ -48,8 +49,8 @@ const OUTFIT_COLOR = {
 };
 
 function CharacterCard({ name, data, isSelected, isRevealed, isEliminated, onClick }) {
-  const faceEmoji = FACE_EMOJI[data.face.toLowerCase()] || "😶";
-  const accessoryEmoji = ACCESSORY_ICON[data.accessory.toLowerCase()];
+  const faceLetter = faceInitial(data.face);
+  const accAbbr = accessoryAbbrev(data.accessory);
   const outfitColor = OUTFIT_COLOR[data.outfit.toLowerCase()] || "#6366f1";
   const genderColor = data.gender.toLowerCase() === "female" ? "#f472b6" : "#60a5fa";
 
@@ -69,19 +70,27 @@ function CharacterCard({ name, data, isSelected, isRevealed, isEliminated, onCli
         </div>
       )}
       <div
-        className="w-12 h-12 rounded-full flex items-center justify-center text-2xl mb-1 relative"
+        className="w-12 h-12 rounded-full flex items-center justify-center text-sm font-bold text-white mb-1 relative"
         style={{ backgroundColor: outfitColor + "33", border: `2px solid ${outfitColor}` }}
       >
-        {faceEmoji}
-        {accessoryEmoji && (
-          <span className="absolute -top-2 -right-1 text-base">{accessoryEmoji}</span>
+        {faceLetter}
+        {accAbbr && (
+          <span className="absolute -top-2 -right-1 max-w-[2.5rem] truncate rounded border border-slate-600 bg-slate-900 px-0.5 text-[9px] font-semibold uppercase text-slate-200">
+            {accAbbr}
+          </span>
         )}
       </div>
       <p className="font-bold text-white text-xs capitalize tracking-wide truncate w-full text-center">{name}</p>
       <div className="mt-1 space-y-0.5 w-full">
-        <p className="text-xs text-slate-400 truncate"><span style={{ color: genderColor }}>⚥</span> {data.gender}</p>
-        <p className="text-xs text-slate-400 truncate"><span style={{ color: outfitColor }}>👕</span> {data.outfit}</p>
-        <p className="text-xs text-slate-400 truncate">✨ {data.accessory}</p>
+        <p className="text-xs text-slate-400 truncate">
+          <span style={{ color: genderColor }} className="font-medium">G</span> {data.gender}
+        </p>
+        <p className="text-xs text-slate-400 truncate">
+          <span style={{ color: outfitColor }} className="font-medium">O</span> {data.outfit}
+        </p>
+        <p className="text-xs text-slate-400 truncate">
+          <span className="font-medium text-slate-500">A</span> {data.accessory}
+        </p>
       </div>
       {isRevealed && <div className="mt-1 text-xs font-bold text-emerald-400">← ANSWER</div>}
     </button>
@@ -136,17 +145,17 @@ function GuessWhoGame({ characters }) {
   };
 
   const attrLabels = [
-    { key: "gender", label: "Gender", emoji: "⚥" },
-    { key: "outfit", label: "Outfit", emoji: "👕" },
-    { key: "accessory", label: "Accessory", emoji: "✨" },
-    { key: "face", label: "Face", emoji: "😊" },
+    { key: "gender", label: "Gender" },
+    { key: "outfit", label: "Outfit" },
+    { key: "accessory", label: "Accessory" },
+    { key: "face", label: "Face" },
   ];
 
   return (
     <div className="flex flex-col gap-4 h-full">
       <div className="flex items-center justify-between flex-wrap gap-2">
         <div>
-          <h3 className="text-white font-bold text-sm">🎮 Live Game Preview</h3>
+          <h3 className="text-white font-bold text-sm">Live game preview</h3>
           <p className="text-slate-400 text-xs">I've picked a secret character…</p>
         </div>
         <div className="flex gap-2">
@@ -162,13 +171,13 @@ function GuessWhoGame({ characters }) {
 
       {gameState === "playing" && (
         <div className="flex flex-wrap gap-2">
-          {attrLabels.map(({ key, label, emoji }) => {
+          {attrLabels.map(({ key, label }) => {
             const alreadyAsked = askedClues.some((c) => c.attr === key);
             return (
               <button key={key} onClick={() => askClue(key)} disabled={cluesLeft <= 0 || alreadyAsked}
                 className={`text-xs px-3 py-1.5 rounded-full border transition-all font-medium
                   ${alreadyAsked || cluesLeft <= 0 ? "border-slate-700 text-slate-600 cursor-not-allowed" : "border-violet-500 text-violet-300 hover:bg-violet-500/20 bg-violet-500/10"}`}>
-                {emoji} Ask {label}
+                Ask {label}
               </button>
             );
           })}
@@ -197,11 +206,11 @@ function GuessWhoGame({ characters }) {
         </div>
       )}
 
-      {message && <div className="text-xs text-yellow-400 bg-yellow-400/10 border border-yellow-400/30 rounded-lg px-3 py-2">⚠️ {message.text}</div>}
+      {message && <div className="text-xs text-yellow-400 bg-yellow-400/10 border border-yellow-400/30 rounded-lg px-3 py-2">{message.text}</div>}
 
       {gameState !== "playing" && (
         <div className={`rounded-xl border p-4 text-center ${gameState === "won" ? "border-emerald-400 bg-emerald-400/10" : "border-red-400 bg-red-400/10"}`}>
-          <p className="text-2xl mb-1">{gameState === "won" ? "🎉" : "❌"}</p>
+          <p className="text-sm font-semibold uppercase tracking-wide text-slate-400 mb-1">{gameState === "won" ? "Round won" : "Round lost"}</p>
           <p className={`font-bold text-lg ${gameState === "won" ? "text-emerald-300" : "text-red-300"}`}>{gameState === "won" ? "YOU WIN!" : "YOU LOST!"}</p>
           <p className="text-slate-400 text-sm mt-1">The character was <span className="text-white font-bold capitalize">{secretKey}</span></p>
           <button onClick={() => reset()} className="mt-3 px-5 py-2 bg-slate-700 hover:bg-slate-600 text-white text-sm rounded-lg border border-slate-500 transition-all">Play Again</button>
@@ -251,7 +260,7 @@ while True:
     elif command.startswith("guess "):
         name = command.split(" ")[1]
         if name == secret:
-            print("🎉 YOU WIN!")
+            print("YOU WIN!")
         else:
             print(f"❌ YOU LOST! It was {secret}!")
         break
@@ -287,7 +296,7 @@ export default function GuessWhoPlayground() {
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col" style={{ fontFamily: "'JetBrains Mono', 'Fira Code', monospace" }}>
       <header className="border-b border-slate-800 px-4 py-3 flex items-center justify-between gap-4 bg-slate-900">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-500 to-fuchsia-500 flex items-center justify-center text-sm">🎮</div>
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-violet-500 to-fuchsia-500 text-xs font-bold text-white">GW</div>
           <div>
             <h1 className="text-white font-bold text-sm tracking-tight">Guess Who — Roblox Edition</h1>
             <p className="text-slate-500 text-xs">Edit your Python → watch the game update live</p>
@@ -304,7 +313,7 @@ export default function GuessWhoPlayground() {
       </header>
 
       <div className="bg-violet-900/30 border-b border-violet-800/50 px-4 py-2 flex items-center gap-2 text-xs text-violet-300">
-        <span>💡</span>
+        <span className="font-semibold text-violet-200">Tip</span>
         <span>Add or edit characters in the <code className="bg-violet-800/40 px-1 rounded">characters</code> dict — the game board updates instantly!</span>
       </div>
 
@@ -319,7 +328,7 @@ export default function GuessWhoPlayground() {
                 <span className="ml-2 text-slate-500 text-xs">guess_who.py</span>
               </div>
               {parseError
-                ? <span className="text-red-400 text-xs">⚠ Parse error</span>
+                ? <span className="text-red-400 text-xs">Parse error</span>
                 : <span className="text-emerald-400 text-xs">● {Object.keys(characters || {}).length} characters loaded</span>}
             </div>
             <div className="flex-1 overflow-auto flex bg-slate-950">
@@ -331,21 +340,21 @@ export default function GuessWhoPlayground() {
                 className="flex-1 bg-transparent text-slate-100 text-xs leading-6 pt-4 pb-4 pr-4 resize-none focus:outline-none"
                 style={{ fontFamily: "'JetBrains Mono', 'Fira Code', monospace", caretColor: "#a78bfa", whiteSpace: "pre", overflowX: "auto" }} />
             </div>
-            {parseError && <div className="border-t border-red-900/50 bg-red-950/30 px-4 py-2 text-xs text-red-400">⚠ {parseError}</div>}
+            {parseError && <div className="border-t border-red-900/50 bg-red-950/30 px-4 py-2 text-xs text-red-400">{parseError}</div>}
           </div>
         )}
 
         {(activeTab === "split" || activeTab === "game") && (
           <div className={`flex flex-col overflow-auto ${activeTab === "split" ? "w-1/2" : "flex-1"}`}>
             <div className="px-4 py-2 bg-slate-900 border-b border-slate-800 flex items-center gap-2">
-              <span className="text-xs text-slate-400">🎮 Live Preview</span>
+              <span className="text-xs text-slate-400">Live preview</span>
               {characters && <span className="ml-auto text-xs text-slate-500">{Object.keys(characters).length} characters</span>}
             </div>
             <div className="flex-1 p-4 overflow-auto bg-slate-950">
               {characters
                 ? <GuessWhoGame key={JSON.stringify(Object.keys(characters))} characters={characters} />
                 : <div className="flex flex-col items-center justify-center h-full text-center gap-3 text-slate-500">
-                    <div className="text-5xl">🎭</div>
+                    <div className="rounded-lg border border-dashed border-slate-600 px-4 py-3 text-slate-500 text-xs font-medium">No characters yet</div>
                     <p className="text-sm">Define your <code className="bg-slate-800 px-1.5 py-0.5 rounded text-violet-400">characters</code> dictionary to see the game!</p>
                   </div>}
             </div>

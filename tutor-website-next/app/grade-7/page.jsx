@@ -1,6 +1,10 @@
+"use client";
+
 import Link from "next/link";
+import { motion } from "motion/react";
 import LessonCard from "@/components/LessonCard";
 import {
+  webLessons,
   saturdayLessons,
   functionExercises,
   discordBotExercises,
@@ -11,173 +15,270 @@ import {
   dictionaryExercises,
 } from "@/lib/lessons";
 import ExerciseProgressTracker from "@/components/ExerciseProgressTracker";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
-export const metadata = {
-  title: "Grade 7 Lessons — CS Tutor",
-};
+const fade = (delay = 0) => ({
+  initial: { opacity: 0, y: 8 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.2, delay },
+});
+
+const PRACTICE_TRACKS = [
+  {
+    id: "loops",
+    href: "/grade-7/loops",
+    label: "Loops",
+    blurb:
+      "for and while — countdowns, grinding XP, inventories, and health regen.",
+    exercises: loopExercises,
+  },
+  {
+    id: "loops-2",
+    href: "/grade-7/loops-2",
+    label: "Loops part 2",
+    blurb:
+      "break, continue, and while True — harder exercises with no starter code.",
+    exercises: loopPart2Exercises,
+  },
+  {
+    id: "nested-loops",
+    href: "/grade-7/nested-loops",
+    label: "Nested loops",
+    blurb: "Grids, patterns, multiplication tables, and matching pairs.",
+    exercises: nestedLoopExercises,
+  },
+  {
+    id: "nested-lists",
+    href: "/grade-7/nested-lists",
+    label: "Nested lists",
+    blurb: "2D grids, game boards, searching, and patterns.",
+    exercises: nestedListExercises,
+  },
+  {
+    id: "functions",
+    href: "/grade-7/functions",
+    label: "Functions",
+    blurb: "XP calculators, health systems, shop discounts, and Discord-style bots.",
+    exercises: [...functionExercises, ...discordBotExercises],
+  },
+  {
+    id: "dictionaries",
+    href: "/grade-7/dictionaries",
+    label: "Dictionaries",
+    blurb: "Roblox-themed dict exercises — part of Milestone 2.",
+    exercises: dictionaryExercises,
+  },
+];
+
+function PracticeTrackLink({ track, index }) {
+  return (
+      <Link
+        href={track.href}
+        className="group block rounded-2xl border border-slate-200 dark:border-slate-700 bg-slate-50/80 dark:bg-slate-950/40 p-5 sm:p-6 hover:border-indigo-300 dark:hover:border-indigo-700 transition-colors"
+      >
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+          <div className="min-w-0 flex-1">
+            <div className="mb-1 flex items-baseline gap-3">
+              <span className="font-mono text-xs text-slate-400 tabular-nums dark:text-slate-500">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              <h3 className="text-lg font-semibold text-slate-800 dark:text-white">
+                {track.label}
+              </h3>
+            </div>
+            <p className="text-sm text-slate-600 dark:text-slate-400 pl-0 sm:pl-9">
+              {track.blurb}
+            </p>
+          </div>
+          <span className="inline-flex shrink-0 items-center gap-1 text-sm font-medium text-indigo-600 dark:text-indigo-400 sm:pt-1">
+            Open
+            <svg
+              className="h-4 w-4 transition-transform group-hover:translate-x-0.5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              aria-hidden
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
+          </span>
+        </div>
+        <ExerciseProgressTracker
+          exercises={track.exercises}
+          color="indigo"
+          className="mt-4 sm:pl-9"
+        />
+      </Link>
+  );
+}
 
 export default function Grade7Page() {
   return (
     <div className="min-h-screen bg-linear-to-b from-slate-50 to-white dark:from-slate-950 dark:to-slate-900">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* Header */}
-        <div className="mb-10">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12">
+        <motion.div {...fade(0)} className="mb-10">
           <Link
             href="/"
-            className="inline-flex items-center text-sm text-slate-500 hover:text-indigo-600 dark:text-slate-400 dark:hover:text-indigo-400 mb-4 transition-colors"
+            className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-indigo-600 dark:text-slate-400 dark:hover:text-indigo-400 mb-6 transition-colors"
           >
-            ← Back to Home
+            <svg
+              className="h-4 w-4 shrink-0"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              aria-hidden
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M15 19l-7-7 7-7"
+              />
+            </svg>
+            Back to home
           </Link>
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-800 dark:text-white mb-2">
-            Grade 7 Lessons
-          </h1>
-          <p className="text-lg text-slate-500 dark:text-slate-400">
-            Python fundamentals for grade 7 — gamified, Roblox-themed exercises
+          <p className="font-mono text-xs text-slate-500 tracking-widest uppercase mb-3 dark:text-slate-500">
+            Grade 7
           </p>
-        </div>
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <h1 className="text-3xl font-bold tracking-tight text-slate-800 dark:text-white">
+                Grade 7 lessons
+              </h1>
+              <p className="mt-2 max-w-xl text-base text-slate-600 dark:text-slate-400">
+                Python fundamentals, extra practice tracks, and an intro to how
+                the web works — organized below.
+              </p>
+            </div>
+          </div>
+        </motion.div>
 
-        {/* Lesson cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
-          {saturdayLessons.map((lesson) => (
-            <LessonCard
-              key={lesson.id}
-              lesson={lesson}
-              basePath="/grade-7"
-            />
-          ))}
-        </div>
-
-        {/* Link to loops */}
-        <div className="bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-700 rounded-xl p-6 mb-6">
-          <h3 className="font-bold text-lg text-emerald-800 dark:text-emerald-300 mb-2">
-            Loops Practice
-          </h3>
-          <p className="text-emerald-700 dark:text-emerald-400 mb-4">
-            for loops, while loops — countdowns, grinding XP, inventories, and
-            health regen.
-          </p>
-          <ExerciseProgressTracker
-            exercises={loopExercises}
-            color="emerald"
-            className="mt-4 mb-4"
-          />
-          <Link
-            href="/grade-7/loops"
-            className="inline-flex items-center gap-2 bg-emerald-600 text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-emerald-700 transition-colors text-sm"
+        <motion.div {...fade(0.06)}>
+          <Accordion
+            multiple
+            defaultValue={["python"]}
+            className="space-y-4"
           >
-            View Loops →
-          </Link>
-        </div>
+            <AccordionItem
+              value="python"
+              className="rounded-2xl border border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-900 overflow-hidden"
+            >
+              <AccordionTrigger className="px-5 py-4 text-left hover:bg-slate-50 sm:px-6 sm:py-5 dark:hover:bg-slate-800/60">
+                <div className="flex min-w-0 flex-col items-start gap-1 pr-2">
+                  <span className="text-lg font-semibold text-slate-800 dark:text-white">
+                    Python
+                  </span>
+                  <span className="text-sm font-normal text-slate-600 dark:text-slate-400">
+                    Saturday lessons and Roblox-themed practice exercises
+                  </span>
+                </div>
+              </AccordionTrigger>
+              <AccordionContent className="border-t border-slate-200 px-5 pb-6 pt-6 dark:border-slate-700 sm:px-6">
+                <section
+                  aria-labelledby="saturday-heading"
+                  className="mb-12"
+                >
+                  <h2
+                    id="saturday-heading"
+                    className="text-xl font-semibold text-slate-800 dark:text-white mb-1"
+                  >
+                    Saturday lessons
+                  </h2>
+                  <p className="text-sm text-slate-600 dark:text-slate-400 mb-6">
+                    Follow these in order during class.
+                  </p>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {saturdayLessons.map((lesson, i) => (
+                      <motion.div
+                        key={lesson.id}
+                        initial={{ opacity: 0, y: 6 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.2, delay: 0.08 + i * 0.04 }}
+                      >
+                        <LessonCard lesson={lesson} basePath="/grade-7" />
+                      </motion.div>
+                    ))}
+                  </div>
+                </section>
 
-        {/* Link to loops part 2 */}
-        <div className="bg-teal-50 dark:bg-teal-900/20 border border-teal-200 dark:border-teal-700 rounded-xl p-6 mb-6">
-          <h3 className="font-bold text-lg text-teal-800 dark:text-teal-300 mb-2">
-            Loops Part 2 — break &amp; continue
-          </h3>
-          <p className="text-teal-700 dark:text-teal-400 mb-4">
-            More challenging loop exercises with no starter code — learn break,
-            continue, and while True patterns.
-          </p>
-          <ExerciseProgressTracker
-            exercises={loopPart2Exercises}
-            color="teal"
-            className="mt-4 mb-4"
-          />
-          <Link
-            href="/grade-7/loops-2"
-            className="inline-flex items-center gap-2 bg-teal-600 text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-teal-700 transition-colors text-sm"
-          >
-            View Loops Part 2 →
-          </Link>
-        </div>
+                <section aria-labelledby="practice-heading">
+                  <h2
+                    id="practice-heading"
+                    className="text-xl font-semibold text-slate-800 dark:text-white mb-1"
+                  >
+                    Practice tracks
+                  </h2>
+                  <p className="text-sm text-slate-600 dark:text-slate-400 mb-6 max-w-2xl">
+                    Extra exercises you can tackle anytime. Your completion
+                    progress is saved in this browser.
+                  </p>
+                  <ul className="space-y-3">
+                    {PRACTICE_TRACKS.map((track, i) => (
+                      <motion.li
+                        key={track.id}
+                        initial={{ opacity: 0, y: 6 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.2, delay: 0.12 + i * 0.03 }}
+                      >
+                        <PracticeTrackLink track={track} index={i} />
+                      </motion.li>
+                    ))}
+                  </ul>
+                </section>
+              </AccordionContent>
+            </AccordionItem>
 
-        {/* Link to nested loops */}
-        <div className="bg-sky-50 dark:bg-sky-900/20 border border-sky-200 dark:border-sky-700 rounded-xl p-6 mb-6">
-          <h3 className="font-bold text-lg text-sky-800 dark:text-sky-300 mb-2">
-            Nested Loops Practice
-          </h3>
-          <p className="text-sky-700 dark:text-sky-400 mb-4">
-            Loops inside loops — grids, patterns, multiplication tables, and
-            matching pairs.
-          </p>
-          <ExerciseProgressTracker
-            exercises={nestedLoopExercises}
-            color="sky"
-            className="mt-4 mb-4"
-          />
-          <Link
-            href="/grade-7/nested-loops"
-            className="inline-flex items-center gap-2 bg-sky-600 text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-sky-700 transition-colors text-sm"
-          >
-            View Nested Loops →
-          </Link>
-        </div>
-
-        {/* Link to nested lists */}
-        <div className="bg-rose-50 dark:bg-rose-900/20 border border-rose-200 dark:border-rose-700 rounded-xl p-6 mb-6">
-          <h3 className="font-bold text-lg text-rose-800 dark:text-rose-300 mb-2">
-            Nested Lists Practice
-          </h3>
-          <p className="text-rose-700 dark:text-rose-400 mb-4">
-            Lists inside lists — 2D grids, game boards, searching, and
-            patterns.
-          </p>
-          <ExerciseProgressTracker
-            exercises={nestedListExercises}
-            color="rose"
-            className="mt-4 mb-4"
-          />
-          <Link
-            href="/grade-7/nested-lists"
-            className="inline-flex items-center gap-2 bg-rose-600 text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-rose-700 transition-colors text-sm"
-          >
-            View Nested Lists →
-          </Link>
-        </div>
-
-        {/* Link to functions */}
-        <div className="bg-violet-50 dark:bg-violet-900/20 border border-violet-200 dark:border-violet-700 rounded-xl p-6 mb-6">
-          <h3 className="font-bold text-lg text-violet-800 dark:text-violet-300 mb-2">
-            Functions Practice
-          </h3>
-          <p className="text-violet-700 dark:text-violet-400 mb-4">
-            Learn functions step by step — XP calculators, health systems, shop
-            discounts, and more.
-          </p>
-          <ExerciseProgressTracker
-            exercises={[...functionExercises, ...discordBotExercises]}
-            color="violet"
-            className="mt-4 mb-4"
-          />
-          <Link
-            href="/grade-7/functions"
-            className="inline-flex items-center gap-2 bg-violet-600 text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-violet-700 transition-colors text-sm"
-          >
-            View Function Exercises →
-          </Link>
-        </div>
-
-        {/* Link to dictionaries */}
-        <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700 rounded-xl p-6">
-          <h3 className="font-bold text-lg text-amber-800 dark:text-amber-300 mb-2">
-            Dictionary Exercises
-          </h3>
-          <p className="text-amber-700 dark:text-amber-400 mb-4">
-            Roblox-themed dictionary exercises and projects — part of Milestone
-            2.
-          </p>
-          <ExerciseProgressTracker
-            exercises={dictionaryExercises}
-            color="amber"
-            className="mt-4 mb-4"
-          />
-          <Link
-            href="/grade-7/dictionaries"
-            className="inline-flex items-center gap-2 bg-amber-600 text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-amber-700 transition-colors text-sm"
-          >
-            View Dictionary Exercises →
-          </Link>
-        </div>
+            <AccordionItem
+              value="web"
+              className="rounded-2xl border border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-900 overflow-hidden"
+            >
+              <AccordionTrigger className="px-5 py-4 text-left hover:bg-slate-50 sm:px-6 sm:py-5 dark:hover:bg-slate-800/60">
+                <div className="flex min-w-0 flex-col items-start gap-1 pr-2">
+                  <span className="text-lg font-semibold text-slate-800 dark:text-white">
+                    Intro to Web Development
+                  </span>
+                  <span className="text-sm font-normal text-slate-600 dark:text-slate-400">
+                    HTML, Tailwind CSS, and a one-file mini project
+                  </span>
+                </div>
+              </AccordionTrigger>
+              <AccordionContent className="border-t border-slate-200 px-5 pb-6 pt-6 dark:border-slate-700 sm:px-6">
+                <p className="text-sm text-slate-600 dark:text-slate-400 max-w-2xl mb-6">
+                  Build real pages with HTML and Tailwind on your laptop — a
+                  separate track from the Python exercises above. The steps are
+                  split into short pages; work through them in order, then code
+                  along in a single{" "}
+                  <code className="rounded bg-slate-100 px-1.5 py-0.5 font-mono text-xs dark:bg-slate-800">
+                    index.html
+                  </code>{" "}
+                  file.
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {webLessons.map((lesson, i) => (
+                    <motion.div
+                      key={lesson.id}
+                      initial={{ opacity: 0, y: 6 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.2, delay: 0.06 + i * 0.04 }}
+                    >
+                      <LessonCard lesson={lesson} basePath="/grade-7" />
+                    </motion.div>
+                  ))}
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        </motion.div>
       </div>
     </div>
   );

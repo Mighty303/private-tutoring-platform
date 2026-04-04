@@ -1,3 +1,4 @@
+import LessonEmoji from "@/components/LessonEmoji";
 import Link from "next/link";
 import { getContent, getAllContentIds } from "@/lib/content";
 import { getLessonById, nestedLoopExercises } from "@/lib/lessons";
@@ -44,7 +45,7 @@ export default async function NestedLoopExercisePage({ params }) {
             ← Back to Nested Loops
           </Link>
           <div className="flex items-center gap-3">
-            <span className="text-3xl">{lesson.emoji}</span>
+            <LessonEmoji emoji={lesson.emoji} className="text-3xl" />
             <div>
               <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-800 dark:text-white">
                 {lesson.title}
@@ -97,7 +98,7 @@ export default async function NestedLoopExercisePage({ params }) {
                     Previous
                   </p>
                   <p className="text-sm font-bold text-slate-700 dark:text-slate-200 group-hover:text-sky-600 dark:group-hover:text-sky-400 truncate transition-colors">
-                    {prev.emoji} {prev.title}
+                    {prev.title}
                   </p>
                 </div>
               </Link>
@@ -114,7 +115,7 @@ export default async function NestedLoopExercisePage({ params }) {
                 <div className="min-w-0 text-right">
                   <p className="text-xs text-slate-400 dark:text-slate-500 font-medium">Next</p>
                   <p className="text-sm font-bold text-slate-700 dark:text-slate-200 group-hover:text-sky-600 dark:group-hover:text-sky-400 truncate transition-colors">
-                    {next.emoji} {next.title}
+                    {next.title}
                   </p>
                 </div>
                 <svg

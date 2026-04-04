@@ -1,4 +1,6 @@
 import Link from "next/link";
+import LessonEmoji from "@/components/LessonEmoji";
+import { PlayMark } from "@/components/TrackLinkIcon";
 import { functionExercises, discordBotExercises } from "@/lib/lessons";
 import ExerciseProgressTracker, { ExerciseCheckmark } from "@/components/ExerciseProgressTracker";
 
@@ -40,7 +42,7 @@ export default function FunctionsPage() {
           href="/grade-7/functions/animation"
           className="group flex items-center gap-4 bg-violet-50 dark:bg-violet-900/20 border border-violet-200 dark:border-violet-700 rounded-xl px-5 py-4 mb-6 shadow-sm hover:shadow-md hover:border-violet-400 dark:hover:border-violet-500 transition-all duration-200"
         >
-          <span className="text-2xl shrink-0">🎬</span>
+          <PlayMark />
           <div className="flex-1 min-w-0">
             <h3 className="text-base font-bold text-violet-800 dark:text-violet-300 group-hover:text-violet-600 dark:group-hover:text-violet-200 transition-colors">
               How Function Calls Work
@@ -73,7 +75,7 @@ export default function FunctionsPage() {
               <span className="shrink-0 w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-700 group-hover:bg-violet-100 dark:group-hover:bg-violet-900/50 flex items-center justify-center text-sm font-bold text-slate-500 dark:text-slate-400 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors">
                 {index + 1}
               </span>
-              <span className="text-2xl shrink-0">{lesson.emoji}</span>
+              <LessonEmoji emoji={lesson.emoji} className="text-2xl shrink-0" />
               <div className="flex-1 min-w-0">
                 <h3 className="text-base font-bold text-slate-800 dark:text-white group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors">
                   {lesson.title}
@@ -168,7 +170,7 @@ export default function FunctionsPage() {
               <span className="shrink-0 w-8 h-8 rounded-full bg-[#5865F2]/10 group-hover:bg-[#5865F2]/20 flex items-center justify-center text-sm font-bold text-[#5865F2] transition-colors">
                 {index + 1}
               </span>
-              <span className="text-2xl shrink-0">{lesson.emoji}</span>
+              <LessonEmoji emoji={lesson.emoji} className="text-2xl shrink-0" />
               <div className="flex-1 min-w-0">
                 <h3 className="text-base font-bold text-slate-800 dark:text-white group-hover:text-[#5865F2] transition-colors">
                   {lesson.title}

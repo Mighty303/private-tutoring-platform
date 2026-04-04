@@ -1,4 +1,6 @@
 import Link from "next/link";
+import LessonEmoji from "@/components/LessonEmoji";
+import { PlayMark } from "@/components/TrackLinkIcon";
 import { treeExercises } from "@/lib/lessons";
 import ExerciseProgressTracker, { ExerciseCheckmark } from "@/components/ExerciseProgressTracker";
 
@@ -40,7 +42,7 @@ export default function TreesPage() {
           href="/grade-10/trees/animation"
           className="group flex items-center gap-4 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-700 rounded-xl px-5 py-4 mb-6 shadow-sm hover:shadow-md hover:border-emerald-400 dark:hover:border-emerald-500 transition-all duration-200"
         >
-          <span className="text-2xl shrink-0">🎬</span>
+          <PlayMark />
           <div className="flex-1 min-w-0">
             <h3 className="text-base font-bold text-emerald-800 dark:text-emerald-300 group-hover:text-emerald-600 dark:group-hover:text-emerald-200 transition-colors">
               How Binary Trees Work
@@ -73,7 +75,7 @@ export default function TreesPage() {
               <span className="shrink-0 w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-700 group-hover:bg-emerald-100 dark:group-hover:bg-emerald-900/50 flex items-center justify-center text-sm font-bold text-slate-500 dark:text-slate-400 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
                 {index + 1}
               </span>
-              <span className="text-2xl shrink-0">{lesson.emoji}</span>
+              <LessonEmoji emoji={lesson.emoji} className="text-2xl shrink-0" />
               <div className="flex-1 min-w-0">
                 <h3 className="text-base font-bold text-slate-800 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
                   {lesson.title}

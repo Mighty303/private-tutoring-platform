@@ -4,6 +4,57 @@ import { useMemo } from "react";
 import PythonPlayground from "./PythonPlayground";
 
 /**
+ * Removes lines that are auto-run as hidden tests (LeetCode-style: tests not in editor).
+ * Patterns must stay in sync with extractTestCases().
+ */
+/**
+ * Strips legacy inline test patterns (e.g. # Should print:) from editor-only code.
+ */
+function stripLegacyPrintTests(code) {
+  if (!code) return code;
+  const lines = code.split("\n");
+  const out = [];
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    const lineTrim = line.trim();
+    if (/^#\s*Test your function/i.test(lineTrim)) continue;
+
+    const inlineMatch = lineTrim.match(
+      /^print\(.+\)\s*#\s*(?:Should print|Output|Expected|=>|→)\s*:\s*(.+)/i
+    );
+    if (inlineMatch) continue;
+
+    if (lineTrim.startsWith("print(") && !lineTrim.includes("#")) {
+      const nextLine = (lines[i + 1] || "").trim();
+      const commentMatch = nextLine.match(
+        /^#\s*(?:Should print|Output|Expected|=>|→)\s*:\s*(.+)/i
+      );
+      if (commentMatch) {
+        i += 1;
+        continue;
+      }
+    }
+    out.push(line);
+  }
+  return out.join("\n").replace(/\n+$/, "");
+}
+
+function stripTestLinesFromStarter(code) {
+  if (!code) return code;
+  const lines = code.split("\n");
+  const out = [];
+  for (let i = 0; i < lines.length; i++) {
+    const lineTrim = lines[i].trim();
+    // Tree / multi-line exercises: "# Test 1: ..." through end of block are hidden tests
+    if (/^#\s*Test\s*\d+\s*:/i.test(lineTrim)) {
+      break;
+    }
+    out.push(lines[i]);
+  }
+  return stripLegacyPrintTests(out.join("\n"));
+}
+
+/**
  * Extracts starter code from exercise markdown.
  */
 function extractStarterCode(markdown) {
@@ -106,9 +157,62 @@ function extractExpectedOutput(markdown) {
   return match ? match[1].trim() : null;
 }
 
+/**
+ * Parses "## Starter Code" blocks that use "# Test 1: ..." sections (trees, etc.).
+ * Last line of each section must be `... # expected` (Python line comment).
+ */
+function extractSnippetTestsFromStarter(markdown) {
+  const starterMatch = markdown.match(
+    /##\s*Starter\s*Code[\s\S]*?```python\n([\s\S]*?)```/i
+  );
+  if (!starterMatch) return [];
+
+  const block = starterMatch[1];
+  const lines = block.split("\n");
+  const tests = [];
+  let i = 0;
+  while (i < lines.length) {
+    const lineTrim = lines[i].trim();
+    if (!/^#\s*Test\s*\d+\s*:/i.test(lineTrim)) {
+      i += 1;
+      continue;
+    }
+    const title = lineTrim;
+    i += 1;
+    const chunkLines = [];
+    while (i < lines.length && !/^#\s*Test\s*\d+\s*:/i.test(lines[i].trim())) {
+      chunkLines.push(lines[i]);
+      i += 1;
+    }
+    const chunk = chunkLines.join("\n").trim();
+    if (!chunk) continue;
+
+    const chunkLinesArray = chunk.split("\n");
+    const lastLine = chunkLinesArray[chunkLinesArray.length - 1];
+    const sep = lastLine.lastIndexOf(" # ");
+    if (sep === -1) continue;
+
+    const lastLineCode = lastLine.slice(0, sep).trimEnd();
+    const expected = lastLine.slice(sep + 3).trim();
+    const snippet =
+      chunkLinesArray.length === 1
+        ? lastLineCode
+        : `${chunkLinesArray.slice(0, -1).join("\n")}\n${lastLineCode}`.trim();
+
+    tests.push({
+      type: "snippet",
+      snippet,
+      expected,
+      input: title,
+    });
+  }
+  return tests;
+}
+
 function extractTestCases(markdown, inputLines = []) {
   if (!markdown) return [];
 
+  const snippetTests = extractSnippetTestsFromStarter(markdown);
   const testCases = [];
 
   // Output-based test from Example Output (for procedural exercises)
@@ -120,6 +224,10 @@ function extractTestCases(markdown, inputLines = []) {
       expected: expectedOutput,
       inputLines,
     });
+  }
+
+  if (snippetTests.length > 0) {
+    return [...testCases, ...snippetTests];
   }
 
   // Function-style tests
@@ -174,7 +282,10 @@ function extractTestCases(markdown, inputLines = []) {
 }
 
 export default function ExercisePlayground({ content, exerciseId, title }) {
-  const starterCode = useMemo(() => extractStarterCode(content), [content]);
+  const starterCode = useMemo(
+    () => stripTestLinesFromStarter(extractStarterCode(content)),
+    [content]
+  );
   const exerciseDescription = useMemo(
     () => extractExerciseDescription(content),
     [content]
@@ -188,13 +299,18 @@ export default function ExercisePlayground({ content, exerciseId, title }) {
   return (
     <div className="mt-8 pt-6 border-t border-slate-200 dark:border-slate-700">
       <div className="flex items-center gap-2 mb-4">
-        <span className="text-xl">💻</span>
+        <span className="text-slate-500 dark:text-slate-400" aria-hidden>
+          <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+          </svg>
+        </span>
         <h2 className="text-lg font-bold text-slate-800 dark:text-white">
           Try it yourself
         </h2>
       </div>
       <PythonPlayground
         starterCode={starterCode}
+        stripEditorCode={stripTestLinesFromStarter}
         title={title ? `Code: ${title}` : "Code Editor"}
         exerciseId={exerciseId}
         exerciseDescription={exerciseDescription}

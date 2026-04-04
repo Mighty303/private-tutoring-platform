@@ -3,6 +3,7 @@
 import { useState, useCallback, useEffect, useMemo, useRef } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { MarkdownCode } from "@/components/MarkdownCodeBlock";
 import { useSession } from "next-auth/react";
 import usePyodide from "@/hooks/usePyodide";
 import { markExerciseComplete, invalidateCompletedCache } from "@/hooks/useExerciseProgress";
@@ -598,7 +599,11 @@ export default function DiscordPlayground({
       {testResults?.allPassed && (feedback || feedbackLoading) && (
         <div className="mb-3 px-4 py-3 bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-200 dark:border-indigo-700 rounded-xl">
           <div className="flex items-start gap-2">
-            <span className="text-base mt-0.5 shrink-0">🤖</span>
+            <span className="mt-0.5 shrink-0 text-indigo-500 dark:text-indigo-400" aria-hidden>
+              <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+              </svg>
+            </span>
             <div className="flex-1">
               <p className="text-sm font-semibold text-indigo-800 dark:text-indigo-300 mb-1">
                 Improvement Suggestions
@@ -613,7 +618,12 @@ export default function DiscordPlayground({
                 </div>
               ) : (
                 <div className="prose prose-sm prose-indigo dark:prose-invert max-w-none text-indigo-700 dark:text-indigo-400">
-                  <ReactMarkdown remarkPlugins={[remarkGfm]}>{feedback}</ReactMarkdown>
+                  <ReactMarkdown
+                  remarkPlugins={[remarkGfm]}
+                  components={{ code: MarkdownCode }}
+                >
+                  {feedback}
+                </ReactMarkdown>
                 </div>
               )}
             </div>
@@ -627,13 +637,22 @@ export default function DiscordPlayground({
           {hints.map((h, i) => (
             <div key={i} className="px-4 py-3 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700 rounded-xl">
               <div className="flex items-start gap-2">
-                <span className="text-base mt-0.5 shrink-0">💡</span>
+                <span className="mt-0.5 shrink-0 text-amber-600 dark:text-amber-400" aria-hidden>
+                  <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                  </svg>
+                </span>
                 <div className="flex-1">
                   <p className="text-sm font-semibold text-amber-800 dark:text-amber-300 mb-1">
                     Hint {i + 1}/3
                   </p>
                   <div className="prose prose-sm prose-amber dark:prose-invert max-w-none text-amber-700 dark:text-amber-400">
-                    <ReactMarkdown remarkPlugins={[remarkGfm]}>{h}</ReactMarkdown>
+                    <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
+                    components={{ code: MarkdownCode }}
+                  >
+                    {h}
+                  </ReactMarkdown>
                   </div>
                 </div>
               </div>

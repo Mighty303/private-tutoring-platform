@@ -1,3 +1,4 @@
+import LessonEmoji from "@/components/LessonEmoji";
 import Link from "next/link";
 import { backtrackingExercises } from "@/lib/lessons";
 import ExerciseProgressTracker, { ExerciseCheckmark } from "@/components/ExerciseProgressTracker";
@@ -53,7 +54,7 @@ export default function BacktrackingPage() {
                 {index + 1}
               </span>
 
-              <span className="text-2xl shrink-0">{lesson.emoji}</span>
+              <LessonEmoji emoji={lesson.emoji} className="text-2xl shrink-0" />
 
               <div className="flex-1 min-w-0">
                 <h3 className="text-base font-bold text-slate-800 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">

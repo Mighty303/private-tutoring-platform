@@ -1,4 +1,6 @@
 import Link from "next/link";
+import LessonEmoji from "@/components/LessonEmoji";
+import { LayersMark } from "@/components/TrackLinkIcon";
 import { heap2Exercises } from "@/lib/lessons";
 import ExerciseProgressTracker, { ExerciseCheckmark } from "@/components/ExerciseProgressTracker";
 
@@ -38,7 +40,7 @@ export default function Heaps2Page() {
           href="/grade-10/heaps"
           className="group flex items-center gap-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700 rounded-xl px-5 py-4 mb-6 shadow-sm hover:shadow-md hover:border-amber-400 dark:hover:border-amber-500 transition-all duration-200"
         >
-          <span className="text-2xl shrink-0">🏔️</span>
+          <LayersMark />
           <div className="flex-1 min-w-0">
             <h3 className="text-base font-bold text-amber-800 dark:text-amber-300 group-hover:text-amber-600 dark:group-hover:text-amber-200 transition-colors">
               Heaps Part 1 — Basics
@@ -72,7 +74,7 @@ export default function Heaps2Page() {
                 {index + 1}
               </span>
 
-              <span className="text-2xl shrink-0">{lesson.emoji}</span>
+              <LessonEmoji emoji={lesson.emoji} className="text-2xl shrink-0" />
 
               <div className="flex-1 min-w-0">
                 <h3 className="text-base font-bold text-slate-800 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">

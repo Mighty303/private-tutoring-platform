@@ -198,7 +198,11 @@ export default function TreeAnimation() {
       {/* Header */}
       <div className="bg-linear-to-r from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 border-b border-slate-200 dark:border-slate-700 px-6 py-4">
         <div className="flex items-center gap-3">
-          <span className="text-2xl">🌳</span>
+          <span className="text-emerald-600 dark:text-emerald-400" aria-hidden>
+            <svg className="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 20h16M6 16l2-8h8l2 8M9 12h6M10 8h4" />
+            </svg>
+          </span>
           <div>
             <h2 className="text-lg font-bold text-slate-800 dark:text-white">
               Binary Search Tree — Interactive

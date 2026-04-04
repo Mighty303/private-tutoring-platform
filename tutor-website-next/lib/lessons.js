@@ -1,8 +1,84 @@
+/** Intro to web — Grade 7 accordion (HTML/CSS/Tailwind), not Python exercises */
+export const webLessons = [
+  {
+    id: "web-intro",
+    title: "Web: Overview",
+    emoji: "",
+    description:
+      "What you need, how pages work, and how to create index.html on your laptop.",
+    tags: ["HTML", "CSS", "Tailwind"],
+    color: "cyan",
+  },
+  {
+    id: "web-html",
+    title: "Web: Minimal HTML",
+    emoji: "",
+    description:
+      "Boilerplate, semantic tags, and a tiny first page.",
+    tags: ["HTML"],
+    color: "cyan",
+  },
+  {
+    id: "web-tailwind",
+    title: "Web: Tailwind CDN",
+    emoji: "",
+    description:
+      "Load Tailwind from the Play CDN, box model, and common utility classes.",
+    tags: ["Tailwind", "CSS"],
+    color: "cyan",
+  },
+  {
+    id: "web-themes",
+    title: "Web: Theme inspiration",
+    emoji: "",
+    description:
+      "Mood boards for Roblox-style vs Labubu-style looks.",
+    tags: ["Design"],
+    color: "cyan",
+  },
+  {
+    id: "web-starter-roblox",
+    title: "Web: Roblox-style starter",
+    emoji: "",
+    description:
+      "Full copy-paste template: gradient hero, cards, links.",
+    tags: ["HTML", "Tailwind"],
+    color: "cyan",
+  },
+  {
+    id: "web-starter-labubu",
+    title: "Web: Labubu-style starter",
+    emoji: "",
+    description:
+      "Full copy-paste template: chunky borders and soft panels.",
+    tags: ["HTML", "Tailwind"],
+    color: "cyan",
+  },
+  {
+    id: "web-assignment",
+    title: "Web: Your assignment",
+    emoji: "",
+    description:
+      "Personalize a one-page site with sections and real links.",
+    tags: ["Project"],
+    color: "cyan",
+  },
+  {
+    id: "web-next",
+    title: "Web: What’s next",
+    emoji: "",
+    description:
+      "Where the track goes after a single HTML file.",
+    tags: ["HTML", "CSS"],
+    color: "cyan",
+  },
+];
+
 export const saturdayLessons = [
   {
     id: "cheatsheet",
     title: "Python Basics Cheatsheet",
-    emoji: "🐍",
+    emoji: "",
     description: "Quick reference guide for all Python basics — variables, loops, functions, dictionaries, and more.",
     tags: ["Reference", "Beginner"],
     color: "indigo",
@@ -10,7 +86,7 @@ export const saturdayLessons = [
   {
     id: "review",
     title: "Review Exercises",
-    emoji: "🎮",
+    emoji: "",
     description: "8 hands-on exercises covering character stats, math, input, conditionals, loops, lists, and functions.",
     tags: ["Exercises", "Review"],
     color: "emerald",
@@ -18,7 +94,7 @@ export const saturdayLessons = [
   {
     id: "review2",
     title: "Review Exercises Part 2",
-    emoji: "🎮",
+    emoji: "",
     description: "More practice with conditionals, lists, loops, functions, and a bonus battle challenge.",
     tags: ["Exercises", "Review"],
     color: "teal",
@@ -29,7 +105,7 @@ export const dictionaryExercises = [
   {
     id: "dict-ex0",
     title: "Dictionary Basics",
-    emoji: "📚",
+    emoji: "",
     description: "Game characters, pet stats, high scores, and a mini item shop project.",
     tags: ["Dictionaries", "Beginner"],
     color: "amber",
@@ -37,7 +113,7 @@ export const dictionaryExercises = [
   {
     id: "dict-ex1",
     title: "Roblox Catalog Shop",
-    emoji: "🎮",
+    emoji: "",
     description: "Create a catalog with Roblox items and prices, update and display them.",
     tags: ["Dictionaries", "Roblox"],
     color: "rose",
@@ -45,7 +121,7 @@ export const dictionaryExercises = [
   {
     id: "dict-ex2",
     title: "Robux Balance",
-    emoji: "💰",
+    emoji: "",
     description: "Use input, type conversion, and conditionals to check if you can afford items.",
     tags: ["Dictionaries", "Input"],
     color: "orange",
@@ -53,7 +129,7 @@ export const dictionaryExercises = [
   {
     id: "dict-ex3",
     title: "Buying Items",
-    emoji: "🛒",
+    emoji: "",
     description: "Build a buying system with inventory management and Robux tracking.",
     tags: ["Dictionaries", "Conditionals"],
     color: "sky",
@@ -61,7 +137,7 @@ export const dictionaryExercises = [
   {
     id: "dict-ex4",
     title: "Selling Items Back",
-    emoji: "💸",
+    emoji: "",
     description: "Add selling functionality with 50% resale value and inventory management.",
     tags: ["Dictionaries", "Conditionals"],
     color: "lime",
@@ -69,7 +145,7 @@ export const dictionaryExercises = [
   {
     id: "dict-project-a",
     title: "Project: Ultimate Roblox Shop",
-    emoji: "🏪",
+    emoji: "",
     description: "Build a complete shop with buying, selling, and stats tracking in a game loop.",
     tags: ["Project", "Dictionaries"],
     color: "fuchsia",
@@ -77,7 +153,7 @@ export const dictionaryExercises = [
   {
     id: "dict-project-b",
     title: "Project: Guess Who — Roblox Edition",
-    emoji: "🎲",
+    emoji: "",
     description: "Build a text-based Guess Who game using dictionaries and random selection.",
     tags: ["Project", "Game"],
     color: "cyan",
@@ -88,7 +164,7 @@ export const IntermediateLessons = [
   {
     id: "algorithms",
     title: "Algorithms — CCC Prep",
-    emoji: "🏆",
+    emoji: "",
     description: "Algorithmic thinking for competitive programming — scanning, accumulation, two-pointer patterns.",
     tags: ["Algorithms", "CCC"],
     color: "blue",
@@ -96,7 +172,7 @@ export const IntermediateLessons = [
   {
     id: "dfs-bfs",
     title: "DFS & BFS — Grid Traversal",
-    emoji: "🗺️",
+    emoji: "",
     description: "2D arrays, grid traversal, and building toward CCC Question 5 problems.",
     tags: ["Algorithms", "Grids"],
     color: "purple",
@@ -104,7 +180,7 @@ export const IntermediateLessons = [
   {
     id: "graphs",
     title: "DFS Practice — Graph Exploration",
-    emoji: "🌐",
+    emoji: "",
     description: "Depth-First Search on grids — flood fill, island counting, and maze solving.",
     tags: ["DFS", "Recursion"],
     color: "red",
@@ -115,7 +191,7 @@ export const heapExercises = [
   {
     id: "heap-intro",
     title: "Heap Intro & Concepts",
-    emoji: "🏔️",
+    emoji: "",
     description: "What heaps are, how they're stored, bubble up/down, Python's heapq module, and max-heap trick.",
     tags: ["Heaps", "Reference"],
     color: "amber",
@@ -123,7 +199,7 @@ export const heapExercises = [
   {
     id: "heap-ex1",
     title: "Find the 3rd Largest",
-    emoji: "🥉",
+    emoji: "",
     description: "Use heapq to find the 3rd largest element in a list.",
     tags: ["Heaps", "Exercises"],
     color: "orange",
@@ -131,7 +207,7 @@ export const heapExercises = [
   {
     id: "heap-ex2",
     title: "K Smallest Elements",
-    emoji: "🔢",
+    emoji: "",
     description: "Return the k smallest elements from a list using a heap.",
     tags: ["Heaps", "Exercises"],
     color: "emerald",
@@ -139,7 +215,7 @@ export const heapExercises = [
   {
     id: "heap-ex3",
     title: "Sort Using a Heap",
-    emoji: "📊",
+    emoji: "",
     description: "Sort a list using only heap operations — no built-in sort!",
     tags: ["Heaps", "Exercises"],
     color: "indigo",
@@ -147,7 +223,7 @@ export const heapExercises = [
   {
     id: "heap-ex4",
     title: "Task Scheduler",
-    emoji: "⏰",
+    emoji: "",
     description: "Process tasks in priority order using a heap-based scheduler.",
     tags: ["Heaps", "Exercises"],
     color: "violet",
@@ -155,7 +231,7 @@ export const heapExercises = [
   {
     id: "heap-tips",
     title: "Heap Tips & Reference",
-    emoji: "💡",
+    emoji: "",
     description: "Time complexities, when to use heaps, common mistakes, and debug checklist.",
     tags: ["Heaps", "Reference"],
     color: "blue",
@@ -166,7 +242,7 @@ export const heap2Exercises = [
   {
     id: "heap2-ex1",
     title: "Top K Frequent Elements",
-    emoji: "📊",
+    emoji: "",
     description: "Find the k most frequent elements using a min-heap of size k.",
     tags: ["Heaps", "Exercises"],
     color: "amber",
@@ -174,7 +250,7 @@ export const heap2Exercises = [
   {
     id: "heap2-ex2",
     title: "CCC — Bronze Count",
-    emoji: "🥉",
+    emoji: "",
     description: "CCC J3: Find the 3rd highest score and count how many participants achieved it.",
     tags: ["Heaps", "CCC"],
     color: "sky",
@@ -182,7 +258,7 @@ export const heap2Exercises = [
   {
     id: "heap2-ex3",
     title: "Build a Heap from Scratch",
-    emoji: "🔨",
+    emoji: "",
     description: "Implement bubble up, bubble down, and heapify — no heapq allowed!",
     tags: ["Heaps", "Exercises"],
     color: "violet",
@@ -193,7 +269,7 @@ export const basicsExercises = [
   {
     id: "basics-ex1",
     title: "Character Stats",
-    emoji: "🎨",
+    emoji: "",
     description: "Variables, type casting, and strings — create a Roblox character with name, level, health, and coins.",
     tags: ["Variables", "Strings"],
     color: "amber",
@@ -201,7 +277,7 @@ export const basicsExercises = [
   {
     id: "basics-ex3",
     title: "Player Sign Up",
-    emoji: "📝",
+    emoji: "",
     description: "Input, strings, and type casting — ask for username and age, then display welcome info.",
     tags: ["Input", "Strings"],
     color: "emerald",
@@ -209,7 +285,7 @@ export const basicsExercises = [
   {
     id: "basics-ex4",
     title: "VIP Check",
-    emoji: "🎫",
+    emoji: "",
     description: "Conditionals and indentation — VIP access, score ranks, and shop logic.",
     tags: ["Conditionals"],
     color: "indigo",
@@ -217,7 +293,7 @@ export const basicsExercises = [
   {
     id: "basics-ex5",
     title: "Backpack Manager",
-    emoji: "🎒",
+    emoji: "",
     description: "Lists and for loops — add, remove, index, and loop through inventory.",
     tags: ["Lists", "For Loops"],
     color: "violet",
@@ -225,7 +301,7 @@ export const basicsExercises = [
   {
     id: "basics-ex6",
     title: "Coin Hunt",
-    emoji: "💰",
+    emoji: "",
     description: "While loops — collect coins until 100+, then an interactive collect/stop loop.",
     tags: ["While Loops"],
     color: "rose",
@@ -233,7 +309,7 @@ export const basicsExercises = [
   {
     id: "basics-ex7",
     title: "Top Players",
-    emoji: "🏆",
+    emoji: "",
     description: "For loops with medals, score totals, and a countdown.",
     tags: ["For Loops"],
     color: "sky",
@@ -241,7 +317,7 @@ export const basicsExercises = [
   {
     id: "basics-ex8",
     title: "Battle Time",
-    emoji: "⚔️",
+    emoji: "",
     description: "Functions — show_health, calc_damage, and combining them.",
     tags: ["Functions"],
     color: "teal",
@@ -249,7 +325,7 @@ export const basicsExercises = [
   {
     id: "basics-bonus",
     title: "Simple Battle",
-    emoji: "🎮",
+    emoji: "",
     description: "Full battle loop — Player vs Goblin with attack prompts until someone wins.",
     tags: ["Bonus", "Loops", "Conditionals"],
     color: "fuchsia",
@@ -260,7 +336,7 @@ export const basics2Exercises = [
   {
     id: "basics2-ex1",
     title: "Reverse an Array",
-    emoji: "🔄",
+    emoji: "",
     description: "Implement reversing a list without using the built-in reverse() method.",
     tags: ["Lists", "Algorithms"],
     color: "amber",
@@ -268,7 +344,7 @@ export const basics2Exercises = [
   {
     id: "basics2-ex2",
     title: "Remove Duplicates",
-    emoji: "📋",
+    emoji: "",
     description: "Remove duplicate values from a list while preserving order — no set() allowed.",
     tags: ["Lists", "Algorithms"],
     color: "emerald",
@@ -276,7 +352,7 @@ export const basics2Exercises = [
   {
     id: "basics2-ex3",
     title: "Find the Minimum",
-    emoji: "📉",
+    emoji: "",
     description: "Find the smallest number in a list without using the built-in min() function.",
     tags: ["Lists", "Algorithms"],
     color: "indigo",
@@ -284,7 +360,7 @@ export const basics2Exercises = [
   {
     id: "basics2-ex4",
     title: "Summation",
-    emoji: "∑",
+    emoji: "",
     description: "Compute the sum 1 + 2 + ... + (n-1) using sigma notation — e.g. n=10 returns 45.",
     tags: ["Operators", "Loops"],
     color: "orange",
@@ -295,7 +371,7 @@ export const graph2Exercises = [
   {
     id: "graph2-ex1",
     title: "Build an Adjacency List",
-    emoji: "🔗",
+    emoji: "",
     description: "Convert an edge list into an adjacency list for a directed graph.",
     tags: ["Graphs", "Exercises"],
     color: "teal",
@@ -303,7 +379,7 @@ export const graph2Exercises = [
   {
     id: "graph2-ex2",
     title: "Get Neighbors of a Node",
-    emoji: "🔍",
+    emoji: "",
     description: "Build an adjacency list and return the direct neighbors of a given node.",
     tags: ["Graphs", "Exercises"],
     color: "teal",
@@ -311,7 +387,7 @@ export const graph2Exercises = [
   {
     id: "graph2-ex3",
     title: "Count Sink Nodes",
-    emoji: "🔚",
+    emoji: "",
     description: "Count how many nodes in the graph have no outgoing edges.",
     tags: ["Graphs", "Exercises"],
     color: "teal",
@@ -319,7 +395,7 @@ export const graph2Exercises = [
   {
     id: "graph2-ex4",
     title: "Count In-Degrees",
-    emoji: "📥",
+    emoji: "",
     description: "Count how many edges point into each node in a directed graph.",
     tags: ["Graphs", "Exercises"],
     color: "teal",
@@ -327,7 +403,7 @@ export const graph2Exercises = [
   {
     id: "graph2-ex5",
     title: "Path Existence + Path Reconstruction",
-    emoji: "🗺️",
+    emoji: "",
     description: "Find and return one valid path from a start node to an end node using DFS.",
     tags: ["Graphs", "DFS"],
     color: "indigo",
@@ -335,7 +411,7 @@ export const graph2Exercises = [
   {
     id: "graph2-ex6",
     title: "Course Schedule — Can You Finish?",
-    emoji: "🎓",
+    emoji: "",
     description: "Detect cycles in a prerequisite graph using DFS with three-color marking.",
     tags: ["Graphs", "Cycle Detection"],
     color: "red",
@@ -343,7 +419,7 @@ export const graph2Exercises = [
   {
     id: "graph2-ex7",
     title: "Course Schedule II — Valid Order",
-    emoji: "📋",
+    emoji: "",
     description: "Find a valid course order using topological sort (DFS or Kahn's algorithm).",
     tags: ["Graphs", "Topological Sort"],
     color: "violet",
@@ -354,7 +430,7 @@ export const treeExercises = [
   {
     id: "tree-intro",
     title: "Binary Trees — Intro & Concepts",
-    emoji: "🌳",
+    emoji: "",
     description: "TreeNode class, recursion on trees, traversals, and the BST property.",
     tags: ["Trees", "Reference"],
     color: "emerald",
@@ -362,7 +438,7 @@ export const treeExercises = [
   {
     id: "tree-ex1",
     title: "Maximum Depth",
-    emoji: "📏",
+    emoji: "",
     description: "Find the height of a binary tree using recursive DFS.",
     tags: ["Trees", "Easy", "Recursion"],
     color: "teal",
@@ -370,7 +446,7 @@ export const treeExercises = [
   {
     id: "tree-ex2",
     title: "Count All Nodes",
-    emoji: "🔢",
+    emoji: "",
     description: "Count the total number of nodes in a binary tree.",
     tags: ["Trees", "Easy", "Recursion"],
     color: "teal",
@@ -378,7 +454,7 @@ export const treeExercises = [
   {
     id: "tree-ex3",
     title: "Inorder Traversal",
-    emoji: "📋",
+    emoji: "",
     description: "Return all node values in inorder (sorted for BSTs) using recursion.",
     tags: ["Trees", "Medium", "Recursion"],
     color: "indigo",
@@ -386,7 +462,7 @@ export const treeExercises = [
   {
     id: "tree-ex4",
     title: "Path Sum",
-    emoji: "🎯",
+    emoji: "",
     description: "Check if any root-to-leaf path sums to a target value.",
     tags: ["Trees", "Medium", "Recursion"],
     color: "violet",
@@ -397,7 +473,7 @@ export const backtrackingExercises = [
   {
     id: "backtrack-intro",
     title: "Backtracking Intro & Concepts",
-    emoji: "🔙",
+    emoji: "",
     description: "What backtracking is, the choose/don't choose pattern, and when to use it.",
     tags: ["Backtracking", "Reference"],
     color: "amber",
@@ -405,7 +481,7 @@ export const backtrackingExercises = [
   {
     id: "backtrack-ex1",
     title: "Generate All Binary Strings",
-    emoji: "🧩",
+    emoji: "",
     description: "Build every binary string of length n — two choices at each step.",
     tags: ["Backtracking", "Easy"],
     color: "teal",
@@ -413,7 +489,7 @@ export const backtrackingExercises = [
   {
     id: "backtrack-ex2",
     title: "Generate All Sequences",
-    emoji: "🔢",
+    emoji: "",
     description: "Build every sequence of length k using numbers 1 to n, with repetition allowed.",
     tags: ["Backtracking", "Easy"],
     color: "teal",
@@ -421,7 +497,7 @@ export const backtrackingExercises = [
   {
     id: "backtrack-ex3",
     title: "Subsets",
-    emoji: "📦",
+    emoji: "",
     description: "Return all possible subsets of unique integers — the classic backtracking problem.",
     tags: ["Backtracking", "Medium"],
     color: "violet",
@@ -429,7 +505,7 @@ export const backtrackingExercises = [
   {
     id: "backtrack-ex4",
     title: "Combination Sum",
-    emoji: "🎯",
+    emoji: "",
     description: "All unique combinations that sum to target — numbers can be reused.",
     tags: ["Backtracking", "Medium"],
     color: "indigo",
@@ -437,7 +513,7 @@ export const backtrackingExercises = [
   {
     id: "backtrack-ex5",
     title: "Permutations",
-    emoji: "🔀",
+    emoji: "",
     description: "Return all possible permutations of unique integers — each number used once.",
     tags: ["Backtracking", "Medium"],
     color: "rose",
@@ -449,7 +525,7 @@ export const functionExercises = [
   {
     id: "func-intro",
     title: "Functions — What & Why",
-    emoji: "📖",
+    emoji: "",
     description: "What functions are, return vs print, and how to call them.",
     tags: ["Functions", "Reference"],
     color: "violet",
@@ -457,7 +533,7 @@ export const functionExercises = [
   {
     id: "func-ex1",
     title: "XP Calculator",
-    emoji: "⭐",
+    emoji: "",
     description: "Calculate experience points needed to level up.",
     tags: ["Functions", "Easy"],
     color: "amber",
@@ -465,7 +541,7 @@ export const functionExercises = [
   {
     id: "func-ex2",
     title: "Health System",
-    emoji: "❤️",
+    emoji: "",
     description: "Manage player health with healing, damage, and capping.",
     tags: ["Functions", "Easy"],
     color: "rose",
@@ -473,7 +549,7 @@ export const functionExercises = [
   {
     id: "func-ex3",
     title: "Item Counter",
-    emoji: "🎒",
+    emoji: "",
     description: "Count items in an inventory list, case-insensitive.",
     tags: ["Functions", "Medium"],
     color: "emerald",
@@ -481,7 +557,7 @@ export const functionExercises = [
   {
     id: "func-ex4",
     title: "Shop Calculator",
-    emoji: "🛒",
+    emoji: "",
     description: "Calculate shop totals with a bulk discount.",
     tags: ["Functions", "Medium"],
     color: "orange",
@@ -489,7 +565,7 @@ export const functionExercises = [
   {
     id: "func-tips",
     title: "Tips & Common Mistakes",
-    emoji: "💡",
+    emoji: "",
     description: "Common mistakes, print vs return, and how to read error messages.",
     tags: ["Functions", "Reference"],
     color: "blue",
@@ -500,7 +576,7 @@ export const discordBotExercises = [
   {
     id: "func-discord1",
     title: "Greeting Bot",
-    emoji: "👋",
+    emoji: "",
     description: "Write greeting and farewell functions that your bot sends to Discord.",
     tags: ["Discord", "Functions", "Easy"],
     color: "indigo",
@@ -509,7 +585,7 @@ export const discordBotExercises = [
   {
     id: "func-discord2",
     title: "Dice Roller Bot",
-    emoji: "🎲",
+    emoji: "",
     description: "Build a dice roller with random, loops, and helper functions.",
     tags: ["Discord", "Functions", "Medium"],
     color: "violet",
@@ -518,7 +594,7 @@ export const discordBotExercises = [
   {
     id: "func-discord3",
     title: "Poll Bot",
-    emoji: "📊",
+    emoji: "",
     description: "Create formatted polls using lists, loops, and enumerate.",
     tags: ["Discord", "Functions", "Medium"],
     color: "fuchsia",
@@ -527,7 +603,7 @@ export const discordBotExercises = [
   {
     id: "func-discord4",
     title: "RPG Profile Card",
-    emoji: "🏰",
+    emoji: "",
     description: "Build a full profile card with 4 functions working together.",
     tags: ["Discord", "Functions", "Hard"],
     color: "rose",
@@ -539,7 +615,7 @@ export const loopExercises = [
   {
     id: "loop-intro",
     title: "Loops — How They Work",
-    emoji: "📖",
+    emoji: "",
     description: "for loops, while loops, range(), break, continue, and the accumulator pattern.",
     tags: ["Loops", "Reference"],
     color: "emerald",
@@ -547,7 +623,7 @@ export const loopExercises = [
   {
     id: "loop-ex1",
     title: "Countdown Timer",
-    emoji: "🚀",
+    emoji: "",
     description: "Build a rocket launch countdown with range() going backwards.",
     tags: ["Loops", "Easy"],
     color: "amber",
@@ -555,7 +631,7 @@ export const loopExercises = [
   {
     id: "loop-ex2",
     title: "XP Grinder",
-    emoji: "⚔️",
+    emoji: "",
     description: "Use a while loop to grind XP until you level up.",
     tags: ["Loops", "Medium"],
     color: "violet",
@@ -563,7 +639,7 @@ export const loopExercises = [
   {
     id: "loop-ex3",
     title: "Inventory Lister",
-    emoji: "🎒",
+    emoji: "",
     description: "Loop through a list and print each item with its number.",
     tags: ["Loops", "Easy"],
     color: "sky",
@@ -571,7 +647,7 @@ export const loopExercises = [
   {
     id: "loop-ex4",
     title: "Health Regen",
-    emoji: "💚",
+    emoji: "",
     description: "Heal your character with a while loop until full HP.",
     tags: ["Loops", "Medium"],
     color: "rose",
@@ -579,7 +655,7 @@ export const loopExercises = [
   {
     id: "loop-tips",
     title: "Tips & Common Mistakes",
-    emoji: "💡",
+    emoji: "",
     description: "Off-by-one errors, infinite loops, accumulator pattern, and debugging.",
     tags: ["Loops", "Reference"],
     color: "blue",
@@ -590,7 +666,7 @@ export const loopPart2Exercises = [
   {
     id: "loop2-intro",
     title: "break & continue — How They Work",
-    emoji: "📖",
+    emoji: "",
     description: "Exit loops early with break, skip iterations with continue, and the while True pattern.",
     tags: ["Loops", "Reference"],
     color: "teal",
@@ -598,7 +674,7 @@ export const loopPart2Exercises = [
   {
     id: "loop2-ex1",
     title: "Find the Exit",
-    emoji: "🚪",
+    emoji: "",
     description: "Explore a dungeon and break out when you find the exit.",
     tags: ["Loops", "Medium"],
     color: "amber",
@@ -606,7 +682,7 @@ export const loopPart2Exercises = [
   {
     id: "loop2-ex2",
     title: "Dodge the Obstacles",
-    emoji: "⚡",
+    emoji: "",
     description: "Use continue to skip spikes and collect items on a path.",
     tags: ["Loops", "Medium"],
     color: "rose",
@@ -614,7 +690,7 @@ export const loopPart2Exercises = [
   {
     id: "loop2-ex3",
     title: "Loot Filter",
-    emoji: "💎",
+    emoji: "",
     description: "Skip cheap loot with continue and stop when your bag is full with break.",
     tags: ["Loops", "Hard"],
     color: "violet",
@@ -622,7 +698,7 @@ export const loopPart2Exercises = [
   {
     id: "loop2-ex4",
     title: "Boss Battle",
-    emoji: "🐉",
+    emoji: "",
     description: "Fight a boss using while True, continue for shields, and break for the kill.",
     tags: ["Loops", "Hard"],
     color: "red",
@@ -630,7 +706,7 @@ export const loopPart2Exercises = [
   {
     id: "loop2-tips",
     title: "Tips & Common Mistakes",
-    emoji: "💡",
+    emoji: "",
     description: "Unreachable code, missing updates, infinite loops, and break vs continue.",
     tags: ["Loops", "Reference"],
     color: "blue",
@@ -641,7 +717,7 @@ export const nestedLoopExercises = [
   {
     id: "nloop-intro",
     title: "Nested Loops — How They Work",
-    emoji: "📖",
+    emoji: "",
     description: "Grids, triangles, multiplication tables, break behavior, and counting iterations.",
     tags: ["Loops", "Reference"],
     color: "sky",
@@ -649,7 +725,7 @@ export const nestedLoopExercises = [
   {
     id: "nloop-ex1",
     title: "Number Grid",
-    emoji: "🔢",
+    emoji: "",
     description: "Print a repeating number grid using nested loops.",
     tags: ["Loops", "Easy"],
     color: "amber",
@@ -657,7 +733,7 @@ export const nestedLoopExercises = [
   {
     id: "nloop-ex2",
     title: "Times Table",
-    emoji: "✖️",
+    emoji: "",
     description: "Print the full times table for any number.",
     tags: ["Loops", "Easy"],
     color: "emerald",
@@ -665,7 +741,7 @@ export const nestedLoopExercises = [
   {
     id: "nloop-ex3",
     title: "Coordinate Pairs",
-    emoji: "📍",
+    emoji: "",
     description: "Print all (row, col) pairs for a grid.",
     tags: ["Loops", "Medium"],
     color: "indigo",
@@ -673,7 +749,7 @@ export const nestedLoopExercises = [
   {
     id: "nloop-ex4",
     title: "Matching Pairs",
-    emoji: "🤝",
+    emoji: "",
     description: "Find all unique pairs from a list of items.",
     tags: ["Loops", "Medium"],
     color: "rose",
@@ -681,7 +757,7 @@ export const nestedLoopExercises = [
   {
     id: "nloop-tips",
     title: "Tips & Common Mistakes",
-    emoji: "💡",
+    emoji: "",
     description: "Variable names, break behavior, off-by-one errors, and debugging.",
     tags: ["Loops", "Reference"],
     color: "blue",
@@ -692,7 +768,7 @@ export const nestedListExercises = [
   {
     id: "nlist-intro",
     title: "Nested Lists — How They Work",
-    emoji: "📖",
+    emoji: "",
     description: "2D grids, accessing elements, looping, searching, and tic-tac-toe.",
     tags: ["Lists", "Reference"],
     color: "rose",
@@ -700,7 +776,7 @@ export const nestedListExercises = [
   {
     id: "nlist-ex1",
     title: "Sum Each Row",
-    emoji: "➕",
+    emoji: "",
     description: "Calculate and print the sum of each row in a grid.",
     tags: ["Lists", "Easy"],
     color: "amber",
@@ -708,7 +784,7 @@ export const nestedListExercises = [
   {
     id: "nlist-ex2",
     title: "Find the Largest",
-    emoji: "🏆",
+    emoji: "",
     description: "Find the largest number in a 2D grid.",
     tags: ["Lists", "Easy"],
     color: "emerald",
@@ -716,7 +792,7 @@ export const nestedListExercises = [
   {
     id: "nlist-ex3",
     title: "Count a Value",
-    emoji: "🔍",
+    emoji: "",
     description: "Count how many times a value appears in a grid.",
     tags: ["Lists", "Medium"],
     color: "indigo",
@@ -724,7 +800,7 @@ export const nestedListExercises = [
   {
     id: "nlist-ex4",
     title: "Checkerboard",
-    emoji: "♟️",
+    emoji: "",
     description: "Create and print a checkerboard pattern.",
     tags: ["Lists", "Medium"],
     color: "violet",
@@ -732,7 +808,7 @@ export const nestedListExercises = [
   {
     id: "nlist-tips",
     title: "Tips & Common Mistakes",
-    emoji: "💡",
+    emoji: "",
     description: "Index order, grid creation traps, resetting variables, and debugging.",
     tags: ["Lists", "Reference"],
     color: "blue",
@@ -816,6 +892,7 @@ export const milestones = [
 
 export function getLessonById(id) {
   const all = [
+    ...webLessons,
     ...saturdayLessons,
     ...dictionaryExercises,
     ...IntermediateLessons,
@@ -838,6 +915,7 @@ export function getLessonById(id) {
 
 export function getAllLessons() {
   return [
+    ...webLessons,
     ...saturdayLessons,
     ...dictionaryExercises,
     ...IntermediateLessons,
@@ -881,6 +959,7 @@ export function getExerciseUrl(slug) {
   if (slug.startsWith("loop-"))        return `/grade-7/loops/${slug}`;
   if (slug.startsWith("nloop-"))       return `/grade-7/nested-loops/${slug}`;
   if (slug.startsWith("nlist-"))       return `/grade-7/nested-lists/${slug}`;
+  if (slug.startsWith("web-"))         return `/grade-7/${slug}`;
   if (slug.startsWith("dict-"))        return `/grade-7/dictionaries/${slug}`;
   if (slug.startsWith("basics2-"))     return `/grade-10/basics-2/${slug}`;
   if (slug.startsWith("basics-"))      return `/grade-7/${slug}`;

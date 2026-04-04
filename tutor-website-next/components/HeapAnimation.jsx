@@ -367,7 +367,7 @@ export default function HeapAnimation() {
       {/* Header */}
       <div className={`${gradientClass} px-6 py-4 flex items-center justify-between`}>
         <div>
-          <h3 className="text-white font-bold text-lg">🏔️ Heap Animation</h3>
+          <h3 className="text-white font-bold text-lg">Heap Animation</h3>
           <p className="text-white/70 text-sm mt-1">
             Watch insert, extract, and build heap in action!
           </p>
@@ -422,7 +422,7 @@ export default function HeapAnimation() {
               disabled={isAnimating || !inputValue}
               className="px-4 py-2 bg-indigo-500 text-white text-sm font-medium rounded-lg hover:bg-indigo-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
-              ⬆️ Insert
+              Insert
             </button>
           </div>
           <button
@@ -430,21 +430,21 @@ export default function HeapAnimation() {
             disabled={isAnimating || heap.length === 0}
             className="px-4 py-2 bg-emerald-500 text-white text-sm font-medium rounded-lg hover:bg-emerald-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
-            ⬇️ Extract {isMin ? "Min" : "Max"}
+            Extract {isMin ? "Min" : "Max"}
           </button>
           <button
             onClick={animateBuildHeap}
             disabled={isAnimating}
             className="px-4 py-2 bg-rose-500 text-white text-sm font-medium rounded-lg hover:bg-rose-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
-            🔨 Build Heap
+            Build Heap
           </button>
           <button
             onClick={resetHeap}
             disabled={isAnimating}
             className="px-4 py-2 bg-slate-500 text-white text-sm font-medium rounded-lg hover:bg-slate-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
-            🔄 Reset
+            Reset
           </button>
         </div>
       </div>
@@ -632,7 +632,7 @@ export default function HeapAnimation() {
         <div className="px-6 py-4 border-t border-slate-100 dark:border-slate-700">
           <div className="bg-indigo-50 dark:bg-indigo-900/20 rounded-xl p-4">
             <h4 className="text-sm font-bold text-indigo-700 dark:text-indigo-300 mb-3">
-              🔢 Array Index Formulas
+              Array index formulas
             </h4>
             <div className="grid grid-cols-3 gap-3 mb-3">
               <div className="bg-white dark:bg-slate-800 rounded-lg p-3 text-center border border-emerald-200 dark:border-emerald-800">
@@ -701,7 +701,7 @@ export default function HeapAnimation() {
             </div>
             {selectedNode === null && (
               <p className="text-xs text-indigo-500 dark:text-indigo-400 text-center">
-                👆 Click any node in the tree to see the formulas in action
+                Click any node in the tree to see the formulas in action
               </p>
             )}
           </div>
@@ -746,7 +746,7 @@ export default function HeapAnimation() {
         <div className="px-6 py-4 border-t border-slate-100 dark:border-slate-700">
           <div className="bg-rose-50 dark:bg-rose-900/20 rounded-xl p-4">
             <h4 className="text-sm font-bold text-rose-700 dark:text-rose-300 mb-2">
-              🔨 Build Heap — Process Order
+              Build Heap — Process Order
             </h4>
             <p className="text-xs text-slate-600 dark:text-slate-300 mb-3 leading-relaxed">
               Start from index{" "}
@@ -866,7 +866,7 @@ export default function HeapAnimation() {
       {/* Time Complexity Table */}
       <div className="border-t border-slate-200 dark:border-slate-700 px-6 py-5">
         <h4 className="text-sm font-bold text-slate-700 dark:text-slate-200 mb-3">
-          📐 Time Complexity
+          Time complexity
         </h4>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">

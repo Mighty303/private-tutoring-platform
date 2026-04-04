@@ -2,6 +2,10 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
+/* Lesson markdown (.md) includes Tailwind examples in copy-paste HTML; scanning it
+   generates url(...) rules that webpack tries to resolve (e.g. ./...). */
+@source not "../content/**";
+
 @custom-variant dark (&:where(.dark, .dark *));
 
 /* Smooth theme transitions */

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import LessonEmoji from "@/components/LessonEmoji";
 
 const tagColors = {
   Reference: "bg-blue-100 text-blue-700",
@@ -20,6 +21,9 @@ const tagColors = {
   Recursion: "bg-lime-100 text-lime-700",
   Answers: "bg-green-100 text-green-700",
   Heaps: "bg-amber-100 text-amber-700",
+  HTML: "bg-slate-100 text-slate-700",
+  CSS: "bg-orange-100 text-orange-700",
+  Tailwind: "bg-teal-100 text-teal-800",
 };
 
 const cardBorders = {
@@ -50,7 +54,7 @@ export default function LessonCard({ lesson, basePath }) {
     >
       <div className="p-6">
         <div className="flex items-start justify-between mb-3">
-          <span className="text-3xl">{lesson.emoji}</span>
+          <LessonEmoji emoji={lesson.emoji} className="text-3xl" />
           <svg
             className="w-5 h-5 text-slate-400 group-hover:text-indigo-500 group-hover:translate-x-1 transition-all"
             fill="none"

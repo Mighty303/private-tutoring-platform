@@ -1,4 +1,6 @@
 import Link from "next/link";
+import LessonEmoji from "@/components/LessonEmoji";
+import { PlayMark } from "@/components/TrackLinkIcon";
 import { nestedLoopExercises } from "@/lib/lessons";
 import ExerciseProgressTracker, { ExerciseCheckmark } from "@/components/ExerciseProgressTracker";
 
@@ -38,7 +40,7 @@ export default function NestedLoopsPage() {
           href="/grade-7/nested-loops/animation"
           className="group flex items-center gap-4 bg-sky-50 dark:bg-sky-900/20 border border-sky-200 dark:border-sky-700 rounded-xl px-5 py-4 mb-6 shadow-sm hover:shadow-md hover:border-sky-400 dark:hover:border-sky-500 transition-all duration-200"
         >
-          <span className="text-2xl shrink-0">🎬</span>
+          <PlayMark />
           <div className="flex-1 min-w-0">
             <h3 className="text-base font-bold text-sky-800 dark:text-sky-300 group-hover:text-sky-600 dark:group-hover:text-sky-200 transition-colors">
               How Nested Loops Work
@@ -74,7 +76,7 @@ export default function NestedLoopsPage() {
               </span>
 
               {/* Emoji */}
-              <span className="text-2xl shrink-0">{lesson.emoji}</span>
+              <LessonEmoji emoji={lesson.emoji} className="text-2xl shrink-0" />
 
               {/* Info */}
               <div className="flex-1 min-w-0">

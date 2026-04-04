@@ -249,8 +249,10 @@ sys.stderr = sys.__stderr__
       return { results: [], allPassed: false };
     }
 
+    setIsRunning(true);
     const results = [];
 
+    try {
     for (const tc of testCases) {
       try {
         pyodideInstance.runPython(`
@@ -300,6 +302,23 @@ sys.settrace(_execution_guard)
           const expected = tc.expected.trim();
           const passed = actual === expected;
           results.push({ input: tc.input, expected, actual, passed });
+          continue;
+        }
+
+        // Multi-line snippet (e.g. build tree + print) from "# Test N:" starter blocks
+        if (tc.type === "snippet") {
+          await pyodideInstance.runPythonAsync(code);
+          pyodideInstance.runPython("_tc_stdout.parts.clear()");
+          await pyodideInstance.runPythonAsync(tc.snippet);
+          const actual = pyodideInstance.runPython("_tc_stdout.getvalue()").trim();
+          const expected = tc.expected.trim();
+          const passed = actual === expected;
+          results.push({
+            input: tc.input || "(snippet)",
+            expected,
+            actual,
+            passed,
+          });
           continue;
         }
 
@@ -382,6 +401,9 @@ sys.stderr = sys.__stderr__
 
     const allPassed = results.length > 0 && results.every((r) => r.passed);
     return { results, allPassed };
+    } finally {
+      setIsRunning(false);
+    }
   }, []);
 
   return {

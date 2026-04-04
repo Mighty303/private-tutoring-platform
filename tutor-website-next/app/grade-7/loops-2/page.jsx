@@ -1,4 +1,5 @@
 import Link from "next/link";
+import LessonEmoji from "@/components/LessonEmoji";
 import { loopPart2Exercises } from "@/lib/lessons";
 import ExerciseProgressTracker, { ExerciseCheckmark } from "@/components/ExerciseProgressTracker";
 
@@ -36,7 +37,11 @@ export default function LoopsPart2Page() {
 
         {/* Prerequisite note */}
         <div className="flex items-start gap-3 bg-teal-50 dark:bg-teal-900/20 border border-teal-200 dark:border-teal-700 rounded-xl px-5 py-4 mb-6">
-          <span className="text-xl shrink-0 mt-0.5">⚠️</span>
+          <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border border-teal-300 bg-teal-100 text-teal-800 dark:border-teal-600 dark:bg-teal-900/50 dark:text-teal-200" aria-hidden>
+            <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+          </span>
           <div>
             <p className="text-sm font-semibold text-teal-800 dark:text-teal-300">
               No starter code in these exercises!
@@ -44,7 +49,7 @@ export default function LoopsPart2Page() {
             <p className="text-sm text-teal-700 dark:text-teal-400 mt-1">
               These are more challenging — you need to write the full solution from scratch.
               Make sure you&apos;re comfortable with{" "}
-              <Link href="/grade-7/loops" className="underline font-medium hover:text-teal-900 dark:hover:text-teal-200">
+              <Link href="/grade-7/loops" className="font-medium hover:text-teal-900 dark:hover:text-teal-200">
                 Loops Part 1
               </Link>{" "}
               first.
@@ -72,7 +77,7 @@ export default function LoopsPart2Page() {
                 {index + 1}
               </span>
 
-              <span className="text-2xl shrink-0">{lesson.emoji}</span>
+              <LessonEmoji emoji={lesson.emoji} className="text-2xl shrink-0" />
 
               <div className="flex-1 min-w-0">
                 <h3 className="text-base font-bold text-slate-800 dark:text-white group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors">

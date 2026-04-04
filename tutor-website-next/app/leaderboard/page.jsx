@@ -34,7 +34,6 @@ export default async function LeaderboardPage() {
     return (
       <div className="min-h-screen bg-linear-to-b from-slate-50 to-white dark:from-slate-950 dark:to-slate-900">
         <div className="max-w-2xl mx-auto px-4 py-16 text-center">
-          <div className="text-6xl mb-4">🏆</div>
           <h1 className="text-2xl font-bold text-slate-800 dark:text-white mb-2">
             Classroom Leaderboard
           </h1>

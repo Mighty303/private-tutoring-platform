@@ -4,6 +4,16 @@ import path from "path";
 const contentDir = path.join(process.cwd(), "content");
 
 const fileMap = {
+  // Web development (Grade 7) — split into short pages
+  "web-intro": "web/intro.md",
+  "web-html": "web/html.md",
+  "web-tailwind": "web/tailwind.md",
+  "web-themes": "web/themes.md",
+  "web-starter-roblox": "web/starter-roblox.md",
+  "web-starter-labubu": "web/starter-labubu.md",
+  "web-assignment": "web/assignment.md",
+  "web-next": "web/next-steps.md",
+
   // Saturday lessons
   cheatsheet: "saturdays/Cheatsheet.md",
   review: "saturdays/Review.md",

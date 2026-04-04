@@ -1,3 +1,4 @@
+import LessonEmoji from "@/components/LessonEmoji";
 import Link from "next/link";
 import { getContent, getAllContentIds } from "@/lib/content";
 import { getLessonById } from "@/lib/lessons";
@@ -35,7 +36,7 @@ export default async function DictionaryLessonPage({ params }) {
             ← Back to Grade 7 Lessons
           </Link>
           <div className="flex items-center gap-3">
-            <span className="text-3xl">{lesson.emoji}</span>
+            <LessonEmoji emoji={lesson.emoji} className="text-3xl" />
             <div>
               <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-800 dark:text-white">
                 {lesson.title}

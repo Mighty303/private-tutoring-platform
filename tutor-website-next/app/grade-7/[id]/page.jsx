@@ -1,12 +1,20 @@
 import Link from "next/link";
+import LessonEmoji from "@/components/LessonEmoji";
+import BoxModelDiagram from "@/components/BoxModelDiagram";
 import { getContent, getAllContentIds } from "@/lib/content";
 import { getLessonById } from "@/lib/lessons";
 import MarkdownRenderer from "@/components/MarkdownRenderer";
 import { notFound } from "next/navigation";
 
+const GRADE7_STATIC_IDS = new Set([
+  "cheatsheet",
+  "review",
+  "review2",
+]);
+
 export async function generateStaticParams() {
   const ids = getAllContentIds().filter(
-    (id) => ["cheatsheet", "review", "review2"].includes(id)
+    (id) => GRADE7_STATIC_IDS.has(id) || id.startsWith("web-")
   );
   return ids.map((id) => ({ id }));
 }
@@ -24,6 +32,11 @@ export default async function Grade7LessonPage({ params }) {
 
   if (!lesson || !content) notFound();
 
+  const boxModelParts =
+    id === "web-tailwind" && content.includes("[[BOX_MODEL]]")
+      ? content.split("[[BOX_MODEL]]")
+      : null;
+
   return (
     <div className="min-h-screen bg-white dark:bg-slate-950">
       {/* Top bar */}
@@ -36,7 +49,7 @@ export default async function Grade7LessonPage({ params }) {
             ← Back to Grade 7 Lessons
           </Link>
           <div className="flex items-center gap-3">
-            <span className="text-3xl">{lesson.emoji}</span>
+            <LessonEmoji emoji={lesson.emoji} className="text-3xl" />
             <div>
               <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-800 dark:text-white">
                 {lesson.title}
@@ -59,7 +72,15 @@ export default async function Grade7LessonPage({ params }) {
       {/* Content */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <div className="prose">
-          <MarkdownRenderer content={content} />
+          {boxModelParts ? (
+            <>
+              <MarkdownRenderer content={boxModelParts[0]} />
+              <BoxModelDiagram />
+              <MarkdownRenderer content={boxModelParts[1]} />
+            </>
+          ) : (
+            <MarkdownRenderer content={content} />
+          )}
         </div>
       </div>
     </div>

@@ -33,9 +33,9 @@ function buildStudentProgressList(users, submissions) {
 }
 
 const PODIUM_CONFIG = [
-  { rank: 2, medal: "🥈", blockH: "h-20", avatarSize: 48, label: "2nd", color: "from-slate-300 to-slate-400 dark:from-slate-600 dark:to-slate-700", border: "border-slate-300 dark:border-slate-500" },
-  { rank: 1, medal: "🥇", blockH: "h-32", avatarSize: 64, label: "1st", color: "from-yellow-300 to-yellow-500 dark:from-yellow-500 dark:to-yellow-700", border: "border-yellow-400 dark:border-yellow-500" },
-  { rank: 3, medal: "🥉", blockH: "h-14", avatarSize: 40, label: "3rd", color: "from-orange-300 to-orange-500 dark:from-orange-500 dark:to-orange-700", border: "border-orange-400 dark:border-orange-500" },
+  { rank: 2, blockH: "h-20", avatarSize: 48, label: "2nd", color: "from-slate-300 to-slate-400 dark:from-slate-600 dark:to-slate-700", border: "border-slate-300 dark:border-slate-500" },
+  { rank: 1, blockH: "h-32", avatarSize: 64, label: "1st", color: "from-yellow-300 to-yellow-500 dark:from-yellow-500 dark:to-yellow-700", border: "border-yellow-400 dark:border-yellow-500" },
+  { rank: 3, blockH: "h-14", avatarSize: 40, label: "3rd", color: "from-orange-300 to-orange-500 dark:from-orange-500 dark:to-orange-700", border: "border-orange-400 dark:border-orange-500" },
 ];
 
 function PodiumSlot({ config, student }) {
@@ -44,7 +44,9 @@ function PodiumSlot({ config, student }) {
     <div className="flex flex-col items-center gap-2" style={{ flex: 1 }}>
       {/* Avatar + name above the block */}
       <div className={`flex flex-col items-center gap-1 pb-2 ${isFirst ? "mb-1" : ""}`}>
-        <span className="text-2xl">{config.medal}</span>
+        <span className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-200 text-xs font-bold text-slate-700 dark:bg-slate-700 dark:text-slate-200">
+          {config.rank}
+        </span>
         {student ? (
           student.user_image ? (
             <Image
@@ -149,8 +151,7 @@ export default function LeaderboardClient({
       <div className="max-w-2xl mx-auto px-4 py-12">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-slate-800 dark:text-white flex items-center gap-2">
-              <span className="text-4xl">🏆</span>
+            <h1 className="text-3xl font-bold text-slate-800 dark:text-white">
               Leaderboard
             </h1>
             <p className="text-slate-600 dark:text-slate-400 mt-1">

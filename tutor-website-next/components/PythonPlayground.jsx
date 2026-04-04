@@ -3,7 +3,9 @@
 import { useState, useCallback, useEffect, useRef } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { MarkdownCode } from "@/components/MarkdownCodeBlock";
 import { useSession } from "next-auth/react";
+import Image from "next/image";
 import usePyodide from "@/hooks/usePyodide";
 import { markExerciseComplete, invalidateCompletedCache } from "@/hooks/useExerciseProgress";
 import CodeEditor from "./CodeEditor";
@@ -21,6 +23,8 @@ function hintCacheKey(exerciseId) {
 
 export default function PythonPlayground({
   starterCode = "# Write your Python code here\nprint('Hello, world!')\n",
+  /** When set (e.g. lesson exercises), strip hidden test lines from saved editor code. */
+  stripEditorCode,
   title,
   exerciseDescription,
   exerciseId,
@@ -28,17 +32,22 @@ export default function PythonPlayground({
   inputLines = [],
   classroomId, // pass classroomId for membership check
 }) {
+  const applyEditorStrip = stripEditorCode ?? ((s) => s);
+
   // Initialise code from localStorage (if available) or starterCode
   const [code, setCode] = useState(() => {
-    if (typeof window === "undefined") return starterCode;
-    const key = cacheKey(exerciseId);
-    if (!key) return starterCode;
-    try {
-      const saved = localStorage.getItem(key);
-      return saved !== null ? saved : starterCode;
-    } catch {
-      return starterCode;
-    }
+    const initial = (() => {
+      if (typeof window === "undefined") return starterCode;
+      const key = cacheKey(exerciseId);
+      if (!key) return starterCode;
+      try {
+        const saved = localStorage.getItem(key);
+        return saved !== null ? saved : starterCode;
+      } catch {
+        return starterCode;
+      }
+    })();
+    return applyEditorStrip(initial);
   });
   const { isLoading, isReady, error, isRunning, output, pythonVersion, runCode, clearOutput, runTests } =
     usePyodide();
@@ -68,7 +77,6 @@ export default function PythonPlayground({
   const [hintLoading, setHintLoading] = useState(false);
   const [hintCountdown, setHintCountdown] = useState(null);
   const fetchHintNumRef = useRef(null);
-  const [askOpen, setAskOpen] = useState(false);
   const [question, setQuestion] = useState("");
   const [askAnswer, setAskAnswer] = useState(null);
   const [askLoading, setAskLoading] = useState(false);
@@ -126,10 +134,27 @@ export default function PythonPlayground({
   }, [toast]);
 
   const handleRun = useCallback(async () => {
-    await runCode(code, { inputLines });
-    if (testCases.length > 0) {
-      const { results, allPassed } = await runTests(code, testCases);
-      setTestResults({ results, allPassed });
+    setTestResults(null);
+    try {
+      await runCode(code, { inputLines });
+      if (testCases.length > 0) {
+        const { results, allPassed } = await runTests(code, testCases);
+        setTestResults({ results, allPassed });
+      }
+    } catch (e) {
+      const msg = e?.message || String(e);
+      setTestResults({
+        results: [
+          {
+            input: "(tests)",
+            expected: "",
+            actual: "",
+            passed: false,
+            error: msg || "Could not run tests",
+          },
+        ],
+        allPassed: false,
+      });
     }
   }, [code, runCode, testCases, runTests, inputLines]);
 
@@ -579,13 +604,22 @@ export default function PythonPlayground({
           {hints.map((h, i) => (
             <div key={i} className="px-4 py-3 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700 rounded-xl">
               <div className="flex items-start gap-2">
-                <span className="text-base mt-0.5 shrink-0">💡</span>
+                <span className="mt-0.5 shrink-0 text-amber-600 dark:text-amber-400" aria-hidden>
+                  <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                  </svg>
+                </span>
                 <div className="flex-1">
                   <p className="text-sm font-semibold text-amber-800 dark:text-amber-300 mb-1">
                     Hint {i + 1}/3
                   </p>
                   <div className="prose prose-sm prose-amber dark:prose-invert max-w-none text-amber-700 dark:text-amber-400">
-                    <ReactMarkdown remarkPlugins={[remarkGfm]}>{h}</ReactMarkdown>
+                    <ReactMarkdown
+                      remarkPlugins={[remarkGfm]}
+                      components={{ code: MarkdownCode }}
+                    >
+                      {h}
+                    </ReactMarkdown>
                   </div>
                 </div>
               </div>
@@ -594,73 +628,80 @@ export default function PythonPlayground({
         </div>
       )}
 
-      {/* Ask a Question panel — only on exercise pages and if user is allowed */}
+      {/* Ask MartinGPT panel — only on exercise pages and if user is allowed */}
       {exerciseDescription && membershipChecked && (
         isClassroomMember ? (
-          <div className="mb-3">
-            <button
-              onClick={() => setAskOpen((v) => !v)}
-              className="inline-flex items-center gap-2 text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 transition-colors"
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              {askOpen ? "Close" : "Ask a Question"}
-              <svg className={`w-3 h-3 transition-transform ${askOpen ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
+          <div className="mt-5 mb-3">
+            <div className="p-4 bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-200 dark:border-indigo-700 rounded-lg">
+              <div className="flex items-center gap-2 mb-2">
+                <Image
+                  src="/assets/martin-gpt-pfp.png"
+                  alt="MartinGPT"
+                  width={24}
+                  height={24}
+                  className="h-6 w-6 rounded-full object-cover ring-2 ring-indigo-300/70 dark:ring-indigo-600/70 shrink-0"
+                />
+                <span className="text-sm font-semibold text-indigo-800 dark:text-indigo-200">
+                  Ask MartinGPT
+                </span>
+              </div>
+              <p className="text-xs text-indigo-600 dark:text-indigo-400 mb-2">
+                Ask about the exercise, a concept, or Python. No solutions given.
+              </p>
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={question}
+                  onChange={(e) => setQuestion(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && !e.shiftKey) {
+                      e.preventDefault();
+                      handleAskQuestion();
+                    }
+                  }}
+                  placeholder="e.g.I don't understand the question"
+                  className="flex-1 px-3 py-2 text-sm rounded-lg border border-indigo-300 dark:border-indigo-600 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-400 dark:focus:ring-indigo-500"
+                  disabled={askLoading}
+                />
+                <button
+                  onClick={handleAskQuestion}
+                  disabled={askLoading || !question.trim()}
+                  className="inline-flex items-center gap-1.5 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 disabled:bg-slate-500 disabled:cursor-not-allowed text-white text-sm font-semibold rounded-lg transition-colors"
+                >
+                  {askLoading ? (
+                    <>
+                      <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                      </svg>
+                      thinking . . .
+                    </>
+                  ) : (
+                    "Ask"
+                  )}
+                </button>
+              </div>
 
-            {askOpen && (
-              <div className="mt-2 p-4 bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-200 dark:border-indigo-700 rounded-lg">
-                <p className="text-xs text-indigo-600 dark:text-indigo-400 mb-2">
-                  Ask about the exercise, a concept, or Python — no solutions given.
-                </p>
-                <div className="flex gap-2">
-                  <input
-                    type="text"
-                    value={question}
-                    onChange={(e) => setQuestion(e.target.value)}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter" && !e.shiftKey) {
-                        e.preventDefault();
-                        handleAskQuestion();
-                      }
-                    }}
-                    placeholder="e.g.I don't understand the question"
-                    className="flex-1 px-3 py-2 text-sm rounded-lg border border-indigo-300 dark:border-indigo-600 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-400 dark:focus:ring-indigo-500"
-                    disabled={askLoading}
+              {/* Answer display — thinking until the model returns */}
+              {(askLoading || askAnswer) && (
+                <div className="mt-3 flex items-start gap-2">
+                  <Image
+                    src="/assets/martin-gpt-pfp.png"
+                    alt="MartinGPT"
+                    width={32}
+                    height={32}
+                    className={`mt-0.5 h-8 w-8 rounded-full object-cover shrink-0 ring-2 ring-indigo-200 dark:ring-indigo-700 ${askLoading ? "animate-pulse" : ""}`}
                   />
-                  <button
-                    onClick={handleAskQuestion}
-                    disabled={askLoading || !question.trim()}
-                    className="inline-flex items-center gap-1.5 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 disabled:bg-slate-500 disabled:cursor-not-allowed text-white text-sm font-semibold rounded-lg transition-colors"
-                  >
-                    {askLoading ? (
-                      <>
-                        <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
-                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                        </svg>
-                        …
-                      </>
-                    ) : (
-                      "Ask"
-                    )}
-                  </button>
-                </div>
-
-                {/* Answer display */}
-                {askAnswer && (
-                  <div className="mt-3 flex items-start gap-2">
-                    <span className="text-base mt-0.5 shrink-0">🤖</span>
-                    <p className="text-sm text-indigo-800 dark:text-indigo-300 whitespace-pre-wrap">
+                  {askLoading ? (
+                    <p className="text-sm text-indigo-600 dark:text-indigo-400 pt-1">thinking . . .</p>
+                  ) : (
+                    <p className="text-sm text-indigo-800 dark:text-indigo-300 whitespace-pre-wrap flex-1 min-w-0">
                       {askAnswer}
                     </p>
-                  </div>
-                )}
-              </div>
-            )}
+                  )}
+                </div>
+              )}
+            </div>
           </div>
         ) : (
           <span className="inline-flex items-center gap-2 px-4 py-2 bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-sm font-semibold rounded-lg transition-colors shadow-sm cursor-not-allowed" title="You must be logged in and in the classroom to use hints and AI features">
@@ -684,7 +725,11 @@ export default function PythonPlayground({
       {testResults?.allPassed && (feedback || feedbackLoading) && (
         <div className="my-3 px-4 py-3 bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-200 dark:border-indigo-700 rounded-xl">
           <div className="flex items-start gap-2">
-            <span className="text-base mt-0.5 shrink-0">🤖</span>
+            <span className="mt-0.5 shrink-0 text-indigo-500 dark:text-indigo-400" aria-hidden>
+              <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+              </svg>
+            </span>
             <div className="flex-1">
               <p className="text-sm font-semibold text-indigo-800 dark:text-indigo-300 mb-1">
                 Improvement Suggestions
@@ -699,7 +744,12 @@ export default function PythonPlayground({
                 </div>
               ) : (
                 <div className="prose prose-sm prose-indigo dark:prose-invert max-w-none text-indigo-700 dark:text-indigo-400">
-                  <ReactMarkdown remarkPlugins={[remarkGfm]}>{feedback}</ReactMarkdown>
+                  <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
+                    components={{ code: MarkdownCode }}
+                  >
+                    {feedback}
+                  </ReactMarkdown>
                 </div>
               )}
             </div>

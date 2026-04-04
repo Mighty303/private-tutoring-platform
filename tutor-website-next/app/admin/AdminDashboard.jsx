@@ -668,7 +668,9 @@ export default function AdminDashboard() {
                                   }}
                                   className="accent-indigo-600 w-4 h-4 shrink-0"
                                 />
-                                <span className="text-base leading-none">{ex.emoji}</span>
+                                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md border border-slate-200 bg-slate-50 text-[10px] font-semibold uppercase text-slate-600 dark:border-slate-600 dark:bg-slate-950/40 dark:text-slate-400">
+                                  {ex.title.charAt(0)}
+                                </span>
                                 <span className="truncate">{ex.title}</span>
                               </label>
                             );
@@ -1148,7 +1150,11 @@ export default function AdminDashboard() {
                       {analyses[sub.id] && (
                         <div className="bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-700 rounded-xl p-4">
                           <div className="flex items-center gap-2 mb-2">
-                            <span className="text-base">🤖</span>
+                            <span className="text-purple-600 dark:text-purple-400" aria-hidden>
+                              <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+                              </svg>
+                            </span>
                             <h4 className="text-sm font-semibold text-purple-800 dark:text-purple-300">
                               AI Analysis
                             </h4>
