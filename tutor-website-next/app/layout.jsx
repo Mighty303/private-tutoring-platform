@@ -1,4 +1,6 @@
 import "./globals.css";
+import { GeistSans } from "geist/font/sans";
+import { GeistMono } from "geist/font/mono";
 import Navbar from "@/components/Navbar";
 import AuthProvider from "@/components/AuthProvider";
 
@@ -26,7 +28,7 @@ export default function RootLayout({ children }) {
           }}
         />
       </head>
-      <body className="antialiased bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors">
+      <body className={`${GeistSans.className} ${GeistMono.variable} antialiased bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors`}>
         <AuthProvider>
           <Navbar />
           {children}

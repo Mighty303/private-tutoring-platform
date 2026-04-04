@@ -1,29 +1,31 @@
-# Exercise 3: Course Schedule II — Find a Valid Order 📋
+# Exercise 3: Count Sink Nodes 🔚
 
 ## Your Task
 
-There are `numCourses` courses labeled `0` to `numCourses - 1`. You're given `prerequisites` where `prerequisites[i] = [a, b]` means **you must take course `b` before course `a`**.
+Write a function `count_sinks(num_nodes, edges)` that counts how many nodes have **no outgoing edges**.
 
-Return a **valid order** to take all courses. If there are multiple valid orderings, return any one. If it's **impossible** (cycle exists), return an empty list `[]`.
-
-This is [LeetCode 210: Course Schedule II](https://leetcode.com/problems/course-schedule-ii/).
+A node with no outgoing edges is called a **sink** — nothing flows out of it.
 
 ---
 
 ## Examples
 
 ```python
-print(find_order(2, [[1, 0]]))
-# Output: [0, 1]
+print(count_sinks(4, [[0,1], [0,2], [1,3], [2,3]]))
+# Output: 1
+# Only node 3 has no outgoing edges
 
-print(find_order(4, [[1, 0], [2, 0], [3, 1], [3, 2]]))
-# Output: [0, 1, 2, 3] or [0, 2, 1, 3]
+print(count_sinks(3, [[0,1], [1,2], [2,0]]))
+# Output: 0
+# Every node has an outgoing edge
 
-print(find_order(2, [[1, 0], [0, 1]]))
-# Output: []  (cycle — impossible)
+print(count_sinks(3, []))
+# Output: 3
+# No edges at all — every node is a sink
 
-print(find_order(1, []))
-# Output: [0]
+print(count_sinks(5, [[0,1], [0,2]]))
+# Output: 4
+# Nodes 1, 2, 3, 4 have no outgoing edges
 ```
 
 ---
@@ -35,53 +37,39 @@ print(find_order(1, []))
 | **Time** | O(V + E) |
 | **Space** | O(V + E) |
 
-Where `V` = numCourses and `E` = number of prerequisites.
+Where `V` is the number of nodes and `E` is the number of edges.
 
 ---
 
-## Approach — Topological Sort via DFS
-
-A **topological sort** orders nodes so that for every edge `u → v`, `u` comes before `v`. Two common approaches:
-
-### Option A: DFS + Post-order (Reverse Finish Order)
+## Approach
 
 1. Build the adjacency list
-2. Run DFS with three-color marking (same as Exercise 2)
-3. When a node turns BLACK (fully explored), **add it to a stack**
-4. Reverse the stack — that's the topological order!
-5. If a cycle is found, return `[]`
-
-### Option B: BFS + In-degree (Kahn's Algorithm)
-
-1. Calculate the **in-degree** of each node
-2. Add all nodes with in-degree 0 to a queue
-3. Process the queue: for each node, reduce in-degree of its neighbors. If a neighbor hits 0, add it to the queue
-4. If all nodes are processed, the processing order is the answer. Otherwise, there's a cycle
+2. Count nodes where the neighbor list is empty
 
 ---
 
 ## Starter Code
 
 ```python
-def find_order(numCourses, prerequisites):
+def count_sinks(num_nodes, edges):
     # Your code here
     pass
 
 # Test your function:
-print(find_order(2, [[1, 0]]))
-# Output: [0, 1]
+print(count_sinks(4, [[0,1], [0,2], [1,3], [2,3]]))
+# Output: 1
 
-print(find_order(4, [[1, 0], [2, 0], [3, 1], [3, 2]]))
-# Output: [0, 1, 2, 3] or [0, 2, 1, 3]
+print(count_sinks(3, [[0,1], [1,2], [2,0]]))
+# Output: 0
 
-print(find_order(2, [[1, 0], [0, 1]]))
-# Output: []
+print(count_sinks(3, []))
+# Output: 3
 
-print(find_order(1, []))
-# Output: [0]
+print(count_sinks(5, [[0,1], [0,2]]))
+# Output: 4
 
-print(find_order(6, [[1,0], [2,0], [3,1], [3,2], [4,3], [5,4]]))
-# Output: [0, 1, 2, 3, 4, 5] or [0, 2, 1, 3, 4, 5]
+print(count_sinks(6, [[0,1], [1,2], [2,3], [3,4], [4,5]]))
+# Output: 1
 ```
 
 ---
@@ -89,126 +77,59 @@ print(find_order(6, [[1,0], [2,0], [3,1], [3,2], [4,3], [5,4]]))
 ## Hints
 
 <details>
-<summary>💡 Hint 1 — DFS approach: when to record the order</summary>
+<summary>💡 Hint 1 — Build the adjacency list</summary>
 
-When a node turns BLACK (all its descendants are explored), that node can safely go **after** all its dependencies. So add it to your result when it finishes (post-order).
+Same pattern as before:
 
-Since deeper nodes finish first, the result is in **reverse** topological order — reverse it at the end!
+```python
+adj = {i: [] for i in range(num_nodes)}
+for a, b in edges:
+    adj[a].append(b)
+```
+
+Because we initialize every node to `[]`, nodes that never appear as a source in the edge list automatically have empty neighbor lists.
 
 </details>
 
 <details>
-<summary>💡 Hint 2 — Kahn's (BFS) approach: how in-degree helps</summary>
+<summary>💡 Hint 2 — Counting the sinks</summary>
 
-A node with in-degree 0 has **no prerequisites** — it can be taken immediately. Once you "take" a course, reduce the in-degree of courses that depend on it. This mimics removing the node from the graph.
+Loop through all nodes and check if their neighbor list is empty:
 
 ```python
-from collections import deque
-
-indegree = [0] * numCourses
-for a, b in prerequisites:
-    indegree[a] += 1
-
-queue = deque(i for i in range(numCourses) if indegree[i] == 0)
+count = 0
+for node in adj:
+    if len(adj[node]) == 0:
+        count += 1
+return count
 ```
+
+Or use a list comprehension to make it shorter.
 
 </details>
 
 <details>
-<summary>💡 Hint 3 — Detecting cycles in Kahn's</summary>
+<summary>✅ Solution</summary>
 
-If the queue empties before all nodes are processed, some nodes have a circular dependency and can never reach in-degree 0. Check: `len(order) == numCourses`.
+```python
+def count_sinks(num_nodes, edges):
+    adj = {i: [] for i in range(num_nodes)}
+    for a, b in edges:
+        adj[a].append(b)
+    return sum(1 for node in adj if len(adj[node]) == 0)
+```
+
+**Why does this work?** Every node starts with an empty list. Adding edges only fills in lists for nodes with outgoing edges. So after processing all edges, any node still with `[]` is a sink — it was never the source of any edge.
+
+**Alternative — without building the full adjacency list:**
+
+```python
+def count_sinks(num_nodes, edges):
+    has_outgoing = set(a for a, b in edges)
+    return num_nodes - len(has_outgoing)
+```
+
+This works because a node is a sink if and only if it never appears as the source (`a`) of any edge.
 
 </details>
 
-<details>
-<summary>✅ Solution — DFS approach</summary>
-
-```python
-def find_order(numCourses, prerequisites):
-    adj = {i: [] for i in range(numCourses)}
-    for a, b in prerequisites:
-        adj[b].append(a)
-
-    WHITE, GRAY, BLACK = 0, 1, 2
-    color = [WHITE] * numCourses
-    order = []
-    has_cycle = False
-
-    def dfs(node):
-        nonlocal has_cycle
-        if has_cycle:
-            return
-        color[node] = GRAY
-        for neighbor in adj[node]:
-            if color[neighbor] == GRAY:
-                has_cycle = True
-                return
-            if color[neighbor] == WHITE:
-                dfs(neighbor)
-                if has_cycle:
-                    return
-        color[node] = BLACK
-        order.append(node)
-
-    for i in range(numCourses):
-        if color[i] == WHITE:
-            dfs(i)
-            if has_cycle:
-                return []
-
-    return order[::-1]
-```
-
-**Why reverse?** DFS finishes the deepest nodes first. A course with no dependencies finishes first and gets appended first — but it should appear first in the result. Reversing the post-order gives the correct topological order.
-
-</details>
-
-<details>
-<summary>✅ Solution — Kahn's (BFS) approach</summary>
-
-```python
-from collections import deque
-
-def find_order(numCourses, prerequisites):
-    adj = {i: [] for i in range(numCourses)}
-    indegree = [0] * numCourses
-
-    for a, b in prerequisites:
-        adj[b].append(a)
-        indegree[a] += 1
-
-    queue = deque(i for i in range(numCourses) if indegree[i] == 0)
-    order = []
-
-    while queue:
-        node = queue.popleft()
-        order.append(node)
-        for neighbor in adj[node]:
-            indegree[neighbor] -= 1
-            if indegree[neighbor] == 0:
-                queue.append(neighbor)
-
-    if len(order) != numCourses:
-        return []
-    return order
-```
-
-**How Kahn's works:**
-1. Start with courses that have no prerequisites (in-degree 0)
-2. "Take" each one, reducing in-degree of dependent courses
-3. When a course's in-degree hits 0, all its prereqs are done — add it to the queue
-4. If all courses get processed, we have a valid order. If not, a cycle prevents it.
-
-</details>
-
----
-
-## Bonus Challenge 🌟
-
-Can you modify your solution to return **all possible valid orderings**? (Warning: this can be exponential — only try for small inputs!)
-
-```python
-print(find_all_orders(4, [[1, 0], [2, 0], [3, 1], [3, 2]]))
-# Output: [[0, 1, 2, 3], [0, 2, 1, 3]]
-```

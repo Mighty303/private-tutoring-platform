@@ -104,12 +104,25 @@ const fileMap = {
   "graph2-ex1": "sundays/graphs-2/exercise1.md",
   "graph2-ex2": "sundays/graphs-2/exercise2.md",
   "graph2-ex3": "sundays/graphs-2/exercise3.md",
+  "graph2-ex4": "sundays/graphs-2/exercise4.md",
+  "graph2-ex5": "sundays/graphs-2/exercise5.md",
+  "graph2-ex6": "sundays/graphs-2/exercise6.md",
+  "graph2-ex7": "sundays/graphs-2/exercise7.md",
+
+  // Binary Tree exercises
+  "tree-intro": "sundays/trees/intro.md",
+  "tree-ex1": "sundays/trees/exercise1.md",
+  "tree-ex2": "sundays/trees/exercise2.md",
+  "tree-ex3": "sundays/trees/exercise3.md",
+  "tree-ex4": "sundays/trees/exercise4.md",
 
   // Backtracking exercises
   "backtrack-intro": "sundays/backtracking/intro.md",
   "backtrack-ex1": "sundays/backtracking/exercise1.md",
   "backtrack-ex2": "sundays/backtracking/exercise2.md",
   "backtrack-ex3": "sundays/backtracking/exercise3.md",
+  "backtrack-ex4": "sundays/backtracking/exercise4.md",
+  "backtrack-ex5": "sundays/backtracking/exercise5.md",
 
   // Intermediate answers
   "algorithms-answers": "sundays/answers/1. Algorithms_answer.md",

@@ -1,6 +1,8 @@
 "use client";
 
-import { useState, useCallback, useEffect, useMemo } from "react";
+import { useState, useCallback, useEffect, useMemo, useRef } from "react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { useSession } from "next-auth/react";
 import usePyodide from "@/hooks/usePyodide";
 import { markExerciseComplete, invalidateCompletedCache } from "@/hooks/useExerciseProgress";
@@ -121,6 +123,11 @@ export default function DiscordPlayground({
   const [toast, setToast] = useState(null);
   const [feedback, setFeedback] = useState(null);
   const [feedbackLoading, setFeedbackLoading] = useState(false);
+  const [hints, setHints] = useState([]);
+  const [hintCount, setHintCount] = useState(0);
+  const [hintLoading, setHintLoading] = useState(false);
+  const [hintCountdown, setHintCountdown] = useState(null);
+  const fetchHintNumRef = useRef(null);
 
   const lastOutput = useMemo(() => {
     const textParts = output
@@ -147,6 +154,9 @@ export default function DiscordPlayground({
     setTestResults(null);
     setToast(null);
     setFeedback(null);
+    setHints([]);
+    setHintCount(0);
+    setHintCountdown(null);
     const key = cacheKey(exerciseId);
     if (key) {
       try {
@@ -228,6 +238,55 @@ export default function DiscordPlayground({
     }
   }, [code, exerciseDescription]);
 
+  const doFetchHint = useCallback(async (hintNum) => {
+    setHintLoading(true);
+    try {
+      const res = await fetch("/api/hint", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          code,
+          exerciseDescription: exerciseDescription || "",
+          error: "",
+          hintNumber: hintNum,
+        }),
+      });
+      if (!res.ok) throw new Error();
+      const data = await res.json();
+      setHints((prev) => [...prev, data.hint || "No hint available."]);
+      setHintCount(hintNum);
+    } catch {
+      setHints((prev) => [...prev, "Sorry, couldn't generate a hint right now."]);
+      setHintCount(hintNum);
+    } finally {
+      setHintLoading(false);
+    }
+  }, [code, exerciseDescription]);
+
+  // Tick the countdown down every second
+  useEffect(() => {
+    if (hintCountdown === null || hintCountdown <= 0) return;
+    const id = setTimeout(() => setHintCountdown((c) => c - 1), 1000);
+    return () => clearTimeout(id);
+  }, [hintCountdown]);
+
+  // When countdown hits 0, fetch the next hint
+  useEffect(() => {
+    if (hintCountdown !== 0) return;
+    setHintCountdown(null);
+    const hintNum = fetchHintNumRef.current;
+    if (hintNum !== null) {
+      fetchHintNumRef.current = null;
+      doFetchHint(hintNum);
+    }
+  }, [hintCountdown, doFetchHint]);
+
+  const handleGetHint = useCallback(() => {
+    if (hintLoading || hintCountdown !== null || hintCount >= 3) return;
+    fetchHintNumRef.current = hintCount + 1;
+    setHintCountdown(30);
+  }, [hintLoading, hintCountdown, hintCount]);
+
   const handleSubmit = useCallback(async () => {
     if (!exerciseId || submitting) return;
     setSubmitting(true);
@@ -253,7 +312,6 @@ export default function DiscordPlayground({
             type: "error",
             message: `${passCount}/${results.length} test cases passed. Fix the failing tests and try again.`,
           });
-          fetchFeedback(passCount, results.length);
           setSubmitting(false);
           return;
         }
@@ -487,6 +545,41 @@ export default function DiscordPlayground({
           </button>
         )}
 
+        {exerciseDescription && membershipChecked && (
+          isClassroomMember ? (
+            <button
+              onClick={handleGetHint}
+              disabled={hintLoading || hintCountdown !== null || hintCount >= 3}
+              className="inline-flex items-center gap-2 px-4 py-2 bg-amber-500 hover:bg-amber-600 disabled:bg-slate-600 disabled:cursor-not-allowed text-white text-sm font-semibold rounded-lg transition-colors shadow-sm"
+              title={hintCount >= 3 ? "All 3 hints used" : "Get a nudge in the right direction"}
+            >
+              {hintLoading ? (
+                <>
+                  <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                  </svg>
+                  Thinking…
+                </>
+              ) : hintCountdown !== null ? (
+                <>
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  Think first… {hintCountdown}s
+                </>
+              ) : (
+                <>
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                  </svg>
+                  {hintCount >= 3 ? "No Hints Left" : `Get Hint (${3 - hintCount} left)`}
+                </>
+              )}
+            </button>
+          ) : null
+        )}
+
         <span className={`hidden sm:inline text-xs ml-auto ${lastOutput ? "text-slate-400" : "text-amber-500 font-medium"}`}>
           {lastOutput ? "Ready to send!" : "Run your code first, then send to Discord"}
         </span>
@@ -501,8 +594,8 @@ export default function DiscordPlayground({
         </div>
       )}
 
-      {/* AI Feedback — improvement suggestions */}
-      {(feedback || feedbackLoading) && (
+      {/* AI Feedback — only shown after all tests pass */}
+      {testResults?.allPassed && (feedback || feedbackLoading) && (
         <div className="mb-3 px-4 py-3 bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-200 dark:border-indigo-700 rounded-xl">
           <div className="flex items-start gap-2">
             <span className="text-base mt-0.5 shrink-0">🤖</span>
@@ -519,10 +612,33 @@ export default function DiscordPlayground({
                   <span className="text-sm text-indigo-600 dark:text-indigo-400">Analyzing your code…</span>
                 </div>
               ) : (
-                <p className="text-sm text-indigo-700 dark:text-indigo-400 whitespace-pre-wrap">{feedback}</p>
+                <div className="prose prose-sm prose-indigo dark:prose-invert max-w-none text-indigo-700 dark:text-indigo-400">
+                  <ReactMarkdown remarkPlugins={[remarkGfm]}>{feedback}</ReactMarkdown>
+                </div>
               )}
             </div>
           </div>
+        </div>
+      )}
+
+      {/* Hints */}
+      {hints.length > 0 && (
+        <div className="mb-3 space-y-2">
+          {hints.map((h, i) => (
+            <div key={i} className="px-4 py-3 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700 rounded-xl">
+              <div className="flex items-start gap-2">
+                <span className="text-base mt-0.5 shrink-0">💡</span>
+                <div className="flex-1">
+                  <p className="text-sm font-semibold text-amber-800 dark:text-amber-300 mb-1">
+                    Hint {i + 1}/3
+                  </p>
+                  <div className="prose prose-sm prose-amber dark:prose-invert max-w-none text-amber-700 dark:text-amber-400">
+                    <ReactMarkdown remarkPlugins={[remarkGfm]}>{h}</ReactMarkdown>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       )}
 

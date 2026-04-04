@@ -1,43 +1,60 @@
-# Exercise 1: Subsets 📦
+# Exercise 1: Generate All Binary Strings 🧩
 
 ## Your Task
 
-Given an array `nums` of **unique integers**, return **all possible subsets** of `nums`.
+Write a function `binary_strings(n)` that returns all binary strings of length `n`.
 
-- The solution set must **not contain duplicate subsets**
-- You may return the solution in **any order**
+A binary string only uses the characters `'0'` and `'1'`. Return the strings in any order.
 
 ---
 
 ## Examples
 
 ```python
-print(subsets([1, 2, 3]))
-# Output: [[], [1], [2], [1,2], [3], [1,3], [2,3], [1,2,3]]
+print(binary_strings(1))
+# Output: ['0', '1']
 
-print(subsets([7]))
-# Output: [[], [7]]
+print(binary_strings(2))
+# Output: ['00', '01', '10', '11']
 
-print(subsets([]))
-# Output: [[]]
+print(binary_strings(3))
+# Output: ['000', '001', '010', '011', '100', '101', '110', '111']
 ```
 
 ---
 
 ## The Pattern
 
-For each element, you have **two choices**:
-1. **Include** it in the current subset
-2. **Exclude** it
+At each position you make **one choice**: place a `'0'` or a `'1'`.
 
 ```
-                    []
-                   /   \
-                 [1]    []
-                /  \   /  \
-            [1,2] [1] [2] []
-              |     |   |   |
-           [1,2,3] [1,3] [2,3] [3]
+              ""
+            /    \
+          "0"    "1"
+          / \    / \
+       "00" "01" "10" "11"
+```
+
+When the string reaches length `n`, add it to the result.
+
+---
+
+## Starter Code
+
+```python
+def binary_strings(n):
+    # Your code here
+    pass
+
+# Test your function:
+print(binary_strings(1))
+# Expected: ['0', '1']
+
+print(binary_strings(2))
+# Expected: ['00', '01', '10', '11']
+
+print(binary_strings(3))
+# Expected: ['000', '001', '010', '011', '100', '101', '110', '111']
 ```
 
 ---
@@ -45,26 +62,26 @@ For each element, you have **two choices**:
 ## Hints
 
 <details>
-<summary>💡 Hint 1 — Two choices per element</summary>
+<summary>💡 Hint 1 — Base case</summary>
 
-For each number, either include it or don&apos;t. Build the subset step by step. When you&apos;ve processed all elements, add the current subset to the result.
+When the current string `current` has length `n`, you're done building it — add it to the result and return:
+
+```python
+if len(current) == n:
+    result.append(current)
+    return
+```
 
 </details>
 
 <details>
-<summary>💡 Hint 2 — Recursive structure</summary>
+<summary>💡 Hint 2 — Two choices</summary>
+
+At each step, try adding `'0'` and try adding `'1'`. After each recursive call, nothing needs to be "undone" because strings are immutable — each call gets its own copy.
 
 ```python
-def backtrack(path, index, nums, result):
-    if index == len(nums):
-        result.append(path[:])
-        return
-    # Include nums[index]
-    path.append(nums[index])
-    backtrack(path, index + 1, nums, result)
-    path.pop()
-    # Exclude nums[index]
-    backtrack(path, index + 1, nums, result)
+backtrack(current + '0')
+backtrack(current + '1')
 ```
 
 </details>
@@ -73,63 +90,23 @@ def backtrack(path, index, nums, result):
 <summary>✅ Solution</summary>
 
 ```python
-def subsets(nums):
+def binary_strings(n):
     result = []
 
-    def backtrack(path, index):
-        if index == len(nums):
-            result.append(path[:])
+    def backtrack(current):
+        if len(current) == n:
+            result.append(current)
             return
-        # Include nums[index]
-        path.append(nums[index])
-        backtrack(path, index + 1)
-        path.pop()
-        # Exclude nums[index]
-        backtrack(path, index + 1)
+        backtrack(current + '0')
+        backtrack(current + '1')
 
-    backtrack([], 0)
+    backtrack('')
     return result
 ```
 
-**Time:** O(2^n) — we make 2 choices per element, n elements.
+**Why strings instead of lists?** Since strings are immutable, `current + '0'` creates a new string — so there's no need to manually "undo" the choice after the recursive call. This makes the code simpler for this problem.
+
+**Time:** O(2^n) — two choices at each of n steps.
 **Space:** O(n) for recursion depth.
 
 </details>
-
----
-
-## Starter Code
-
-```python
-def subsets(nums):
-    # Your code here
-    pass
-
-# Test your function:
-print(subsets([1, 2, 3]))
-# Expected: [[], [1], [2], [1,2], [3], [1,3], [2,3], [1,2,3]]
-
-print(subsets([7]))
-# Expected: [[], [7]]
-```
-
----
-
-## Bonus Challenge 🌟
-
-Solve it using a **for loop** instead of the exclude branch. (Iterate from `start` to end, pick one, recurse with `start = i + 1`, then backtrack.)
-
-```python
-def subsets_loop(nums):
-    result = []
-    def build(path, start):
-        result.append(path[:])
-        for i in range(start, len(nums)):
-            path.append(nums[i])
-            build(path, i + 1)
-            path.pop()
-    build([], 0)
-    return result
-```
-
-Both approaches work — the first is closer to the "choose / don't choose" pattern; the second is often shorter to write!

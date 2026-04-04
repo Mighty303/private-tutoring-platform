@@ -32,6 +32,72 @@ function buildStudentProgressList(users, submissions) {
     .sort((a, b) => (b.exercises.length - a.exercises.length)); // Sort by submission count desc (top 3)
 }
 
+const PODIUM_CONFIG = [
+  { rank: 2, medal: "🥈", blockH: "h-20", avatarSize: 48, label: "2nd", color: "from-slate-300 to-slate-400 dark:from-slate-600 dark:to-slate-700", border: "border-slate-300 dark:border-slate-500" },
+  { rank: 1, medal: "🥇", blockH: "h-32", avatarSize: 64, label: "1st", color: "from-yellow-300 to-yellow-500 dark:from-yellow-500 dark:to-yellow-700", border: "border-yellow-400 dark:border-yellow-500" },
+  { rank: 3, medal: "🥉", blockH: "h-14", avatarSize: 40, label: "3rd", color: "from-orange-300 to-orange-500 dark:from-orange-500 dark:to-orange-700", border: "border-orange-400 dark:border-orange-500" },
+];
+
+function PodiumSlot({ config, student }) {
+  const isFirst = config.rank === 1;
+  return (
+    <div className="flex flex-col items-center gap-2" style={{ flex: 1 }}>
+      {/* Avatar + name above the block */}
+      <div className={`flex flex-col items-center gap-1 pb-2 ${isFirst ? "mb-1" : ""}`}>
+        <span className="text-2xl">{config.medal}</span>
+        {student ? (
+          student.user_image ? (
+            <Image
+              src={student.user_image}
+              alt={student.user_name || ""}
+              width={config.avatarSize}
+              height={config.avatarSize}
+              className="rounded-full border-2 border-white dark:border-slate-900 shadow-md"
+              style={{ width: config.avatarSize, height: config.avatarSize }}
+            />
+          ) : (
+            <div
+              className="rounded-full bg-indigo-100 dark:bg-indigo-900 flex items-center justify-center font-bold text-indigo-600 dark:text-indigo-400 border-2 border-white dark:border-slate-900 shadow-md"
+              style={{ width: config.avatarSize, height: config.avatarSize, fontSize: config.avatarSize * 0.4 }}
+            >
+              {student.user_name?.charAt(0) || "?"}
+            </div>
+          )
+        ) : (
+          <div
+            className="rounded-full bg-slate-100 dark:bg-slate-800 border-2 border-dashed border-slate-300 dark:border-slate-600"
+            style={{ width: config.avatarSize, height: config.avatarSize }}
+          />
+        )}
+        <p className="text-sm font-semibold text-slate-800 dark:text-white text-center max-w-22.5 truncate">
+          {student?.user_name ?? "—"}
+        </p>
+        <p className="text-xs text-slate-500 dark:text-slate-400">
+          {student ? `${student.exercises.length} solved` : ""}
+        </p>
+      </div>
+      {/* Podium block */}
+      <div className={`w-full ${config.blockH} rounded-t-xl bg-linear-to-b ${config.color} border-t-2 border-x-2 ${config.border} flex items-center justify-center`}>
+        <span className="text-white font-bold text-lg opacity-70">{config.label}</span>
+      </div>
+    </div>
+  );
+}
+
+function Podium({ students }) {
+  // Order: 2nd, 1st, 3rd (1st in center)
+  const order = [0, 1, 2]; // indices into PODIUM_CONFIG
+  return (
+    <div className="flex items-end gap-2 mt-8 px-4">
+      {order.map((ci) => {
+        const config = PODIUM_CONFIG[ci];
+        const student = students[config.rank - 1] ?? null;
+        return <PodiumSlot key={config.rank} config={config} student={student} />;
+      })}
+    </div>
+  );
+}
+
 export default function LeaderboardClient({
   classrooms,
   initialClassroomId,
@@ -130,41 +196,7 @@ export default function LeaderboardClient({
             </p>
           </div>
         ) : (
-          <div className="space-y-3">
-            {studentProgressList.slice(0, 3).map((student) => (
-              <div
-                key={student.user_id}
-                className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-700 overflow-hidden"
-              >
-                <div className="p-4 flex items-center gap-3">
-                  {student.user_image ? (
-                    <Image
-                      src={student.user_image}
-                      alt={student.user_name || ""}
-                      width={40}
-                      height={40}
-                      className="rounded-full shrink-0"
-                    />
-                  ) : (
-                    <div className="w-10 h-10 rounded-full bg-indigo-100 dark:bg-indigo-900 flex items-center justify-center text-sm font-bold text-indigo-600 dark:text-indigo-400 shrink-0">
-                      {student.user_name?.charAt(0) || "?"}
-                    </div>
-                  )}
-                  <div className="flex-1 min-w-0">
-                    <p className="font-medium text-slate-800 dark:text-white truncate">
-                      {student.user_name}
-                    </p>
-                    <p className="text-sm text-slate-500 dark:text-slate-400 truncate">
-                      {student.user_email}
-                    </p>
-                  </div>
-                  <span className="text-sm font-semibold text-indigo-600 dark:text-indigo-400 shrink-0">
-                    {student.exercises.length} completed
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
+          <Podium students={studentProgressList} />
         )}
       </div>
     </div>

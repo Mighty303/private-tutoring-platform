@@ -5,23 +5,6 @@ import PythonPlayground from "@/components/PythonPlayground";
 
 const STARTER_CODE = `# Python Playground
 # Write any Python code and click Run!
-
-def greet(name):
-    return f"Hello, {name}! Welcome to Python."
-
-print(greet("Student"))
-
-# Try some Python features:
-import math
-print(f"Pi = {math.pi:.4f}")
-
-# Lists
-numbers = [3, 1, 4, 1, 5, 9, 2, 6]
-print(f"Sorted: {sorted(numbers)}")
-
-# List comprehension
-squares = [x**2 for x in range(1, 6)]
-print(f"Squares: {squares}")
 `;
 
 export default function PlaygroundClient() {

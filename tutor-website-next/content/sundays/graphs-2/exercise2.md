@@ -1,33 +1,30 @@
-# Exercise 2: Course Schedule — Can You Finish? 🎓
+# Exercise 2: Get Neighbors of a Node 🔍
 
 ## Your Task
 
-There are `numCourses` courses labeled `0` to `numCourses - 1`. You're given a list of `prerequisites` where `prerequisites[i] = [a, b]` means **you must take course `b` before course `a`**.
+Write a function `get_neighbors(num_nodes, edges, x)` that:
 
-Return `True` if you can finish **all** courses, or `False` if there's a **cycle** in the prerequisites (making it impossible).
+1. Builds an adjacency list from the given edge list
+2. Returns the list of **direct neighbors** of node `x` (nodes that `x` points to)
 
-This is [LeetCode 207: Course Schedule](https://leetcode.com/problems/course-schedule/).
+The graph is **directed** — edge `[u, v]` means there's an arrow from `u` to `v`.
 
 ---
 
 ## Examples
 
 ```python
-print(can_finish(2, [[1, 0]]))
-# Output: True
-# Take course 0, then course 1
+print(get_neighbors(4, [[0,1], [0,2], [1,3], [2,3]], 0))
+# Output: [1, 2]
 
-print(can_finish(2, [[1, 0], [0, 1]]))
-# Output: False
-# Course 0 requires 1, and course 1 requires 0 — cycle!
+print(get_neighbors(4, [[0,1], [0,2], [1,3], [2,3]], 1))
+# Output: [3]
 
-print(can_finish(4, [[1, 0], [2, 1], [3, 2]]))
-# Output: True
-# Linear chain: 0 → 1 → 2 → 3
+print(get_neighbors(4, [[0,1], [0,2], [1,3], [2,3]], 3))
+# Output: []
 
-print(can_finish(4, [[1, 0], [2, 1], [3, 2], [0, 3]]))
-# Output: False
-# Cycle: 0 → 1 → 2 → 3 → 0
+print(get_neighbors(3, [[0,1], [1,2], [2,0]], 2))
+# Output: [0]
 ```
 
 ---
@@ -39,50 +36,41 @@ print(can_finish(4, [[1, 0], [2, 1], [3, 2], [0, 3]]))
 | **Time** | O(V + E) |
 | **Space** | O(V + E) |
 
-Where `V` = numCourses and `E` = number of prerequisites.
+Where `V` is the number of nodes and `E` is the number of edges.
 
-**Why?** We build an adjacency list (O(V + E)), then DFS visits each node and edge at most once.
+**Why?** Building the adjacency list takes O(V + E). Looking up neighbors is O(1).
 
 ---
 
-## Approach — DFS with 3 Colors
+## Approach
 
-Use the **WHITE / GRAY / BLACK** technique:
-
-1. **Build** an adjacency list from the prerequisites
-2. **Initialize** every node as WHITE (unvisited)
-3. **DFS** from each WHITE node:
-   - Mark it **GRAY** (in progress — on the current path)
-   - Visit all neighbors recursively
-   - If you hit a **GRAY** node → **cycle found!** Return `False`
-   - If BLACK → already done, skip
-   - Mark it **BLACK** when all neighbors are explored
-4. If no cycles found across all nodes, return `True`
+1. Build the adjacency list (same as Exercise 1)
+2. Return `adj[x]`
 
 ---
 
 ## Starter Code
 
 ```python
-def can_finish(numCourses, prerequisites):
+def get_neighbors(num_nodes, edges, x):
     # Your code here
     pass
 
 # Test your function:
-print(can_finish(2, [[1, 0]]))
-# Output: True
+print(get_neighbors(4, [[0,1], [0,2], [1,3], [2,3]], 0))
+# Output: [1, 2]
 
-print(can_finish(2, [[1, 0], [0, 1]]))
-# Output: False
+print(get_neighbors(4, [[0,1], [0,2], [1,3], [2,3]], 1))
+# Output: [3]
 
-print(can_finish(4, [[1, 0], [2, 1], [3, 2]]))
-# Output: True
+print(get_neighbors(4, [[0,1], [0,2], [1,3], [2,3]], 3))
+# Output: []
 
-print(can_finish(4, [[1, 0], [2, 1], [3, 2], [0, 3]]))
-# Output: False
+print(get_neighbors(3, [[0,1], [1,2], [2,0]], 2))
+# Output: [0]
 
-print(can_finish(5, [[1,0], [2,0], [3,1], [3,2], [4,3]]))
-# Output: True
+print(get_neighbors(5, [[0,1], [0,4], [1,2], [1,3]], 0))
+# Output: [1, 4]
 ```
 
 ---
@@ -90,47 +78,28 @@ print(can_finish(5, [[1,0], [2,0], [3,1], [3,2], [4,3]]))
 ## Hints
 
 <details>
-<summary>💡 Hint 1 — Build the adjacency list</summary>
+<summary>💡 Hint 1 — Build the adjacency list first</summary>
 
-For each prerequisite `[a, b]` (b must be taken before a), add an edge from `b` to `a`:
+Reuse the same pattern from Exercise 1:
 
 ```python
-adj = {i: [] for i in range(numCourses)}
-for a, b in prerequisites:
-    adj[b].append(a)
+adj = {i: [] for i in range(num_nodes)}
+for a, b in edges:
+    adj[a].append(b)
 ```
-
-This means "after completing b, you can take a".
 
 </details>
 
 <details>
-<summary>💡 Hint 2 — Three-color DFS</summary>
+<summary>💡 Hint 2 — Returning neighbors</summary>
 
-Use a dictionary or list to track each node's color:
+Once you have `adj`, the neighbors of node `x` are just:
 
 ```python
-WHITE, GRAY, BLACK = 0, 1, 2
-color = [WHITE] * numCourses
+return adj[x]
 ```
 
-- When you **start** visiting a node: `color[node] = GRAY`
-- When you **finish** visiting a node and all its neighbors: `color[node] = BLACK`
-- If you encounter a **GRAY** neighbor during DFS: that's a back edge → **cycle!**
-
-</details>
-
-<details>
-<summary>💡 Hint 3 — Why not just track "visited"?</summary>
-
-A simple visited set isn't enough for directed graphs. Consider:
-
-```
-0 → 2
-1 → 2
-```
-
-If we visit 2 from 0, then visit 2 again from 1, a simple "visited" check would wrongly think there's a cycle. The three-color approach distinguishes between "currently on the path" (GRAY) and "fully explored" (BLACK).
+Since we initialized every node with an empty list, even nodes with no outgoing edges are safe to look up.
 
 </details>
 
@@ -138,46 +107,14 @@ If we visit 2 from 0, then visit 2 again from 1, a simple "visited" check would 
 <summary>✅ Solution</summary>
 
 ```python
-def can_finish(numCourses, prerequisites):
-    adj = {i: [] for i in range(numCourses)}
-    for a, b in prerequisites:
-        adj[b].append(a)
-
-    WHITE, GRAY, BLACK = 0, 1, 2
-    color = [WHITE] * numCourses
-
-    def has_cycle(node):
-        color[node] = GRAY
-        for neighbor in adj[node]:
-            if color[neighbor] == GRAY:
-                return True
-            if color[neighbor] == WHITE and has_cycle(neighbor):
-                return True
-        color[node] = BLACK
-        return False
-
-    for i in range(numCourses):
-        if color[i] == WHITE:
-            if has_cycle(i):
-                return False
-    return True
+def get_neighbors(num_nodes, edges, x):
+    adj = {i: [] for i in range(num_nodes)}
+    for a, b in edges:
+        adj[a].append(b)
+    return adj[x]
 ```
 
-**How it works:**
-- `has_cycle(node)` returns `True` if a cycle is reachable from `node`
-- We mark nodes GRAY when we enter them and BLACK when we leave
-- Hitting a GRAY node means we've found a back edge — the node is an ancestor in the current DFS path, so there's a cycle
-- BLACK nodes are safe to skip — they and all their descendants were fully explored with no cycle
+**Why does this work?** The adjacency list maps each node to its outgoing neighbors. We initialize all nodes to `[]` first so that nodes with no outgoing edges (like node 3 in the first example) still return an empty list instead of raising a KeyError.
 
 </details>
 
----
-
-## Bonus Challenge 🌟
-
-What if the prerequisites could also have a **self-loop** like `[1, 1]` (course 1 requires itself)? Does your solution handle it? Test it!
-
-```python
-print(can_finish(3, [[1, 0], [1, 1], [2, 1]]))
-# Output: False (course 1 requires itself — impossible!)
-```

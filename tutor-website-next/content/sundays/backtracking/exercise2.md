@@ -1,68 +1,92 @@
-# Exercise 2: Combination Sum 🎯
+# Exercise 2: Generate All Sequences 🔢
 
 ## Your Task
 
-You are given an array of **distinct integers** `nums` and a **target** integer. Return all **unique combinations** of numbers from `nums` that sum to `target`.
+Write a function `all_sequences(n, k)` that returns all sequences of length `k` where each element is chosen from `1` to `n`. Elements **can repeat**.
 
-- The **same number may be chosen unlimited times**
-- Two combinations are the same if the **frequency** of each chosen number is the same
-- Return combinations in any order; numbers within each combination can be in any order
+Return the sequences in any order.
 
 ---
 
 ## Examples
 
 ```python
-print(combination_sum([2, 5, 6, 9], 9))
-# Output: [[2, 2, 5], [9]]
-# Explanation: 2+2+5=9, or 9=9
+print(all_sequences(2, 1))
+# Output: [[1], [2]]
 
-print(combination_sum([3, 4, 5], 16))
-# Output: [[3, 3, 3, 3, 4], [3, 3, 5, 5], [4, 4, 4, 4], [3, 4, 4, 5]]
+print(all_sequences(2, 2))
+# Output: [[1, 1], [1, 2], [2, 1], [2, 2]]
 
-print(combination_sum([3], 5))
-# Output: []
+print(all_sequences(3, 2))
+# Output: [[1,1], [1,2], [1,3], [2,1], [2,2], [2,3], [3,1], [3,2], [3,3]]
 ```
 
 ---
 
 ## The Pattern
 
-For each index, you can:
-1. **Include** `nums[i]` (and possibly include it again — stay at index `i`)
-2. **Skip** `nums[i]` (move to index `i + 1`)
+At each position you **loop through all n choices** and pick one:
 
-To avoid duplicate combinations like `[2,5,2]` vs `[2,2,5]`, only consider numbers **from the current index onward**. When you pick `nums[i]`, recurse starting at `i` again (to allow reuse). When you skip, move to `i + 1`.
+```
+            []
+          / | \
+        [1] [2] [3]        ← pick first element
+        /|\  /|\  /|\
+    [1,1][1,2][1,3] ...    ← pick second element
+```
+
+When the sequence reaches length `k`, add it to the result.
+
+---
+
+## Starter Code
+
+```python
+def all_sequences(n, k):
+    # Your code here
+    pass
+
+# Test your function:
+print(all_sequences(2, 1))
+# Expected: [[1], [2]]
+
+print(all_sequences(2, 2))
+# Expected: [[1, 1], [1, 2], [2, 1], [2, 2]]
+
+print(all_sequences(3, 2))
+# Expected: [[1,1],[1,2],[1,3],[2,1],[2,2],[2,3],[3,1],[3,2],[3,3]]
+
+print(all_sequences(2, 3))
+# Expected: [[1,1,1],[1,1,2],[1,2,1],[1,2,2],[2,1,1],[2,1,2],[2,2,1],[2,2,2]]
+```
 
 ---
 
 ## Hints
 
 <details>
-<summary>💡 Hint 1 — Base cases</summary>
+<summary>💡 Hint 1 — Base case</summary>
 
-- If `target == 0`: you found a valid combination — add `path[:]` to the result
-- If `target < 0`: stop — this path overshoots
-- If `start >= len(nums)`: no more numbers to try
+When the current path has length `k`, you've filled all positions — add a copy to result and return:
+
+```python
+if len(path) == k:
+    result.append(path[:])
+    return
+```
 
 </details>
 
 <details>
-<summary>💡 Hint 2 — Recursive structure</summary>
+<summary>💡 Hint 2 — Loop through all choices</summary>
+
+At each step, try every number from `1` to `n`. After each recursive call, remove the last element to "undo" the choice:
 
 ```python
-def backtrack(path, start, target, nums, result):
-    if target == 0:
-        result.append(path[:])
-        return
-    if target < 0 or start >= len(nums):
-        return
-    # Include nums[start] (can reuse!)
-    path.append(nums[start])
-    backtrack(path, start, target - nums[start], nums, result)
+for i in range(1, n + 1):
+    path.append(i)
+    backtrack(path)
     path.pop()
-    # Skip nums[start]
-    backtrack(path, start + 1, target, nums, result)
 ```
 
 </details>
@@ -71,54 +95,25 @@ def backtrack(path, start, target, nums, result):
 <summary>✅ Solution</summary>
 
 ```python
-def combination_sum(nums, target):
+def all_sequences(n, k):
     result = []
 
-    def backtrack(path, start, remaining):
-        if remaining == 0:
+    def backtrack(path):
+        if len(path) == k:
             result.append(path[:])
             return
-        if remaining < 0 or start >= len(nums):
-            return
-        # Include nums[start] — stay at start to allow reuse
-        path.append(nums[start])
-        backtrack(path, start, remaining - nums[start])
-        path.pop()
-        # Skip nums[start]
-        backtrack(path, start + 1, remaining)
+        for i in range(1, n + 1):
+            path.append(i)
+            backtrack(path)
+            path.pop()
 
-    backtrack([], 0, target)
+    backtrack([])
     return result
 ```
 
-**Key insight:** Passing `start` (not `start + 1`) when we include allows reusing the same number. Passing `start + 1` when we skip avoids duplicate combinations.
+**Key difference from Exercise 1:** Instead of two hardcoded choices (`'0'` / `'1'`), we loop through `n` choices. The `path.pop()` after the recursive call is the **backtrack step** — it undoes the choice so the next loop iteration starts fresh.
+
+**Time:** O(n^k) — n choices at each of k steps.
+**Space:** O(k) for recursion depth.
 
 </details>
-
----
-
-## Starter Code
-
-```python
-def combination_sum(nums, target):
-    # Your code here
-    pass
-
-# Test your function:
-print(combination_sum([2, 5, 6, 9], 9))
-# Expected: [[2, 2, 5], [9]]
-
-print(combination_sum([3, 4, 5], 16))
-# Expected: [[3, 3, 3, 3, 4], [3, 3, 5, 5], [4, 4, 4, 4], [3, 4, 4, 5]]
-
-print(combination_sum([3], 5))
-# Expected: []
-```
-
----
-
-## Bonus Challenge 🌟
-
-What if each number could only be used **once**? (Classic "Combination Sum II" — no reuse.)
-
-**Hint:** When you include `nums[i]`, recurse with `start = i + 1` instead of `start = i`.

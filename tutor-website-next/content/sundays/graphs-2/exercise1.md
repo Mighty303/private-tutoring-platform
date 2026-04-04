@@ -128,13 +128,3 @@ def build_adj_list(num_nodes, edges):
 
 </details>
 
----
-
-## Bonus Challenge 🌟
-
-Modify your function to also return the **in-degree** of each node (how many edges point TO it). This will be useful for topological sort later!
-
-```python
-print(build_adj_list_with_indegree(4, [[0,1], [0,2], [1,3], [2,3]]))
-# Output: ({0: [1, 2], 1: [3], 2: [3], 3: []}, {0: 0, 1: 1, 2: 1, 3: 2})
-```

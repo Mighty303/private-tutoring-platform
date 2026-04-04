@@ -302,6 +302,38 @@ export const graph2Exercises = [
   },
   {
     id: "graph2-ex2",
+    title: "Get Neighbors of a Node",
+    emoji: "🔍",
+    description: "Build an adjacency list and return the direct neighbors of a given node.",
+    tags: ["Graphs", "Exercises"],
+    color: "teal",
+  },
+  {
+    id: "graph2-ex3",
+    title: "Count Sink Nodes",
+    emoji: "🔚",
+    description: "Count how many nodes in the graph have no outgoing edges.",
+    tags: ["Graphs", "Exercises"],
+    color: "teal",
+  },
+  {
+    id: "graph2-ex4",
+    title: "Count In-Degrees",
+    emoji: "📥",
+    description: "Count how many edges point into each node in a directed graph.",
+    tags: ["Graphs", "Exercises"],
+    color: "teal",
+  },
+  {
+    id: "graph2-ex5",
+    title: "Path Existence + Path Reconstruction",
+    emoji: "🗺️",
+    description: "Find and return one valid path from a start node to an end node using DFS.",
+    tags: ["Graphs", "DFS"],
+    color: "indigo",
+  },
+  {
+    id: "graph2-ex6",
     title: "Course Schedule — Can You Finish?",
     emoji: "🎓",
     description: "Detect cycles in a prerequisite graph using DFS with three-color marking.",
@@ -309,11 +341,54 @@ export const graph2Exercises = [
     color: "red",
   },
   {
-    id: "graph2-ex3",
+    id: "graph2-ex7",
     title: "Course Schedule II — Valid Order",
     emoji: "📋",
     description: "Find a valid course order using topological sort (DFS or Kahn's algorithm).",
     tags: ["Graphs", "Topological Sort"],
+    color: "violet",
+  },
+];
+
+export const treeExercises = [
+  {
+    id: "tree-intro",
+    title: "Binary Trees — Intro & Concepts",
+    emoji: "🌳",
+    description: "TreeNode class, recursion on trees, traversals, and the BST property.",
+    tags: ["Trees", "Reference"],
+    color: "emerald",
+  },
+  {
+    id: "tree-ex1",
+    title: "Maximum Depth",
+    emoji: "📏",
+    description: "Find the height of a binary tree using recursive DFS.",
+    tags: ["Trees", "Easy", "Recursion"],
+    color: "teal",
+  },
+  {
+    id: "tree-ex2",
+    title: "Count All Nodes",
+    emoji: "🔢",
+    description: "Count the total number of nodes in a binary tree.",
+    tags: ["Trees", "Easy", "Recursion"],
+    color: "teal",
+  },
+  {
+    id: "tree-ex3",
+    title: "Inorder Traversal",
+    emoji: "📋",
+    description: "Return all node values in inorder (sorted for BSTs) using recursion.",
+    tags: ["Trees", "Medium", "Recursion"],
+    color: "indigo",
+  },
+  {
+    id: "tree-ex4",
+    title: "Path Sum",
+    emoji: "🎯",
+    description: "Check if any root-to-leaf path sums to a target value.",
+    tags: ["Trees", "Medium", "Recursion"],
     color: "violet",
   },
 ];
@@ -329,6 +404,22 @@ export const backtrackingExercises = [
   },
   {
     id: "backtrack-ex1",
+    title: "Generate All Binary Strings",
+    emoji: "🧩",
+    description: "Build every binary string of length n — two choices at each step.",
+    tags: ["Backtracking", "Easy"],
+    color: "teal",
+  },
+  {
+    id: "backtrack-ex2",
+    title: "Generate All Sequences",
+    emoji: "🔢",
+    description: "Build every sequence of length k using numbers 1 to n, with repetition allowed.",
+    tags: ["Backtracking", "Easy"],
+    color: "teal",
+  },
+  {
+    id: "backtrack-ex3",
     title: "Subsets",
     emoji: "📦",
     description: "Return all possible subsets of unique integers — the classic backtracking problem.",
@@ -336,7 +427,7 @@ export const backtrackingExercises = [
     color: "violet",
   },
   {
-    id: "backtrack-ex2",
+    id: "backtrack-ex4",
     title: "Combination Sum",
     emoji: "🎯",
     description: "All unique combinations that sum to target — numbers can be reused.",
@@ -344,7 +435,7 @@ export const backtrackingExercises = [
     color: "indigo",
   },
   {
-    id: "backtrack-ex3",
+    id: "backtrack-ex5",
     title: "Permutations",
     emoji: "🔀",
     description: "Return all possible permutations of unique integers — each number used once.",
@@ -734,6 +825,7 @@ export function getLessonById(id) {
     ...heap2Exercises,
     ...graph2Exercises,
     ...backtrackingExercises,
+    ...treeExercises,
     ...functionExercises,
     ...discordBotExercises,
     ...loopExercises,
@@ -755,6 +847,7 @@ export function getAllLessons() {
     ...heap2Exercises,
     ...graph2Exercises,
     ...backtrackingExercises,
+    ...treeExercises,
     ...functionExercises,
     ...discordBotExercises,
     ...loopExercises,
@@ -763,3 +856,39 @@ export function getAllLessons() {
     ...nestedListExercises,
   ];
 }
+
+export const exerciseSections = [
+  { label: "Basics", exercises: basicsExercises },
+  { label: "Basics 2", exercises: basics2Exercises },
+  { label: "Loops", exercises: loopExercises },
+  { label: "Loops Part 2", exercises: loopPart2Exercises },
+  { label: "Nested Loops", exercises: nestedLoopExercises },
+  { label: "Nested Lists", exercises: nestedListExercises },
+  { label: "Functions", exercises: functionExercises },
+  { label: "Discord Bot", exercises: discordBotExercises },
+  { label: "Dictionaries", exercises: dictionaryExercises },
+  { label: "Heaps", exercises: heapExercises },
+  { label: "Heaps 2", exercises: heap2Exercises },
+  { label: "Graphs 2", exercises: graph2Exercises },
+  { label: "Backtracking", exercises: backtrackingExercises },
+  { label: "Binary Trees", exercises: treeExercises },
+];
+
+export function getExerciseUrl(slug) {
+  if (slug.startsWith("func-discord")) return `/grade-7/functions/${slug}`;
+  if (slug.startsWith("func-"))        return `/grade-7/functions/${slug}`;
+  if (slug.startsWith("loop2-"))       return `/grade-7/loops-2/${slug}`;
+  if (slug.startsWith("loop-"))        return `/grade-7/loops/${slug}`;
+  if (slug.startsWith("nloop-"))       return `/grade-7/nested-loops/${slug}`;
+  if (slug.startsWith("nlist-"))       return `/grade-7/nested-lists/${slug}`;
+  if (slug.startsWith("dict-"))        return `/grade-7/dictionaries/${slug}`;
+  if (slug.startsWith("basics2-"))     return `/grade-10/basics-2/${slug}`;
+  if (slug.startsWith("basics-"))      return `/grade-7/${slug}`;
+  if (slug.startsWith("heap2-"))       return `/grade-10/heaps-2/${slug}`;
+  if (slug.startsWith("heap-"))        return `/grade-10/heaps/${slug}`;
+  if (slug.startsWith("graph2-"))      return `/grade-10/graphs-2/${slug}`;
+  if (slug.startsWith("backtrack-"))   return `/grade-10/backtracking/${slug}`;
+  if (slug.startsWith("tree-"))        return `/grade-10/trees/${slug}`;
+  return null;
+}
+

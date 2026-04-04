@@ -1,6 +1,8 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { useSession } from "next-auth/react";
 import usePyodide from "@/hooks/usePyodide";
 import { markExerciseComplete, invalidateCompletedCache } from "@/hooks/useExerciseProgress";
@@ -52,18 +54,20 @@ export default function PythonPlayground({
     }
   }, [code, exerciseId]);
 
-  const [hint, setHint] = useState(null);
-  const [hintUsed, setHintUsed] = useState(() => {
-    if (typeof window === "undefined") return false;
+  const [hints, setHints] = useState([]);
+  const [hintCount, setHintCount] = useState(() => {
+    if (typeof window === "undefined") return 0;
     const key = hintCacheKey(exerciseId);
-    if (!key) return false;
+    if (!key) return 0;
     try {
-      return localStorage.getItem(key) === "1";
+      return parseInt(localStorage.getItem(key) || "0", 10);
     } catch {
-      return false;
+      return 0;
     }
   });
   const [hintLoading, setHintLoading] = useState(false);
+  const [hintCountdown, setHintCountdown] = useState(null);
+  const fetchHintNumRef = useRef(null);
   const [askOpen, setAskOpen] = useState(false);
   const [question, setQuestion] = useState("");
   const [askAnswer, setAskAnswer] = useState(null);
@@ -132,7 +136,8 @@ export default function PythonPlayground({
   const handleReset = useCallback(() => {
     setCode(starterCode);
     clearOutput();
-    setHint(null);
+    setHints([]);
+    setHintCountdown(null);
     setAskAnswer(null);
     setQuestion("");
     setSubmitted(false);
@@ -199,7 +204,6 @@ export default function PythonPlayground({
             type: "error",
             message: `${passCount}/${results.length} test cases passed. Fix the failing tests and try again.`,
           });
-          fetchFeedback(passCount, results.length);
           setSubmitting(false);
           return;
         }
@@ -226,13 +230,9 @@ export default function PythonPlayground({
     }
   }, [exerciseId, code, testCases, submitting, runTests, fetchFeedback]);
 
-  const handleGetHint = useCallback(async () => {
-    if (hintUsed || hintLoading) return;
+  const doFetchHint = useCallback(async (hintNum) => {
     setHintLoading(true);
-
-    // Find the last error from output to send as context
     const lastError = output.find((o) => o.type === "error")?.text || "";
-
     try {
       const res = await fetch("/api/hint", {
         method: "POST",
@@ -241,22 +241,46 @@ export default function PythonPlayground({
           code,
           exerciseDescription: exerciseDescription || "",
           error: lastError,
+          hintNumber: hintNum,
         }),
       });
-
-      if (!res.ok) throw new Error("Failed to get hint");
+      if (!res.ok) throw new Error();
       const data = await res.json();
-      setHint(data.hint);
-      setHintUsed(true);
+      setHints((prev) => [...prev, data.hint || "No hint available."]);
+      setHintCount(hintNum);
       const hKey = hintCacheKey(exerciseId);
-      if (hKey) try { localStorage.setItem(hKey, "1"); } catch {}
+      if (hKey) try { localStorage.setItem(hKey, String(hintNum)); } catch {}
     } catch {
-      setHint("Sorry, couldn't generate a hint right now. Try again later.");
-      // Don't mark as used on failure so they can retry
+      setHints((prev) => [...prev, "Sorry, couldn't generate a hint right now."]);
+      setHintCount(hintNum);
     } finally {
       setHintLoading(false);
     }
-  }, [code, exerciseDescription, output, hintUsed, hintLoading, exerciseId]);
+  }, [code, exerciseDescription, output, exerciseId]);
+
+  // Tick the countdown down every second
+  useEffect(() => {
+    if (hintCountdown === null || hintCountdown <= 0) return;
+    const id = setTimeout(() => setHintCountdown((c) => c - 1), 1000);
+    return () => clearTimeout(id);
+  }, [hintCountdown]);
+
+  // When countdown hits 0, fetch the next hint
+  useEffect(() => {
+    if (hintCountdown !== 0) return;
+    setHintCountdown(null);
+    const hintNum = fetchHintNumRef.current;
+    if (hintNum !== null) {
+      fetchHintNumRef.current = null;
+      doFetchHint(hintNum);
+    }
+  }, [hintCountdown, doFetchHint]);
+
+  const handleGetHint = useCallback(() => {
+    if (hintLoading || hintCountdown !== null || hintCount >= 3) return;
+    fetchHintNumRef.current = hintCount + 1;
+    setHintCountdown(30);
+  }, [hintLoading, hintCountdown, hintCount]);
 
   const handleAskQuestion = useCallback(async () => {
     if (!question.trim() || askLoading) return;
@@ -502,9 +526,9 @@ export default function PythonPlayground({
           isClassroomMember ? (
             <button
               onClick={handleGetHint}
-              disabled={hintUsed || hintLoading || isRunning}
+              disabled={hintLoading || hintCountdown !== null || hintCount >= 3}
               className="inline-flex items-center gap-2 px-4 py-2 bg-amber-500 hover:bg-amber-600 disabled:bg-slate-600 disabled:cursor-not-allowed text-white text-sm font-semibold rounded-lg transition-colors shadow-sm"
-              title={hintUsed ? "Hint already used for this exercise" : "Get a hint (1 per exercise)"}
+              title={hintCount >= 3 ? "All 3 hints used" : "Get a nudge in the right direction"}
             >
               {hintLoading ? (
                 <>
@@ -514,12 +538,19 @@ export default function PythonPlayground({
                   </svg>
                   Thinking…
                 </>
+              ) : hintCountdown !== null ? (
+                <>
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  Think first… {hintCountdown}s
+                </>
               ) : (
                 <>
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                   </svg>
-                  {hintUsed ? "Hint Used" : "Get Hint"}
+                  {hintCount >= 3 ? "No Hints Left" : `Get Hint (${3 - hintCount} left)`}
                 </>
               )}
             </button>
@@ -543,19 +574,23 @@ export default function PythonPlayground({
       <OutputConsole output={output} isRunning={isRunning} onClear={clearOutput} />
 
       {/* Hint display */}
-      {hint && (
-        <div className="mb-3 px-4 py-3 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700 rounded-lg">
-          <div className="flex items-start gap-2">
-            <span className="text-lg mt-0.5 shrink-0">💡</span>
-            <div>
-              <p className="text-sm font-semibold text-amber-800 dark:text-amber-300 mb-1">
-                Hint
-              </p>
-              <p className="text-sm text-amber-700 dark:text-amber-400 whitespace-pre-wrap">
-                {hint}
-              </p>
+      {hints.length > 0 && (
+        <div className="mb-3 space-y-2">
+          {hints.map((h, i) => (
+            <div key={i} className="px-4 py-3 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700 rounded-xl">
+              <div className="flex items-start gap-2">
+                <span className="text-base mt-0.5 shrink-0">💡</span>
+                <div className="flex-1">
+                  <p className="text-sm font-semibold text-amber-800 dark:text-amber-300 mb-1">
+                    Hint {i + 1}/3
+                  </p>
+                  <div className="prose prose-sm prose-amber dark:prose-invert max-w-none text-amber-700 dark:text-amber-400">
+                    <ReactMarkdown remarkPlugins={[remarkGfm]}>{h}</ReactMarkdown>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
+          ))}
         </div>
       )}
 
@@ -645,8 +680,8 @@ export default function PythonPlayground({
         />
       )}
 
-      {/* AI Feedback — improvement suggestions */}
-      {(feedback || feedbackLoading) && (
+      {/* AI Feedback — only shown after all tests pass */}
+      {testResults?.allPassed && (feedback || feedbackLoading) && (
         <div className="my-3 px-4 py-3 bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-200 dark:border-indigo-700 rounded-xl">
           <div className="flex items-start gap-2">
             <span className="text-base mt-0.5 shrink-0">🤖</span>
@@ -663,28 +698,14 @@ export default function PythonPlayground({
                   <span className="text-sm text-indigo-600 dark:text-indigo-400">Analyzing your code…</span>
                 </div>
               ) : (
-                <p className="text-sm text-indigo-700 dark:text-indigo-400 whitespace-pre-wrap">{feedback}</p>
+                <div className="prose prose-sm prose-indigo dark:prose-invert max-w-none text-indigo-700 dark:text-indigo-400">
+                  <ReactMarkdown remarkPlugins={[remarkGfm]}>{feedback}</ReactMarkdown>
+                </div>
               )}
             </div>
           </div>
         </div>
       )}
-
-      {/* Supported features note */}
-      <div className="mt-3 text-xs text-slate-400 dark:text-slate-500">
-        <details>
-          <summary className="cursor-pointer hover:text-slate-600 dark:hover:text-slate-300 transition-colors">
-            ℹ️ About this Python environment
-          </summary>
-          <div className="mt-2 pl-4 space-y-1">
-            <p>✅ Standard library: heapq, collections, itertools, math, random, functools, datetime, bisect</p>
-            <p>✅ Functions, classes, recursion, print()</p>
-            <p>❌ No file system, subprocess, OS access, or network requests</p>
-            <p>❌ No pip install (all supported modules are pre-loaded)</p>
-            <p>⏱️ 5 second execution time limit</p>
-          </div>
-        </details>
-      </div>
     </div>
   );
 }
