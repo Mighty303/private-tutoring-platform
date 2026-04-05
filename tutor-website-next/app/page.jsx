@@ -44,10 +44,46 @@ const CLASSES = [
 ];
 
 const QUICK_LINKS = [
-  { href: "/grade-7/cheatsheet", label: "Cheatsheet", sub: "Python quick ref" },
-  { href: "/playground", label: "Playground", sub: "Run code live" },
-  { href: "/leaderboard", label: "Leaderboard", sub: "Top solvers" },
-  { href: "/grade-10/algorithms", label: "Algorithms", sub: "CCC prep" },
+  {
+    href: "/grade-7/cheatsheet",
+    label: "Cheatsheet",
+    sub: "Python quick ref",
+    icon: (
+      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+      </svg>
+    ),
+  },
+  {
+    href: "/playground",
+    label: "Playground",
+    sub: "Run code live",
+    icon: (
+      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+      </svg>
+    ),
+  },
+  {
+    href: "/leaderboard",
+    label: "Leaderboard",
+    sub: "Top solvers",
+    icon: (
+      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+      </svg>
+    ),
+  },
+  {
+    href: "/grade-10/algorithms",
+    label: "Algorithms",
+    sub: "CCC prep",
+    icon: (
+      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M4 6h4m0 0v4m0-4 4 4m4-8h4v4m0 0-4 4M4 14h4m0 0v4m0-4 4 4m4-4h4v4" />
+      </svg>
+    ),
+  },
 ];
 
 
@@ -101,7 +137,11 @@ export default function HomePage() {
                   <h2 className="text-xl font-bold text-white mb-1">{c.grade}</h2>
                   <p className="text-slate-400 text-sm">{c.tagline}</p>
                 </div>
-                <span className={`font-mono text-xs px-2.5 py-1 rounded-full shrink-0 mt-0.5 ${c.timeBg}`}>
+                <span className={`inline-flex items-center gap-1.5 font-mono text-xs px-2.5 py-1 rounded-full shrink-0 mt-0.5 ${c.timeBg}`}>
+                  <svg className="w-3 h-3 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+                    <circle cx="12" cy="12" r="9" strokeWidth={2} />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 7v5l3 3" />
+                  </svg>
                   {c.day} · {c.time}
                 </span>
               </div>
@@ -132,6 +172,7 @@ export default function HomePage() {
                 href={l.href}
                 className="group block rounded-xl border border-slate-800 bg-slate-900 hover:border-slate-700 hover:bg-slate-800/80 transition-all duration-150 px-4 py-3"
               >
+                <div className="text-slate-500 group-hover:text-slate-300 transition-colors mb-2">{l.icon}</div>
                 <p className="text-sm font-semibold text-slate-300 group-hover:text-white transition-colors">{l.label}</p>
                 <p className="text-xs text-slate-600 mt-0.5">{l.sub}</p>
               </Link>
