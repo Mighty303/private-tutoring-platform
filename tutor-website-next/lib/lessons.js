@@ -352,6 +352,81 @@ export const basics2Exercises = [
   },
 ];
 
+export const graph1Exercises = [
+  {
+    id: "graph1-intro",
+    title: "Grids, DFS & BFS — Intro & Concepts",
+    emoji: "",
+    description: "2D arrays, the four-directions pattern, DFS recursion template, and BFS queue template.",
+    tags: ["Graphs", "Reference"],
+    color: "purple",
+  },
+  {
+    id: "graph1-ex1",
+    title: "Grid Sum",
+    emoji: "",
+    description: "Sum all values in a 2D grid using nested loops.",
+    tags: ["Grids", "Easy"],
+    color: "amber",
+  },
+  {
+    id: "graph1-ex2",
+    title: "Find Position",
+    emoji: "",
+    description: "Return the (row, col) of the first occurrence of a target value in a grid.",
+    tags: ["Grids", "Medium"],
+    color: "indigo",
+  },
+  {
+    id: "graph1-ex3",
+    title: "Check Neighbors",
+    emoji: "",
+    description: "Count how many of the 4 adjacent cells equal a target value — uses the directions pattern.",
+    tags: ["Grids", "Medium"],
+    color: "teal",
+  },
+  {
+    id: "graph1-ex4",
+    title: "Flood Fill",
+    emoji: "",
+    description: "Recursively paint all connected cells of the same color — your first DFS.",
+    tags: ["DFS", "Medium"],
+    color: "violet",
+  },
+  {
+    id: "graph1-ex5",
+    title: "Count Regions",
+    emoji: "",
+    description: "Count separate connected groups of a target value using DFS — the classic islands problem.",
+    tags: ["DFS", "Hard"],
+    color: "rose",
+  },
+  {
+    id: "graph1-ex6",
+    title: "Maze Path Finder",
+    emoji: "",
+    description: "Return True if a path exists from top-left to bottom-right in a maze using DFS.",
+    tags: ["DFS", "Hard"],
+    color: "sky",
+  },
+  {
+    id: "graph1-ex7",
+    title: "Shortest Path (BFS)",
+    emoji: "",
+    description: "Find the minimum number of steps from top-left to bottom-right using BFS.",
+    tags: ["BFS", "Hard"],
+    color: "purple",
+  },
+  {
+    id: "graph1-tips",
+    title: "Grid Tips & CCC Reference",
+    emoji: "",
+    description: "Boundary checks, visited sets, DFS vs BFS cheat sheet, and common mistakes.",
+    tags: ["Reference", "CCC"],
+    color: "blue",
+  },
+];
+
 export const graph2Exercises = [
   {
     id: "graph2-ex1",
@@ -885,6 +960,7 @@ export function getLessonById(id) {
     ...basics2Exercises,
     ...heapExercises,
     ...heap2Exercises,
+    ...graph1Exercises,
     ...graph2Exercises,
     ...backtrackingExercises,
     ...treeExercises,
@@ -908,6 +984,7 @@ export function getAllLessons() {
     ...basics2Exercises,
     ...heapExercises,
     ...heap2Exercises,
+    ...graph1Exercises,
     ...graph2Exercises,
     ...backtrackingExercises,
     ...treeExercises,
@@ -932,6 +1009,7 @@ export const exerciseSections = [
   { label: "Dictionaries", exercises: dictionaryExercises },
   { label: "Heaps", exercises: heapExercises },
   { label: "Heaps 2", exercises: heap2Exercises },
+  { label: "Graphs 1", exercises: graph1Exercises },
   { label: "Graphs 2", exercises: graph2Exercises },
   { label: "Backtracking", exercises: backtrackingExercises },
   { label: "Binary Trees", exercises: treeExercises },
@@ -950,6 +1028,7 @@ export function getExerciseUrl(slug) {
   if (slug.startsWith("basics-"))      return `/grade-7/${slug}`;
   if (slug.startsWith("heap2-"))       return `/grade-10/heaps-2/${slug}`;
   if (slug.startsWith("heap-"))        return `/grade-10/heaps/${slug}`;
+  if (slug.startsWith("graph1-"))      return `/grade-10/graphs-1/${slug}`;
   if (slug.startsWith("graph2-"))      return `/grade-10/graphs-2/${slug}`;
   if (slug.startsWith("backtrack-"))   return `/grade-10/backtracking/${slug}`;
   if (slug.startsWith("tree-"))        return `/grade-10/trees/${slug}`;

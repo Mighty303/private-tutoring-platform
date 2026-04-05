@@ -1,6 +1,5 @@
 import Link from "next/link";
-import LessonCard from "@/components/LessonCard";
-import { IntermediateLessons, basicsExercises, basics2Exercises, heapExercises, heap2Exercises, graph2Exercises, backtrackingExercises, treeExercises } from "@/lib/lessons";
+import { basicsExercises, basics2Exercises, heapExercises, heap2Exercises, graph1Exercises, graph2Exercises, backtrackingExercises, treeExercises } from "@/lib/lessons";
 import ExerciseProgressTracker from "@/components/ExerciseProgressTracker";
 
 export const metadata = {
@@ -242,6 +241,43 @@ export default function Grade10Page() {
               </Link>
             </div>
           </div>
+          {/* Graphs Part 1 hub card */}
+          <div className="block bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 border-l-4 border-l-purple-500 shadow-sm">
+            <div className="p-6">
+              {/* 3×3 grid with a traversal path arrow */}
+              <svg width="80" height="54" viewBox="0 0 80 54" fill="none" className="text-purple-500 mb-3" aria-hidden>
+                <rect x="2"  y="2"  width="18" height="16" rx="2" stroke="currentColor" strokeWidth="1.5" />
+                <rect x="31" y="2"  width="18" height="16" rx="2" stroke="currentColor" strokeWidth="1.5" />
+                <rect x="60" y="2"  width="18" height="16" rx="2" stroke="currentColor" strokeWidth="1.5" />
+                <rect x="2"  y="25" width="18" height="16" rx="2" stroke="currentColor" strokeWidth="1.5" />
+                <rect x="31" y="25" width="18" height="16" rx="2" stroke="currentColor" strokeWidth="1.5" />
+                <rect x="60" y="25" width="18" height="16" rx="2" stroke="currentColor" strokeWidth="1.5" fill="currentColor" fillOpacity="0.2" />
+                <circle cx="11" cy="10"  r="3" fill="currentColor" />
+                <circle cx="40" cy="10"  r="3" fill="currentColor" />
+                <circle cx="40" cy="33" r="3" fill="currentColor" />
+                <line x1="14" y1="10" x2="36" y2="10" stroke="currentColor" strokeWidth="1.25" markerEnd="none" />
+                <line x1="40" y1="18" x2="40" y2="30" stroke="currentColor" strokeWidth="1.25" />
+                <line x1="45" y1="33" x2="57" y2="33" stroke="currentColor" strokeWidth="1.25" />
+              </svg>
+              <h3 className="text-lg font-bold text-slate-800 dark:text-white mb-2">
+                Graphs Part 1 — Grid Traversal
+              </h3>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mb-3 line-clamp-2">
+                2D arrays, four-directions pattern, DFS flood fill and region counting, BFS shortest path.
+              </p>
+              <ExerciseProgressTracker
+                exercises={graph1Exercises}
+                color="emerald"
+                className="mb-3"
+              />
+              <Link
+                href="/grade-10/graphs-1"
+                className="inline-flex items-center gap-1 text-sm font-semibold text-purple-600 hover:text-purple-700 dark:text-purple-400 dark:hover:text-purple-300 transition-colors"
+              >
+                View Exercises →
+              </Link>
+            </div>
+          </div>
           {/* Graphs Part 2 hub card */}
           <div className="block bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 border-l-4 border-l-teal-500 shadow-sm">
             <div className="p-6">
@@ -281,13 +317,6 @@ export default function Grade10Page() {
               </Link>
             </div>
           </div>
-          {IntermediateLessons.map((lesson) => (
-            <LessonCard
-              key={lesson.id}
-              lesson={lesson}
-              basePath="/grade-10"
-            />
-          ))}
         </div>
 
 

@@ -126,6 +126,17 @@ const fileMap = {
   "tree-ex3": "sundays/trees/exercise3.md",
   "tree-ex4": "sundays/trees/exercise4.md",
 
+  // Graphs Part 1 — Grid Traversal exercises
+  "graph1-intro": "sundays/graphs-1/intro.md",
+  "graph1-ex1": "sundays/graphs-1/exercise1.md",
+  "graph1-ex2": "sundays/graphs-1/exercise2.md",
+  "graph1-ex3": "sundays/graphs-1/exercise3.md",
+  "graph1-ex4": "sundays/graphs-1/exercise4.md",
+  "graph1-ex5": "sundays/graphs-1/exercise5.md",
+  "graph1-ex6": "sundays/graphs-1/exercise6.md",
+  "graph1-ex7": "sundays/graphs-1/exercise7.md",
+  "graph1-tips": "sundays/graphs-1/tips.md",
+
   // Backtracking exercises
   "backtrack-intro": "sundays/backtracking/intro.md",
   "backtrack-ex1": "sundays/backtracking/exercise1.md",
