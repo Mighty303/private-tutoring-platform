@@ -30,13 +30,6 @@ export default function Grade10Page() {
         {/* Lesson cards */}
         <h2 className="text-2xl font-bold text-slate-700 dark:text-slate-200 mb-4">Lessons</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-          {IntermediateLessons.map((lesson) => (
-            <LessonCard
-              key={lesson.id}
-              lesson={lesson}
-              basePath="/grade-10"
-            />
-          ))}
           {/* Basics hub card */}
           <div className="block bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 border-l-4 border-l-emerald-500 shadow-sm">
             <div className="p-6">
@@ -92,6 +85,42 @@ export default function Grade10Page() {
               <Link
                 href="/grade-10/basics-2"
                 className="inline-flex items-center gap-1 text-sm font-semibold text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300 transition-colors"
+              >
+                View Exercises →
+              </Link>
+            </div>
+          </div>
+          {/* Binary Trees hub card */}
+          <div className="block bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 border-l-4 border-l-emerald-500 shadow-sm">
+            <div className="p-6">
+              {/* Binary tree: asymmetric BST (right subtree has one child) */}
+              <svg width="80" height="54" viewBox="0 0 80 54" fill="none" className="text-emerald-500 mb-3" aria-hidden>
+                <line x1="40" y1="10" x2="22" y2="28" stroke="currentColor" strokeWidth="1.5" />
+                <line x1="40" y1="10" x2="58" y2="28" stroke="currentColor" strokeWidth="1.5" />
+                <line x1="22" y1="28" x2="12" y2="46" stroke="currentColor" strokeWidth="1.5" />
+                <line x1="22" y1="28" x2="32" y2="46" stroke="currentColor" strokeWidth="1.5" />
+                <line x1="58" y1="28" x2="68" y2="46" stroke="currentColor" strokeWidth="1.5" />
+                <circle cx="40" cy="10" r="8" stroke="currentColor" strokeWidth="1.5" />
+                <circle cx="22" cy="28" r="7" stroke="currentColor" strokeWidth="1.5" />
+                <circle cx="58" cy="28" r="7" stroke="currentColor" strokeWidth="1.5" />
+                <circle cx="12" cy="46" r="6" stroke="currentColor" strokeWidth="1.5" />
+                <circle cx="32" cy="46" r="6" stroke="currentColor" strokeWidth="1.5" />
+                <circle cx="68" cy="46" r="6" stroke="currentColor" strokeWidth="1.5" />
+              </svg>
+              <h3 className="text-lg font-bold text-slate-800 dark:text-white mb-2">
+                Binary Trees
+              </h3>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mb-3 line-clamp-2">
+                TreeNode class, recursive DFS, traversals, and path problems — with an interactive BST visualizer.
+              </p>
+              <ExerciseProgressTracker
+                exercises={treeExercises}
+                color="emerald"
+                className="mb-3"
+              />
+              <Link
+                href="/grade-10/trees"
+                className="inline-flex items-center gap-1 text-sm font-semibold text-emerald-600 hover:text-emerald-700 dark:text-emerald-400 dark:hover:text-emerald-300 transition-colors"
               >
                 View Exercises →
               </Link>
@@ -173,45 +202,6 @@ export default function Grade10Page() {
               </Link>
             </div>
           </div>
-          {/* Graphs Part 2 hub card */}
-          <div className="block bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 border-l-4 border-l-teal-500 shadow-sm">
-            <div className="p-6">
-              {/* Directed graph: 4 nodes, directed edges forming a cycle */}
-              <svg width="80" height="54" viewBox="0 0 80 54" fill="none" className="text-teal-500 mb-3" aria-hidden>
-                <defs>
-                  <marker id="arr-teal" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
-                    <path d="M0,0 L0,6 L6,3 z" fill="currentColor" />
-                  </marker>
-                </defs>
-                <line x1="25" y1="10" x2="54" y2="10" stroke="currentColor" strokeWidth="1.5" markerEnd="url(#arr-teal)" />
-                <line x1="16" y1="19" x2="16" y2="36" stroke="currentColor" strokeWidth="1.5" markerEnd="url(#arr-teal)" />
-                <line x1="64" y1="19" x2="64" y2="36" stroke="currentColor" strokeWidth="1.5" markerEnd="url(#arr-teal)" />
-                <line x1="25" y1="44" x2="54" y2="44" stroke="currentColor" strokeWidth="1.5" markerEnd="url(#arr-teal)" />
-                <line x1="23" y1="17" x2="56" y2="38" stroke="currentColor" strokeWidth="1.5" strokeDasharray="3 2" markerEnd="url(#arr-teal)" />
-                <circle cx="16" cy="10" r="8" stroke="currentColor" strokeWidth="1.5" />
-                <circle cx="64" cy="10" r="8" stroke="currentColor" strokeWidth="1.5" />
-                <circle cx="16" cy="44" r="8" stroke="currentColor" strokeWidth="1.5" />
-                <circle cx="64" cy="44" r="8" stroke="currentColor" strokeWidth="1.5" />
-              </svg>
-              <h3 className="text-lg font-bold text-slate-800 dark:text-white mb-2">
-                Graphs Part 2 — Adjacency Lists &amp; Cycles
-              </h3>
-              <p className="text-sm text-slate-500 dark:text-slate-400 mb-3 line-clamp-2">
-                Build adjacency lists, detect cycles with DFS, and find valid course orderings.
-              </p>
-              <ExerciseProgressTracker
-                exercises={graph2Exercises}
-                color="emerald"
-                className="mb-3"
-              />
-              <Link
-                href="/grade-10/graphs-2"
-                className="inline-flex items-center gap-1 text-sm font-semibold text-teal-600 hover:text-teal-700 dark:text-teal-400 dark:hover:text-teal-300 transition-colors"
-              >
-                View Exercises →
-              </Link>
-            </div>
-          </div>
           {/* Backtracking hub card */}
           <div className="block bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 border-l-4 border-l-violet-500 shadow-sm">
             <div className="p-6">
@@ -252,42 +242,52 @@ export default function Grade10Page() {
               </Link>
             </div>
           </div>
-          {/* Binary Trees hub card */}
-          <div className="block bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 border-l-4 border-l-emerald-500 shadow-sm">
+          {/* Graphs Part 2 hub card */}
+          <div className="block bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 border-l-4 border-l-teal-500 shadow-sm">
             <div className="p-6">
-              {/* Binary tree: asymmetric BST (right subtree has one child) */}
-              <svg width="80" height="54" viewBox="0 0 80 54" fill="none" className="text-emerald-500 mb-3" aria-hidden>
-                <line x1="40" y1="10" x2="22" y2="28" stroke="currentColor" strokeWidth="1.5" />
-                <line x1="40" y1="10" x2="58" y2="28" stroke="currentColor" strokeWidth="1.5" />
-                <line x1="22" y1="28" x2="12" y2="46" stroke="currentColor" strokeWidth="1.5" />
-                <line x1="22" y1="28" x2="32" y2="46" stroke="currentColor" strokeWidth="1.5" />
-                <line x1="58" y1="28" x2="68" y2="46" stroke="currentColor" strokeWidth="1.5" />
-                <circle cx="40" cy="10" r="8" stroke="currentColor" strokeWidth="1.5" />
-                <circle cx="22" cy="28" r="7" stroke="currentColor" strokeWidth="1.5" />
-                <circle cx="58" cy="28" r="7" stroke="currentColor" strokeWidth="1.5" />
-                <circle cx="12" cy="46" r="6" stroke="currentColor" strokeWidth="1.5" />
-                <circle cx="32" cy="46" r="6" stroke="currentColor" strokeWidth="1.5" />
-                <circle cx="68" cy="46" r="6" stroke="currentColor" strokeWidth="1.5" />
+              {/* Directed graph: 4 nodes, directed edges forming a cycle */}
+              <svg width="80" height="54" viewBox="0 0 80 54" fill="none" className="text-teal-500 mb-3" aria-hidden>
+                <defs>
+                  <marker id="arr-teal" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+                    <path d="M0,0 L0,6 L6,3 z" fill="currentColor" />
+                  </marker>
+                </defs>
+                <line x1="25" y1="10" x2="54" y2="10" stroke="currentColor" strokeWidth="1.5" markerEnd="url(#arr-teal)" />
+                <line x1="16" y1="19" x2="16" y2="36" stroke="currentColor" strokeWidth="1.5" markerEnd="url(#arr-teal)" />
+                <line x1="64" y1="19" x2="64" y2="36" stroke="currentColor" strokeWidth="1.5" markerEnd="url(#arr-teal)" />
+                <line x1="25" y1="44" x2="54" y2="44" stroke="currentColor" strokeWidth="1.5" markerEnd="url(#arr-teal)" />
+                <line x1="23" y1="17" x2="56" y2="38" stroke="currentColor" strokeWidth="1.5" strokeDasharray="3 2" markerEnd="url(#arr-teal)" />
+                <circle cx="16" cy="10" r="8" stroke="currentColor" strokeWidth="1.5" />
+                <circle cx="64" cy="10" r="8" stroke="currentColor" strokeWidth="1.5" />
+                <circle cx="16" cy="44" r="8" stroke="currentColor" strokeWidth="1.5" />
+                <circle cx="64" cy="44" r="8" stroke="currentColor" strokeWidth="1.5" />
               </svg>
               <h3 className="text-lg font-bold text-slate-800 dark:text-white mb-2">
-                Binary Trees
+                Graphs Part 2 — Adjacency Lists &amp; Cycles
               </h3>
               <p className="text-sm text-slate-500 dark:text-slate-400 mb-3 line-clamp-2">
-                TreeNode class, recursive DFS, traversals, and path problems — with an interactive BST visualizer.
+                Build adjacency lists, detect cycles with DFS, and find valid course orderings.
               </p>
               <ExerciseProgressTracker
-                exercises={treeExercises}
+                exercises={graph2Exercises}
                 color="emerald"
                 className="mb-3"
               />
               <Link
-                href="/grade-10/trees"
-                className="inline-flex items-center gap-1 text-sm font-semibold text-emerald-600 hover:text-emerald-700 dark:text-emerald-400 dark:hover:text-emerald-300 transition-colors"
+                href="/grade-10/graphs-2"
+                className="inline-flex items-center gap-1 text-sm font-semibold text-teal-600 hover:text-teal-700 dark:text-teal-400 dark:hover:text-teal-300 transition-colors"
               >
                 View Exercises →
               </Link>
             </div>
           </div>
+          {IntermediateLessons.map((lesson) => (
+            <LessonCard
+              key={lesson.id}
+              lesson={lesson}
+              basePath="/grade-10"
+            />
+          ))}
         </div>
 
 
