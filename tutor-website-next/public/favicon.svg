@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Indigo circle background -->
+  <circle cx="32" cy="32" r="30" fill="#4f46e5"/>
+  <!-- Inner glow ring (subtle) -->
+  <circle cx="32" cy="32" r="30" fill="none" stroke="#818cf8" stroke-width="1" opacity="0.4"/>
+
+  <!-- Terminal window -->
+  <rect x="11" y="16" width="42" height="32" rx="4" fill="#1e1b4b" stroke="#818cf8" stroke-width="1.2"/>
+  <!-- Title bar -->
+  <rect x="11" y="16" width="42" height="10" rx="4" fill="#312e81"/>
+  <rect x="11" y="22" width="42" height="4" fill="#312e81"/>
+  <!-- Traffic dots -->
+  <circle cx="18" cy="21" r="2" fill="#f87171"/>
+  <circle cx="25" cy="21" r="2" fill="#fbbf24"/>
+  <circle cx="32" cy="21" r="2" fill="#4ade80"/>
+
+  <!-- > prompt -->
+  <path d="M 16 33 L 23 37 L 16 41" fill="none" stroke="#a5b4fc" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Cursor block -->
+  <rect x="26" y="33" width="10" height="6" rx="1" fill="#818cf8" opacity="0.9"/>
+  <!-- Second line hint -->
+  <rect x="26" y="43" width="16" height="3" rx="1" fill="#6366f1" opacity="0.45"/>
+</svg>

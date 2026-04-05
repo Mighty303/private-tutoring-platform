@@ -7,6 +7,12 @@ import AuthProvider from "@/components/AuthProvider";
 export const metadata = {
   title: "CS Tutor — Martin Wong",
   description: "Private tutoring resources for Computer Science — Python, Algorithms, and more.",
+  icons: {
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/favicon.ico" },
+    ],
+  },
 };
 
 export default function RootLayout({ children }) {

@@ -53,13 +53,18 @@ export default function Navbar() {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 font-bold text-slate-800 dark:text-white text-lg">
             <Image
-              src="/assets/python.jpg"
-              alt="Python"
-              width={32}
+              src="/assets/navbar-logo.svg"
+              alt="CS Tutor"
+              width={36}
               height={32}
-              className="rounded-md"
+              className="h-8 w-auto"
+              priority
+              unoptimized
             />
-            <span>CS Tutor</span>
+            <span>
+              <span className="text-indigo-400 underline decoration-indigo-600 underline-offset-2">CS</span>
+              {" Tutor"}
+            </span>
           </Link>
 
           {/* Desktop nav */}
