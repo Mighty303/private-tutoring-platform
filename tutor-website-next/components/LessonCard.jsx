@@ -44,7 +44,47 @@ const cardBorders = {
   green: "border-l-green-500",
 };
 
+// BFS expansion on a 4×4 grid: start cell solid, wave-1 medium, wave-2 faint, rest outline
+function DfsGridIcon({ className }) {
+  // cell(r,c) → top-left corner: x = c*13+1, y = r*13+1, size 11×11
+  const cell = (r, c) => ({ x: c * 13 + 1, y: r * 13 + 1 });
+  const allCells = Array.from({ length: 4 }, (_, r) =>
+    Array.from({ length: 4 }, (_, c) => [r, c])
+  ).flat();
+  const wave = (r, c) => r + c; // BFS distance from (0,0)
+  return (
+    <svg width="53" height="53" viewBox="0 0 53 53" fill="none" className={className} aria-hidden>
+      {allCells.map(([r, c]) => {
+        const { x, y } = cell(r, c);
+        const w = wave(r, c);
+        const filled = w === 0 ? 1 : w === 1 ? 0.55 : w === 2 ? 0.25 : 0;
+        return filled > 0 ? (
+          <rect key={`${r}-${c}`} x={x} y={y} width={11} height={11} rx={1.5}
+            fill="currentColor" fillOpacity={filled} />
+        ) : (
+          <rect key={`${r}-${c}`} x={x} y={y} width={11} height={11} rx={1.5}
+            stroke="currentColor" strokeWidth={1} strokeOpacity={0.3} />
+        );
+      })}
+      {/* Arrow right from (0,0) */}
+      <line x1="13" y1="6.5" x2="19" y2="6.5" stroke="currentColor" strokeWidth={1} strokeOpacity={0.7} markerEnd="url(#gc-arr)" />
+      {/* Arrow down from (0,0) */}
+      <line x1="6.5" y1="13" x2="6.5" y2="19" stroke="currentColor" strokeWidth={1} strokeOpacity={0.7} markerEnd="url(#gc-arr)" />
+      <defs>
+        <marker id="gc-arr" markerWidth="4" markerHeight="4" refX="3" refY="2" orient="auto">
+          <path d="M0,0 L0,4 L4,2 z" fill="currentColor" />
+        </marker>
+      </defs>
+    </svg>
+  );
+}
+
+const LESSON_ICONS = {
+  "dfs-grid": DfsGridIcon,
+};
+
 export default function LessonCard({ lesson, basePath }) {
+  const Icon = LESSON_ICONS[lesson.icon];
   return (
     <Link
       href={`${basePath}/${lesson.id}`}
@@ -54,7 +94,7 @@ export default function LessonCard({ lesson, basePath }) {
     >
       <div className="p-6">
         <div className="flex items-start justify-between mb-3">
-          <LessonEmoji emoji={lesson.emoji} className="text-3xl" />
+          {Icon ? <Icon className="text-purple-500" /> : <LessonEmoji emoji={lesson.emoji} className="text-3xl" />}
           <svg
             className="w-5 h-5 text-slate-400 group-hover:text-indigo-500 group-hover:translate-x-1 transition-all"
             fill="none"

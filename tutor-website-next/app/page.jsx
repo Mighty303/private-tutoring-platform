@@ -74,16 +74,6 @@ const QUICK_LINKS = [
       </svg>
     ),
   },
-  {
-    href: "/grade-10/algorithms",
-    label: "Algorithms",
-    sub: "CCC prep",
-    icon: (
-      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M4 6h4m0 0v4m0-4 4 4m4-8h4v4m0 0-4 4M4 14h4m0 0v4m0-4 4 4m4-4h4v4" />
-      </svg>
-    ),
-  },
 ];
 
 

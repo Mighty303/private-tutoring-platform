@@ -162,28 +162,13 @@ export const dictionaryExercises = [
 
 export const IntermediateLessons = [
   {
-    id: "algorithms",
-    title: "Algorithms — CCC Prep",
-    emoji: "",
-    description: "Algorithmic thinking for competitive programming — scanning, accumulation, two-pointer patterns.",
-    tags: ["Algorithms", "CCC"],
-    color: "blue",
-  },
-  {
     id: "dfs-bfs",
     title: "DFS & BFS — Grid Traversal",
     emoji: "",
     description: "2D arrays, grid traversal, and building toward CCC Question 5 problems.",
     tags: ["Algorithms", "Grids"],
     color: "purple",
-  },
-  {
-    id: "graphs",
-    title: "DFS Practice — Graph Exploration",
-    emoji: "",
-    description: "Depth-First Search on grids — flood fill, island counting, and maze solving.",
-    tags: ["DFS", "Recursion"],
-    color: "red",
+    icon: "dfs-grid",
   },
 ];
 
