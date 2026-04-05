@@ -26,9 +26,9 @@ const CLASSES = [
     href: "/grade-7",
     tagline: "Python & Roblox-themed exercises",
     topics: ["Variables & loops", "Functions", "Lists", "Dictionaries"],
-    cardClass: "border-indigo-800 bg-indigo-950/30 hover:border-indigo-700",
-    topicBg: "bg-indigo-900/40 text-indigo-300",
-    timeBg: "bg-indigo-900/40 text-indigo-400",
+    cardClass: "border-indigo-200 bg-indigo-50/50 hover:border-indigo-300 dark:border-indigo-800 dark:bg-indigo-950/30 dark:hover:border-indigo-700",
+    topicBg: "bg-indigo-100 text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-300",
+    timeBg: "bg-indigo-100 text-indigo-600 dark:bg-indigo-900/40 dark:text-indigo-400",
   },
   {
     grade: "Grade 10",
@@ -37,9 +37,9 @@ const CLASSES = [
     href: "/grade-10",
     tagline: "Algorithms, data structures & CCC prep",
     topics: ["DFS / BFS", "Two-pointer", "Graphs & heaps", "Competitive"],
-    cardClass: "border-violet-800 bg-violet-950/30 hover:border-violet-700",
-    topicBg: "bg-violet-900/40 text-violet-300",
-    timeBg: "bg-violet-900/40 text-violet-400",
+    cardClass: "border-violet-200 bg-violet-50/50 hover:border-violet-300 dark:border-violet-800 dark:bg-violet-950/30 dark:hover:border-violet-700",
+    topicBg: "bg-violet-100 text-violet-700 dark:bg-violet-900/40 dark:text-violet-300",
+    timeBg: "bg-violet-100 text-violet-600 dark:bg-violet-900/40 dark:text-violet-400",
   },
 ];
 
@@ -79,7 +79,7 @@ const QUICK_LINKS = [
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-slate-950 text-white">
+    <div className="min-h-screen bg-white dark:bg-slate-950 text-slate-900 dark:text-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
 
         {/* Hero + terminal: column on mobile, row on lg+ */}
@@ -93,7 +93,7 @@ export default function HomePage() {
                 Learn CS.<br />
                 <span className="text-slate-500">Build things.</span>
               </motion.h1>
-              <motion.p {...fade(0.1)} className="text-slate-400 text-lg sm:text-xl max-w-xl mx-auto lg:mx-0 leading-relaxed">
+              <motion.p {...fade(0.1)} className="text-slate-600 dark:text-slate-400 text-lg sm:text-xl max-w-xl mx-auto lg:mx-0 leading-relaxed">
                 Computer Science tutoring for Grade 7 & Grade 10.
               </motion.p>
               <motion.div {...fade(0.14)} className="mt-8 flex justify-center lg:justify-start">
@@ -124,8 +124,8 @@ export default function HomePage() {
             >
               <div className="flex items-start justify-between gap-4 mb-4">
                 <div>
-                  <h2 className="text-xl font-bold text-white mb-1">{c.grade}</h2>
-                  <p className="text-slate-400 text-sm">{c.tagline}</p>
+                  <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-1">{c.grade}</h2>
+                  <p className="text-slate-600 dark:text-slate-400 text-sm">{c.tagline}</p>
                 </div>
                 <span className={`inline-flex items-center gap-1.5 font-mono text-xs px-2.5 py-1 rounded-full shrink-0 mt-0.5 ${c.timeBg}`}>
                   <svg className="w-3 h-3 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
@@ -142,7 +142,7 @@ export default function HomePage() {
                   </span>
                 ))}
               </div>
-              <span className="inline-flex items-center gap-1 text-sm font-medium text-slate-400 group-hover:text-slate-200 transition-colors">
+              <span className="inline-flex items-center gap-1 text-sm font-medium text-slate-500 group-hover:text-slate-800 dark:text-slate-400 dark:group-hover:text-slate-200 transition-colors">
                 Open lessons
                 <svg className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -160,11 +160,11 @@ export default function HomePage() {
               <Link
                 key={l.href}
                 href={l.href}
-                className="group block rounded-xl border border-slate-800 bg-slate-900 hover:border-slate-700 hover:bg-slate-800/80 transition-all duration-150 px-4 py-3"
+                className="group block rounded-xl border border-slate-200 bg-slate-50 hover:border-slate-300 hover:bg-slate-100 dark:border-slate-800 dark:bg-slate-900 dark:hover:border-slate-700 dark:hover:bg-slate-800/80 transition-all duration-150 px-4 py-3"
               >
-                <div className="text-slate-500 group-hover:text-slate-300 transition-colors mb-2">{l.icon}</div>
-                <p className="text-sm font-semibold text-slate-300 group-hover:text-white transition-colors">{l.label}</p>
-                <p className="text-xs text-slate-600 mt-0.5">{l.sub}</p>
+                <div className="text-slate-400 group-hover:text-slate-700 dark:text-slate-500 dark:group-hover:text-slate-300 transition-colors mb-2">{l.icon}</div>
+                <p className="text-sm font-semibold text-slate-700 group-hover:text-slate-900 dark:text-slate-300 dark:group-hover:text-white transition-colors">{l.label}</p>
+                <p className="text-xs text-slate-500 dark:text-slate-600 mt-0.5">{l.sub}</p>
               </Link>
             ))}
           </motion.div>
@@ -173,27 +173,27 @@ export default function HomePage() {
         {/* About */}
         <motion.div {...fade(0.25)} className="mb-24">
           <p className="font-mono text-xs text-slate-600 tracking-widest uppercase mb-3">Your tutor</p>
-          <div className="rounded-2xl border border-slate-800 bg-slate-900 p-6 sm:p-8">
+          <div className="rounded-2xl border border-slate-200 bg-slate-50 dark:border-slate-800 dark:bg-slate-900 p-6 sm:p-8">
             <div className="flex flex-col sm:flex-row sm:items-start gap-6">
               <Image
                 src="/assets/martin.png"
                 alt="Martin Wong"
                 width={72}
                 height={72}
-                className="rounded-full ring-2 ring-slate-700 shrink-0"
+                className="rounded-full ring-2 ring-slate-300 dark:ring-slate-700 shrink-0"
               />
               <div className="flex-1 min-w-0">
                 <div className="flex flex-col sm:flex-row sm:items-center gap-1.5 mb-2">
                   <h2 className="text-lg font-bold text-white">Martin Wong</h2>
                   <span className="font-mono text-xs text-slate-500">· B.Sc. Computer Science, SFU · 2+ yrs tutoring</span>
                 </div>
-                <p className="text-slate-400 text-sm leading-relaxed mb-5">
+                <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-5">
                   Software engineering intern at EA, Rivian, and Safety CLI. I teach Python fundamentals to Grade 7 students and data structures &amp; algorithms to Grade 10 with a focus on building real intuition, not just passing tests.
                 </p>
                 {/* Company logos */}
                 <div className="flex items-center gap-3 mb-5">
                   {COMPANIES.map((c) => (
-                    <div key={c.name} className="w-8 h-8 rounded-md bg-black flex items-center justify-center overflow-hidden border border-slate-700/50">
+                    <div key={c.name} className="w-8 h-8 rounded-md bg-slate-100 dark:bg-black flex items-center justify-center overflow-hidden border border-slate-300/50 dark:border-slate-700/50">
                       <Image src={c.logo} alt={c.name} width={24} height={24} className="object-contain" />
                     </div>
                   ))}
@@ -216,7 +216,7 @@ export default function HomePage() {
 
       </div>
 
-      <footer className="border-t border-slate-800/60">
+      <footer className="border-t border-slate-200 dark:border-slate-800/60">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-5 flex items-center justify-between">
           <span className="font-mono text-xs text-slate-700">Martin Wong · Private Tutoring</span>
           <span className="font-mono text-xs text-slate-700">{new Date().getFullYear()}</span>
