@@ -22,3 +22,49 @@ export async function GET(request, { params }) {
 
   return NextResponse.json(members);
 }
+
+// POST /api/classrooms/[id]/members — add a user to a classroom
+export async function POST(request, { params }) {
+  const session = await auth();
+  if (!session || session.user.role !== "admin") {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
+
+  const { id } = await params;
+  const { userId } = await request.json();
+  if (!userId) {
+    return NextResponse.json({ error: "userId is required" }, { status: 400 });
+  }
+
+  const sql = getDb();
+  await sql`
+    INSERT INTO classroom_members (classroom_id, user_id)
+    VALUES (${id}, ${userId})
+    ON CONFLICT (classroom_id, user_id) DO NOTHING
+  `;
+
+  return NextResponse.json({ ok: true });
+}
+
+// DELETE /api/classrooms/[id]/members?userId=X — remove a user from a classroom
+export async function DELETE(request, { params }) {
+  const session = await auth();
+  if (!session || session.user.role !== "admin") {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
+
+  const { id } = await params;
+  const { searchParams } = new URL(request.url);
+  const userId = searchParams.get("userId");
+  if (!userId) {
+    return NextResponse.json({ error: "userId is required" }, { status: 400 });
+  }
+
+  const sql = getDb();
+  await sql`
+    DELETE FROM classroom_members
+    WHERE classroom_id = ${id} AND user_id = ${userId}
+  `;
+
+  return NextResponse.json({ ok: true });
+}
