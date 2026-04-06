@@ -32,6 +32,32 @@ function buildStudentProgressList(users, submissions) {
     .sort((a, b) => (b.exercises.length - a.exercises.length)); // Sort by submission count desc (top 3)
 }
 
+const MEDAL_COLORS = {
+  1: { ribbon: "#FBBF24", circle: "#F59E0B", shine: "#FDE68A", text: "#92400E" },
+  2: { ribbon: "#94A3B8", circle: "#64748B", shine: "#CBD5E1", text: "#1E293B" },
+  3: { ribbon: "#F97316", circle: "#EA580C", shine: "#FED7AA", text: "#7C2D12" },
+};
+
+function MedalSVG({ rank }) {
+  const c = MEDAL_COLORS[rank];
+  if (!c) return null;
+  return (
+    <svg width="32" height="40" viewBox="0 0 32 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      {/* Ribbon left */}
+      <rect x="10" y="0" width="5" height="18" rx="2" fill={c.ribbon} transform="rotate(-8 10 0)" />
+      {/* Ribbon right */}
+      <rect x="17" y="0" width="5" height="18" rx="2" fill={c.ribbon} transform="rotate(8 22 0)" />
+      {/* Medal circle */}
+      <circle cx="16" cy="28" r="11" fill={c.circle} />
+      <circle cx="16" cy="28" r="9" fill={c.shine} fillOpacity="0.35" />
+      {/* Rank number */}
+      <text x="16" y="33" textAnchor="middle" fontSize="11" fontWeight="bold" fill={c.text} fontFamily="system-ui, sans-serif">
+        {rank}
+      </text>
+    </svg>
+  );
+}
+
 const PODIUM_CONFIG = [
   { rank: 2, blockH: "h-20", avatarSize: 48, label: "2nd", color: "from-slate-300 to-slate-400 dark:from-slate-600 dark:to-slate-700", border: "border-slate-300 dark:border-slate-500" },
   { rank: 1, blockH: "h-32", avatarSize: 64, label: "1st", color: "from-yellow-300 to-yellow-500 dark:from-yellow-500 dark:to-yellow-700", border: "border-yellow-400 dark:border-yellow-500" },
@@ -44,9 +70,7 @@ function PodiumSlot({ config, student }) {
     <div className="flex flex-col items-center gap-2" style={{ flex: 1 }}>
       {/* Avatar + name above the block */}
       <div className={`flex flex-col items-center gap-1 pb-2 ${isFirst ? "mb-1" : ""}`}>
-        <span className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-200 text-xs font-bold text-slate-700 dark:bg-slate-700 dark:text-slate-200">
-          {config.rank}
-        </span>
+        <MedalSVG rank={config.rank} />
         {student ? (
           student.user_image ? (
             <Image
@@ -100,6 +124,65 @@ function Podium({ students }) {
   );
 }
 
+function RankBadge({ rank }) {
+  if (rank <= 3) return <MedalSVG rank={rank} />;
+  return (
+    <span className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-xs font-bold text-slate-500 dark:text-slate-400">
+      {rank}
+    </span>
+  );
+}
+
+function LeaderboardList({ students }) {
+  if (students.length === 0) return null;
+  return (
+    <div className="mt-8 rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 overflow-hidden">
+      <div className="px-4 py-3 border-b border-slate-100 dark:border-slate-800">
+        <h2 className="text-sm font-semibold text-slate-600 dark:text-slate-400 uppercase tracking-wide">All Students</h2>
+      </div>
+      <ul>
+        {students.map((student, i) => {
+          const rank = i + 1;
+          return (
+            <li
+              key={student.user_id}
+              className="flex items-center gap-3 px-4 py-3 border-b last:border-b-0 border-slate-100 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors"
+            >
+              <div className="flex-shrink-0 w-8 flex justify-center">
+                <RankBadge rank={rank} />
+              </div>
+              <div className="flex-shrink-0">
+                {student.user_image ? (
+                  <Image
+                    src={student.user_image}
+                    alt={student.user_name || ""}
+                    width={36}
+                    height={36}
+                    className="rounded-full"
+                    style={{ width: 36, height: 36 }}
+                  />
+                ) : (
+                  <div className="w-9 h-9 rounded-full bg-indigo-100 dark:bg-indigo-900 flex items-center justify-center text-sm font-bold text-indigo-600 dark:text-indigo-400">
+                    {student.user_name?.charAt(0) || "?"}
+                  </div>
+                )}
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-semibold text-slate-800 dark:text-white truncate">{student.user_name}</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400">{student.user_email}</p>
+              </div>
+              <div className="flex-shrink-0 text-right">
+                <p className="text-sm font-bold text-slate-800 dark:text-white">{student.exercises.length}</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400">solved</p>
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
+  );
+}
+
 export default function LeaderboardClient({
   classrooms,
   initialClassroomId,
@@ -127,7 +210,7 @@ export default function LeaderboardClient({
       const users = Array.isArray(usersData) ? usersData : [];
       const submissions = Array.isArray(subsData) ? subsData : [];
       const list = buildStudentProgressList(users, submissions);
-      setStudentProgressList(list.slice(0, 3));
+      setStudentProgressList(list);
     } catch {
       setStudentProgressList([]);
     } finally {
@@ -197,7 +280,10 @@ export default function LeaderboardClient({
             </p>
           </div>
         ) : (
-          <Podium students={studentProgressList} />
+          <>
+            <Podium students={studentProgressList.slice(0, 3)} />
+            <LeaderboardList students={studentProgressList} />
+          </>
         )}
       </div>
     </div>
