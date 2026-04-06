@@ -4,6 +4,7 @@ import { useState } from "react";
 import { exerciseSections } from "@/lib/lessons";
 import ClassroomPicker from "./ClassroomPicker";
 import ConfirmModal from "./ConfirmModal";
+import Image from "next/image";
 
 export default function HomeworkSection({ classrooms, users, hwAssignments, submissions, allExerciseSlugs, onRefreshHomework }) {
   const [hwTitle, setHwTitle] = useState("");
@@ -169,19 +170,41 @@ export default function HomeworkSection({ classrooms, users, hwAssignments, subm
 
           {/* Individual students */}
           <div>
-            <label className="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">
-              Individual Students (optional, hold Ctrl/Cmd to select multiple)
+            <label className="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-2">
+              Individual Students (optional)
             </label>
-            <select
-              multiple
-              value={hwStudentIds}
-              onChange={(e) => setHwStudentIds([...e.target.selectedOptions].map((o) => o.value))}
-              className="w-full rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 px-3 py-2 text-sm text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 h-24"
-            >
-              {students.map((u) => (
-                <option key={u.id} value={u.id}>{u.name || u.email}</option>
-              ))}
-            </select>
+            <div className="flex flex-wrap gap-2">
+              {students.map((u) => {
+                const selected = hwStudentIds.includes(String(u.id));
+                return (
+                  <button
+                    key={u.id}
+                    type="button"
+                    onClick={() =>
+                      setHwStudentIds((prev) =>
+                        selected
+                          ? prev.filter((id) => id !== String(u.id))
+                          : [...prev, String(u.id)]
+                      )
+                    }
+                    className={`flex items-center gap-2 px-3 py-1.5 rounded-xl border text-sm transition-colors cursor-pointer ${
+                      selected
+                        ? "border-indigo-500 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-300"
+                        : "border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:border-slate-300 dark:hover:border-slate-600"
+                    }`}
+                  >
+                    {u.image ? (
+                      <Image src={u.image} alt={u.name || ""} width={20} height={20} className="rounded-full shrink-0" />
+                    ) : (
+                      <div className="w-5 h-5 rounded-full bg-indigo-100 dark:bg-indigo-900 flex items-center justify-center text-[10px] font-bold text-indigo-600 dark:text-indigo-400 shrink-0">
+                        {u.name?.charAt(0) || "?"}
+                      </div>
+                    )}
+                    <span>{u.name || u.email}</span>
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
           {/* Exercise selector */}

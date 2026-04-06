@@ -7,8 +7,24 @@ import HomeworkSection from "./components/HomeworkSection";
 import StudentsSection from "./components/StudentsSection";
 import ManualPassSection from "./components/ManualPassSection";
 import AdminsSection from "./components/AdminsSection";
+import {
+  Building2,
+  BookOpen,
+  Users,
+  BadgeCheck,
+  ShieldCheck,
+} from "lucide-react";
+
+const NAV_ITEMS = [
+  { id: "classrooms", label: "Classrooms", icon: Building2 },
+  { id: "homework", label: "Homework", icon: BookOpen },
+  { id: "students", label: "Students", icon: Users },
+  { id: "manual-pass", label: "Manual Pass", icon: BadgeCheck },
+  { id: "admins", label: "Admins", icon: ShieldCheck },
+];
 
 export default function AdminDashboard() {
+  const [activeSection, setActiveSection] = useState("classrooms");
   const [classrooms, setClassrooms] = useState([]);
   const [loading, setLoading] = useState(true);
   const [users, setUsers] = useState([]);
@@ -17,7 +33,7 @@ export default function AdminDashboard() {
   const [hwAssignments, setHwAssignments] = useState([]);
   const [passing, setPassing] = useState(null);
   const [passSuccess, setPassSuccess] = useState(null);
-  const [memberships, setMemberships] = useState([]); // [{user_id, classroom_id, classroom_name}]
+  const [memberships, setMemberships] = useState([]);
 
   useEffect(() => {
     let cancelled = false;
@@ -139,48 +155,93 @@ export default function AdminDashboard() {
     );
   }
 
+  const activeLabel = NAV_ITEMS.find((n) => n.id === activeSection)?.label ?? "";
+
   return (
     <div className="min-h-screen bg-linear-to-b from-slate-50 to-white dark:from-slate-950 dark:to-slate-900">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {/* Page header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-slate-800 dark:text-white">Admin Dashboard</h1>
-          <p className="text-slate-500 dark:text-slate-400 mt-1">Manage classrooms and invite students</p>
+          <p className="text-slate-500 dark:text-slate-400 mt-1">Manage classrooms, homework, and students</p>
         </div>
 
-        <ClassroomSection classrooms={classrooms} onRefreshClassrooms={refreshClassrooms} />
+        <div className="flex gap-8 items-start">
+          {/* Sidebar nav */}
+          <nav className="w-52 shrink-0">
+            <ul className="flex flex-col">
+              {NAV_ITEMS.map(({ id, label, icon: Icon }) => {
+                const active = activeSection === id;
+                return (
+                  <li key={id}>
+                    <button
+                      onClick={() => setActiveSection(id)}
+                      className={[
+                        "w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors text-left",
+                        active
+                          ? "bg-slate-200 dark:bg-slate-800 text-slate-900 dark:text-white"
+                          : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/60 hover:text-slate-900 dark:hover:text-white",
+                      ].join(" ")}
+                    >
+                      <Icon className="w-4 h-4 shrink-0" />
+                      {label}
+                    </button>
+                  </li>
+                );
+              })}
+            </ul>
+          </nav>
 
-        <HomeworkSection
-          classrooms={classrooms}
-          users={users}
-          hwAssignments={hwAssignments}
-          submissions={submissions}
-          allExerciseSlugs={allExerciseSlugs}
-          onRefreshHomework={refreshHomework}
-        />
+          {/* Content panel */}
+          <div className="flex-1 min-w-0">
+            <h2 className="text-xl font-semibold text-slate-800 dark:text-white mb-6">{activeLabel}</h2>
 
-        <StudentsSection
-          studentStatus={studentStatus}
-          users={users}
-          submissions={submissions}
-          classrooms={classrooms}
-          memberships={memberships}
-          grantPass={grantPass}
-          passing={passing}
-          onDeleteUser={deleteUser}
-          onChangeRole={changeRole}
-          onRefreshSubmissions={refreshSubmissions}
-          onRefreshClassrooms={refreshClassrooms}
-        />
+            {activeSection === "classrooms" && (
+              <ClassroomSection classrooms={classrooms} onRefreshClassrooms={refreshClassrooms} />
+            )}
 
-        <ManualPassSection
-          students={students}
-          allExerciseSlugs={allExerciseSlugs}
-          grantPass={grantPass}
-          passing={passing}
-          passSuccess={passSuccess}
-        />
+            {activeSection === "homework" && (
+              <HomeworkSection
+                classrooms={classrooms}
+                users={users}
+                hwAssignments={hwAssignments}
+                submissions={submissions}
+                allExerciseSlugs={allExerciseSlugs}
+                onRefreshHomework={refreshHomework}
+              />
+            )}
 
-        <AdminsSection adminUsers={adminUsers} />
+            {activeSection === "students" && (
+              <StudentsSection
+                studentStatus={studentStatus}
+                users={users}
+                submissions={submissions}
+                classrooms={classrooms}
+                memberships={memberships}
+                grantPass={grantPass}
+                passing={passing}
+                onDeleteUser={deleteUser}
+                onChangeRole={changeRole}
+                onRefreshSubmissions={refreshSubmissions}
+                onRefreshClassrooms={refreshClassrooms}
+              />
+            )}
+
+            {activeSection === "manual-pass" && (
+              <ManualPassSection
+                students={students}
+                allExerciseSlugs={allExerciseSlugs}
+                grantPass={grantPass}
+                passing={passing}
+                passSuccess={passSuccess}
+              />
+            )}
+
+            {activeSection === "admins" && (
+              <AdminsSection adminUsers={adminUsers} />
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );
