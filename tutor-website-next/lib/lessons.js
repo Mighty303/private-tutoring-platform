@@ -496,6 +496,22 @@ export const treeExercises = [
     color: "emerald",
   },
   {
+    id: "tree-warm1",
+    title: "Collect All Values",
+    emoji: "",
+    description: "Return a list of every node's value using preorder traversal.",
+    tags: ["Trees", "Easy", "Recursion"],
+    color: "teal",
+  },
+  {
+    id: "tree-warm2",
+    title: "Search for a Value",
+    emoji: "",
+    description: "Check whether a target value exists anywhere in the tree.",
+    tags: ["Trees", "Easy", "Recursion"],
+    color: "teal",
+  },
+  {
     id: "tree-ex1",
     title: "Maximum Depth",
     emoji: "",

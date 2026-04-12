@@ -121,6 +121,8 @@ const fileMap = {
 
   // Binary Tree exercises
   "tree-intro": "sundays/trees/intro.md",
+  "tree-warm1": "sundays/trees/warm1.md",
+  "tree-warm2": "sundays/trees/warm2.md",
   "tree-ex1": "sundays/trees/exercise1.md",
   "tree-ex2": "sundays/trees/exercise2.md",
   "tree-ex3": "sundays/trees/exercise3.md",
