@@ -15,6 +15,12 @@ Write a function `get_values(root)` that returns a **list of all node values** i
 #    / \
 #   4   5
 
+root = TreeNode(1)
+root.left = TreeNode(2)
+root.right = TreeNode(3)
+root.left.left = TreeNode(4)
+root.left.right = TreeNode(5)
+
 print(get_values(root))  # [1, 2, 4, 5, 3]
 ```
 
@@ -22,6 +28,9 @@ print(get_values(root))  # [1, 2, 4, 5, 3]
 #   7
 #    \
 #     9
+
+root = TreeNode(7)
+root.right = TreeNode(9)
 
 print(get_values(root))  # [7, 9]
 ```
