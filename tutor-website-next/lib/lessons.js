@@ -581,6 +581,87 @@ export const backtrackingExercises = [
 ];
 
 
+export const bsearchExercises = [
+  {
+    id: "bsearch-ex1",
+    title: "Binary Search",
+    emoji: "",
+    description: "Find the index of a target in a sorted list, or return -1 if not found.",
+    tags: ["Binary Search", "Easy"],
+    color: "sky",
+  },
+  {
+    id: "bsearch-ex2",
+    title: "First Occurrence",
+    emoji: "",
+    description: "Find the leftmost index of a target in a sorted list with duplicates.",
+    tags: ["Binary Search", "Medium"],
+    color: "indigo",
+  },
+  {
+    id: "bsearch-ex3",
+    title: "Search Insert Position",
+    emoji: "",
+    description: "Return the index where a target would be inserted to keep the list sorted.",
+    tags: ["Binary Search", "Medium"],
+    color: "teal",
+  },
+  {
+    id: "bsearch-ex4",
+    title: "Count Elements in Range",
+    emoji: "",
+    description: "Count how many elements fall within [lo, hi] using two binary searches.",
+    tags: ["Binary Search", "Hard"],
+    color: "violet",
+  },
+];
+
+export const dijkstraExercises = [
+  {
+    id: "dijkstra-ex1",
+    title: "Dijkstra's Shortest Path",
+    emoji: "",
+    description: "Implement Dijkstra's algorithm using a min-heap to find shortest distances from a source node.",
+    tags: ["Dijkstra", "Shortest Path", "Heaps", "Hard"],
+    color: "yellow",
+  },
+];
+
+export const bstExercises = [
+  {
+    id: "bst-ex1",
+    title: "Search in a BST",
+    emoji: "",
+    description: "Given a BST root and a target value, return the node if found, else None.",
+    tags: ["BST", "Easy"],
+    color: "orange",
+  },
+  {
+    id: "bst-ex2",
+    title: "Insert into a BST",
+    emoji: "",
+    description: "Insert a new value into a BST and return the updated root.",
+    tags: ["BST", "Medium"],
+    color: "amber",
+  },
+  {
+    id: "bst-ex3",
+    title: "Validate a BST",
+    emoji: "",
+    description: "Check whether a binary tree satisfies the BST property at every node.",
+    tags: ["BST", "Medium"],
+    color: "rose",
+  },
+  {
+    id: "bst-ex4",
+    title: "Kth Smallest in BST",
+    emoji: "",
+    description: "Find the kth smallest element in a BST using inorder traversal.",
+    tags: ["BST", "Hard"],
+    color: "violet",
+  },
+];
+
 export const functionExercises = [
   {
     id: "func-intro",
@@ -964,6 +1045,9 @@ export function getLessonById(id) {
     ...graph2Exercises,
     ...backtrackingExercises,
     ...treeExercises,
+    ...bsearchExercises,
+    ...bstExercises,
+    ...dijkstraExercises,
     ...functionExercises,
     ...discordBotExercises,
     ...loopExercises,
@@ -988,6 +1072,9 @@ export function getAllLessons() {
     ...graph2Exercises,
     ...backtrackingExercises,
     ...treeExercises,
+    ...bsearchExercises,
+    ...bstExercises,
+    ...dijkstraExercises,
     ...functionExercises,
     ...discordBotExercises,
     ...loopExercises,
@@ -1013,6 +1100,9 @@ export const exerciseSections = [
   { label: "Graphs 2", exercises: graph2Exercises },
   { label: "Backtracking", exercises: backtrackingExercises },
   { label: "Binary Trees", exercises: treeExercises },
+  { label: "Binary Search", exercises: bsearchExercises },
+  { label: "BST", exercises: bstExercises },
+  { label: "Dijkstra", exercises: dijkstraExercises },
 ];
 
 export function getExerciseUrl(slug) {
@@ -1032,6 +1122,9 @@ export function getExerciseUrl(slug) {
   if (slug.startsWith("graph2-"))      return `/grade-10/graphs-2/${slug}`;
   if (slug.startsWith("backtrack-"))   return `/grade-10/backtracking/${slug}`;
   if (slug.startsWith("tree-"))        return `/grade-10/trees/${slug}`;
+  if (slug.startsWith("bsearch-"))     return `/grade-10/binary-search/${slug}`;
+  if (slug.startsWith("bst-"))         return `/grade-10/bst/${slug}`;
+  if (slug.startsWith("dijkstra-"))    return `/grade-10/dijkstra/${slug}`;
   return null;
 }
 

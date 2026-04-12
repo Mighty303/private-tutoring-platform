@@ -145,6 +145,21 @@ const fileMap = {
   "backtrack-ex4": "sundays/backtracking/exercise4.md",
   "backtrack-ex5": "sundays/backtracking/exercise5.md",
 
+  // Binary Search exercises
+  "bsearch-ex1": "sundays/binary-search/exercise1.md",
+  "bsearch-ex2": "sundays/binary-search/exercise2.md",
+  "bsearch-ex3": "sundays/binary-search/exercise3.md",
+  "bsearch-ex4": "sundays/binary-search/exercise4.md",
+
+  // Dijkstra exercises
+  "dijkstra-ex1": "sundays/dijkstra/exercise1.md",
+
+  // BST exercises
+  "bst-ex1": "sundays/bst/exercise1.md",
+  "bst-ex2": "sundays/bst/exercise2.md",
+  "bst-ex3": "sundays/bst/exercise3.md",
+  "bst-ex4": "sundays/bst/exercise4.md",
+
   // Intermediate answers
   "algorithms-answers": "sundays/answers/1. Algorithms_answer.md",
   "dfs-bfs-answers": "sundays/answers/2. DFS_BFS_answers.md",

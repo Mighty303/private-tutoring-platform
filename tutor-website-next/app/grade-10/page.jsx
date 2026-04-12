@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { basicsExercises, basics2Exercises, heapExercises, heap2Exercises, graph1Exercises, graph2Exercises, backtrackingExercises, treeExercises } from "@/lib/lessons";
+import { basicsExercises, basics2Exercises, heapExercises, heap2Exercises, graph1Exercises, graph2Exercises, backtrackingExercises, treeExercises, bsearchExercises, bstExercises, dijkstraExercises } from "@/lib/lessons";
 import ExerciseProgressTracker from "@/components/ExerciseProgressTracker";
 
 export const metadata = {
@@ -314,6 +314,120 @@ export default function Grade10Page() {
                 className="inline-flex items-center gap-1 text-sm font-semibold text-teal-600 hover:text-teal-700 dark:text-teal-400 dark:hover:text-teal-300 transition-colors"
               >
                 View Exercises →
+              </Link>
+            </div>
+          </div>
+          {/* Binary Search hub card */}
+          <div className="block bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 border-l-4 border-l-sky-500 shadow-sm">
+            <div className="p-6">
+              {/* Sorted array, mid cell filled, caret below */}
+              <svg width="80" height="46" viewBox="0 0 80 46" fill="none" className="text-sky-500 mb-3" aria-hidden>
+                <rect x="2"  y="6" width="13" height="26" rx="2" stroke="currentColor" strokeWidth="1.5" strokeOpacity="0.3" />
+                <rect x="18" y="6" width="13" height="26" rx="2" stroke="currentColor" strokeWidth="1.5" strokeOpacity="0.3" />
+                <rect x="34" y="2" width="13" height="34" rx="2" fill="currentColor" />
+                <rect x="50" y="6" width="13" height="26" rx="2" stroke="currentColor" strokeWidth="1.5" />
+                <rect x="66" y="6" width="13" height="26" rx="2" stroke="currentColor" strokeWidth="1.5" />
+                <path d="M37.5 40 L40.5 44.5 L43.5 40" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" strokeLinecap="round" />
+              </svg>
+              <h3 className="text-lg font-bold text-slate-800 dark:text-white mb-2">
+                Binary Search
+              </h3>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mb-3 line-clamp-2">
+                Halve the search space at every step — classic search, first occurrence, insert position, and range queries.
+              </p>
+              <ExerciseProgressTracker
+                exercises={bsearchExercises}
+                color="emerald"
+                className="mb-3"
+              />
+              <Link
+                href="/grade-10/binary-search"
+                className="inline-flex items-center gap-1 text-sm font-semibold text-sky-600 hover:text-sky-700 dark:text-sky-400 dark:hover:text-sky-300 transition-colors"
+              >
+                View Exercises →
+              </Link>
+            </div>
+          </div>
+          {/* BST hub card */}
+          <div className="block bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 border-l-4 border-l-orange-500 shadow-sm">
+            <div className="p-6">
+              {/* Symmetric 7-node BST: left subtree outlined, right subtree filled */}
+              <svg width="80" height="54" viewBox="0 0 80 54" fill="none" className="text-orange-500 mb-3" aria-hidden>
+                <line x1="40" y1="10" x2="22" y2="28" stroke="currentColor" strokeWidth="1.5" />
+                <line x1="40" y1="10" x2="58" y2="28" stroke="currentColor" strokeWidth="1.5" />
+                <line x1="22" y1="28" x2="12" y2="46" stroke="currentColor" strokeWidth="1.5" />
+                <line x1="22" y1="28" x2="32" y2="46" stroke="currentColor" strokeWidth="1.5" />
+                <line x1="58" y1="28" x2="48" y2="46" stroke="currentColor" strokeWidth="1.5" />
+                <line x1="58" y1="28" x2="68" y2="46" stroke="currentColor" strokeWidth="1.5" />
+                {/* root */}
+                <circle cx="40" cy="10" r="8" stroke="currentColor" strokeWidth="1.5" />
+                {/* left subtree — outlined (smaller values) */}
+                <circle cx="22" cy="28" r="7" stroke="currentColor" strokeWidth="1.5" />
+                <circle cx="12" cy="46" r="6" stroke="currentColor" strokeWidth="1.5" />
+                <circle cx="32" cy="46" r="6" stroke="currentColor" strokeWidth="1.5" />
+                {/* right subtree — filled (larger values) */}
+                <circle cx="58" cy="28" r="7" fill="currentColor" />
+                <circle cx="48" cy="46" r="6" fill="currentColor" />
+                <circle cx="68" cy="46" r="6" fill="currentColor" />
+              </svg>
+              <h3 className="text-lg font-bold text-slate-800 dark:text-white mb-2">
+                Binary Search Trees
+              </h3>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mb-3 line-clamp-2">
+                Search, insert, validate, and find the kth smallest — using the left &lt; root &lt; right property.
+              </p>
+              <ExerciseProgressTracker
+                exercises={bstExercises}
+                color="emerald"
+                className="mb-3"
+              />
+              <Link
+                href="/grade-10/bst"
+                className="inline-flex items-center gap-1 text-sm font-semibold text-orange-600 hover:text-orange-700 dark:text-orange-400 dark:hover:text-orange-300 transition-colors"
+              >
+                View Exercises →
+              </Link>
+            </div>
+          </div>
+          {/* Dijkstra hub card */}
+          <div className="block bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 border-l-4 border-l-yellow-500 shadow-sm">
+            <div className="p-6">
+              {/* Weighted graph: 4 nodes, shortest path (S→A→T) highlighted filled, B dimmed */}
+              <svg width="80" height="54" viewBox="0 0 80 54" fill="none" className="text-yellow-500 mb-3" aria-hidden>
+                {/* Dim edges (not shortest path) */}
+                <line x1="12" y1="27" x2="40" y2="46" stroke="currentColor" strokeWidth="1.5" strokeOpacity="0.3" />
+                <line x1="40" y1="46" x2="68" y2="27" stroke="currentColor" strokeWidth="1.5" strokeOpacity="0.3" />
+                {/* Shortest path edges: S→A→T */}
+                <line x1="12" y1="27" x2="40" y2="8" stroke="currentColor" strokeWidth="2" />
+                <line x1="40" y1="8" x2="68" y2="27" stroke="currentColor" strokeWidth="2" />
+                {/* Weight labels */}
+                <text x="20" y="14" textAnchor="middle" style={{ fontSize: "7px" }} fill="currentColor" fontWeight="bold">4</text>
+                <text x="60" y="14" textAnchor="middle" style={{ fontSize: "7px" }} fill="currentColor" fontWeight="bold">1</text>
+                <text x="20" y="42" textAnchor="middle" style={{ fontSize: "7px" }} fill="currentColor" opacity="0.4">7</text>
+                <text x="60" y="42" textAnchor="middle" style={{ fontSize: "7px" }} fill="currentColor" opacity="0.4">5</text>
+                {/* Dim node B */}
+                <circle cx="40" cy="46" r="7" stroke="currentColor" strokeWidth="1.5" strokeOpacity="0.3" />
+                {/* Shortest path nodes: S, A, T */}
+                <circle cx="12" cy="27" r="8" fill="currentColor" />
+                <circle cx="40" cy="8" r="7" fill="currentColor" />
+                <circle cx="68" cy="27" r="8" fill="currentColor" />
+              </svg>
+              <h3 className="text-lg font-bold text-slate-800 dark:text-white mb-2">
+                Dijkstra&apos;s Algorithm
+              </h3>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mb-3 line-clamp-2">
+                Shortest paths on weighted graphs using a min-heap priority queue — with an interactive step-by-step visualizer.
+              </p>
+              <ExerciseProgressTracker
+                exercises={dijkstraExercises}
+                color="emerald"
+                className="mb-3"
+              />
+              <Link
+                href="/grade-10/dijkstra"
+                className="inline-flex items-center gap-1 text-sm font-semibold text-yellow-600 hover:text-yellow-700 dark:text-yellow-400 dark:hover:text-yellow-300 transition-colors"
+              >
+                View Exercise →
               </Link>
             </div>
           </div>
