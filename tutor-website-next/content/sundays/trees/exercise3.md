@@ -19,6 +19,14 @@ For a Binary Search Tree (BST), this always produces a **sorted list**!
 #    / \ / \
 #   1  3 5  7
 
+root = TreeNode(4)
+root.left = TreeNode(2)
+root.right = TreeNode(6)
+root.left.left = TreeNode(1)
+root.left.right = TreeNode(3)
+root.right.left = TreeNode(5)
+root.right.right = TreeNode(7)
+
 print(inorder(root))  # [1, 2, 3, 4, 5, 6, 7]
 ```
 
@@ -28,6 +36,10 @@ print(inorder(root))  # [1, 2, 3, 4, 5, 6, 7]
 #       2
 #        \
 #         3
+
+root = TreeNode(1)
+root.right = TreeNode(2)
+root.right.right = TreeNode(3)
 
 print(inorder(root))  # [1, 2, 3]
 ```

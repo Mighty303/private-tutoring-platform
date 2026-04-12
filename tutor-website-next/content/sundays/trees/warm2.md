@@ -15,6 +15,12 @@ Write a function `has_value(root, target)` that returns `True` if `target` exist
 #    / \
 #   4   5
 
+root = TreeNode(1)
+root.left = TreeNode(2)
+root.right = TreeNode(3)
+root.left.left = TreeNode(4)
+root.left.right = TreeNode(5)
+
 print(has_value(root, 4))   # True
 print(has_value(root, 3))   # True
 print(has_value(root, 99))  # False

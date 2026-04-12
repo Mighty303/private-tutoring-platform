@@ -19,6 +19,16 @@ A **leaf** is a node with no left or right child.
 #    /  \       \
 #   7    2       1
 
+root = TreeNode(5)
+root.left = TreeNode(4)
+root.right = TreeNode(8)
+root.left.left = TreeNode(11)
+root.right.left = TreeNode(13)
+root.right.right = TreeNode(4)
+root.left.left.left = TreeNode(7)
+root.left.left.right = TreeNode(2)
+root.right.right.right = TreeNode(1)
+
 print(has_path_sum(root, 22))  # True  (path: 5 → 4 → 11 → 2)
 print(has_path_sum(root, 26))  # True  (path: 5 → 8 → 13)
 print(has_path_sum(root, 100)) # False
@@ -32,6 +42,10 @@ print(has_path_sum(None, 0))  # False
 #   1
 #  / \
 # 2   3
+
+root = TreeNode(1)
+root.left = TreeNode(2)
+root.right = TreeNode(3)
 
 print(has_path_sum(root, 1))  # False  (leaf paths are 1+2=3, 1+3=4)
 ```
