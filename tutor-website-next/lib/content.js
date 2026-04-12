@@ -154,6 +154,7 @@ const fileMap = {
   "bsearch-ex4": "sundays/binary-search/exercise4.md",
 
   // Dijkstra exercises
+  "dijkstra-bfs": "sundays/dijkstra/bfs.md",
   "dijkstra-ex1": "sundays/dijkstra/exercise1.md",
 
   // BST exercises

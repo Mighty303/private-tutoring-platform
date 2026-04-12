@@ -634,6 +634,14 @@ export const bsearchExercises = [
 
 export const dijkstraExercises = [
   {
+    id: "dijkstra-bfs",
+    title: "BFS Shortest Path",
+    emoji: "",
+    description: "Use BFS to find the shortest path (fewest edges) between two nodes in an unweighted graph.",
+    tags: ["BFS", "Shortest Path", "Graphs", "Medium"],
+    color: "teal",
+  },
+  {
     id: "dijkstra-ex1",
     title: "Dijkstra's Shortest Path",
     emoji: "",

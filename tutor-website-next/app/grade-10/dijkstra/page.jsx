@@ -5,10 +5,12 @@ import { dijkstraExercises } from "@/lib/lessons";
 import ExerciseProgressTracker, { ExerciseCheckmark } from "@/components/ExerciseProgressTracker";
 
 const tagColors = {
+  BFS: "bg-teal-100 text-teal-700",
   Dijkstra: "bg-yellow-100 text-yellow-700",
   "Shortest Path": "bg-amber-100 text-amber-700",
   Graphs: "bg-teal-100 text-teal-700",
   Heaps: "bg-orange-100 text-orange-700",
+  Medium: "bg-sky-100 text-sky-700",
   Hard: "bg-rose-100 text-rose-700",
 };
 
