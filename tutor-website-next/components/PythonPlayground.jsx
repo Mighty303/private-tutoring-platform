@@ -583,7 +583,7 @@ export default function PythonPlayground({
                 </span>
                 <div className="flex-1">
                   <p className="text-sm font-semibold text-amber-800 dark:text-amber-300 mb-1">
-                    Hint {i + 1}/3
+                    Hint {hintCount - hints.length + i + 1}/3
                   </p>
                   <div className="prose prose-sm prose-amber dark:prose-invert max-w-none text-amber-700 dark:text-amber-400">
                     <ReactMarkdown
