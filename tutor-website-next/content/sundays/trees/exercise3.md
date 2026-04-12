@@ -57,41 +57,6 @@ print(inorder(None))  # []
 
 ---
 
-## Starter Code
-
-```python
-class TreeNode:
-    def __init__(self, val=0, left=None, right=None):
-        self.val = val
-        self.left = left
-        self.right = right
-
-def inorder(root):
-    # Your code here
-    pass
-
-# Test 1: BST → sorted output
-root1 = TreeNode(4)
-root1.left = TreeNode(2)
-root1.right = TreeNode(6)
-root1.left.left = TreeNode(1)
-root1.left.right = TreeNode(3)
-root1.right.left = TreeNode(5)
-root1.right.right = TreeNode(7)
-print(inorder(root1))   # [1, 2, 3, 4, 5, 6, 7]
-
-# Test 2: right-skewed tree
-root2 = TreeNode(1)
-root2.right = TreeNode(2)
-root2.right.right = TreeNode(3)
-print(inorder(root2))   # [1, 2, 3]
-
-# Test 3: empty
-print(inorder(None))    # []
-```
-
----
-
 ## Hints
 
 <details>
@@ -131,27 +96,3 @@ def inorder(root):
 
 </details>
 
----
-
-## Bonus Challenge 🌟
-
-Now implement **preorder** and **postorder** traversals:
-
-```python
-def preorder(root):
-    # Root → Left → Right
-    pass
-
-def postorder(root):
-    # Left → Right → Root
-    pass
-
-#     1
-#    / \
-#   2   3
-#  / \
-# 4   5
-
-print(preorder(root))   # [1, 2, 4, 5, 3]
-print(postorder(root))  # [4, 5, 2, 3, 1]
-```

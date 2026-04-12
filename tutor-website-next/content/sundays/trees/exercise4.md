@@ -57,46 +57,6 @@ A clever trick: instead of tracking the running sum, **subtract** the current no
 
 ---
 
-## Starter Code
-
-```python
-class TreeNode:
-    def __init__(self, val=0, left=None, right=None):
-        self.val = val
-        self.left = left
-        self.right = right
-
-def has_path_sum(root, target):
-    # Your code here
-    pass
-
-# Build test tree:
-#         5
-#        / \
-#       4   8
-#      /   / \
-#     11  13   4
-#    /  \       \
-#   7    2       1
-
-root = TreeNode(5)
-root.left = TreeNode(4)
-root.right = TreeNode(8)
-root.left.left = TreeNode(11)
-root.right.left = TreeNode(13)
-root.right.right = TreeNode(4)
-root.left.left.left = TreeNode(7)
-root.left.left.right = TreeNode(2)
-root.right.right.right = TreeNode(1)
-
-print(has_path_sum(root, 22))   # True  (5→4→11→2)
-print(has_path_sum(root, 26))   # True  (5→8→13)
-print(has_path_sum(root, 100))  # False
-print(has_path_sum(None, 0))    # False
-```
-
----
-
 ## Hints
 
 <details>
@@ -153,16 +113,3 @@ def has_path_sum(root, target):
 
 </details>
 
----
-
-## Bonus Challenge 🌟
-
-Instead of just returning `True/False`, return the **actual path** (list of values) if it exists, or `None` if no such path exists.
-
-```python
-def path_sum(root, target):
-    pass
-
-print(path_sum(root, 22))  # [5, 4, 11, 2]
-print(path_sum(root, 100)) # None
-```

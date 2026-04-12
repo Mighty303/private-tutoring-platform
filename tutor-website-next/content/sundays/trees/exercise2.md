@@ -48,43 +48,6 @@ print(count_nodes(None))  # 0
 
 ---
 
-## Starter Code
-
-```python
-class TreeNode:
-    def __init__(self, val=0, left=None, right=None):
-        self.val = val
-        self.left = left
-        self.right = right
-
-def count_nodes(root):
-    # Your code here
-    pass
-
-# Test 1: 6 nodes
-root1 = TreeNode(1)
-root1.left = TreeNode(2)
-root1.right = TreeNode(3)
-root1.left.left = TreeNode(4)
-root1.left.right = TreeNode(5)
-root1.right.right = TreeNode(6)
-print(count_nodes(root1))   # 6
-
-# Test 2: single node
-print(count_nodes(TreeNode(1)))  # 1
-
-# Test 3: empty
-print(count_nodes(None))    # 0
-
-# Test 4: only left children (chain)
-root4 = TreeNode(1)
-root4.left = TreeNode(2)
-root4.left.left = TreeNode(3)
-print(count_nodes(root4))   # 3
-```
-
----
-
 ## Hints
 
 <details>
@@ -126,21 +89,3 @@ def count_nodes(root):
 
 </details>
 
----
-
-## Bonus Challenge 🌟
-
-Count only the **leaf nodes** (nodes with no children).
-
-```python
-def count_leaves(root):
-    pass
-
-#       1
-#      / \
-#     2   3
-#    / \
-#   4   5
-
-print(count_leaves(root))  # 3  (nodes 4, 5, and 3)
-```
