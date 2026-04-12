@@ -20,6 +20,14 @@ export async function generateMetadata({ params }) {
   };
 }
 
+/** Strip the ## Starter Code section — used by the playground, not shown in prose. */
+function hideStarterCode(markdown) {
+  return markdown.replace(
+    /\n+##\s*Starter\s*Code\b[\s\S]*?(?=\n##\s|$)/i,
+    "\n"
+  );
+}
+
 export default async function TreeLessonPage({ params }) {
   const { id } = await params;
   const lesson = getLessonById(id);
@@ -33,6 +41,8 @@ export default async function TreeLessonPage({ params }) {
     currentIndex < treeExercises.length - 1
       ? treeExercises[currentIndex + 1]
       : null;
+
+  const proseContent = hideStarterCode(content);
 
   return (
     <div className="min-h-screen bg-white dark:bg-slate-950">
@@ -62,7 +72,7 @@ export default async function TreeLessonPage({ params }) {
       {/* Content */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <div className="prose">
-          <MarkdownRenderer content={content} />
+          <MarkdownRenderer content={proseContent} />
         </div>
         {id === "tree-intro" && <TreeAnimation />}
         <ExercisePlayground

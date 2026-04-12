@@ -41,6 +41,38 @@ print(get_values(None))  # []
 
 ---
 
+## Starter Code
+
+```python
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def get_values(root):
+    # Your code here
+    pass
+
+# Test 1: 5-node tree
+root = TreeNode(1)
+root.left = TreeNode(2)
+root.right = TreeNode(3)
+root.left.left = TreeNode(4)
+root.left.right = TreeNode(5)
+print(get_values(root))  # [1, 2, 4, 5, 3]
+
+# Test 2: two nodes
+root = TreeNode(7)
+root.right = TreeNode(9)
+print(get_values(root))  # [7, 9]
+
+# Test 3: empty tree
+print(get_values(None))  # []
+```
+
+---
+
 ## Approach
 
 This is almost identical to the `inorder` example from the intro — just change the order:

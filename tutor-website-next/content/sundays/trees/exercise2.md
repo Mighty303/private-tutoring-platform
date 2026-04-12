@@ -37,6 +37,37 @@ print(count_nodes(None))  # 0
 
 ---
 
+## Starter Code
+
+```python
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def count_nodes(root):
+    # Your code here
+    pass
+
+# Test 1: 6 nodes
+root = TreeNode(1)
+root.left = TreeNode(2)
+root.right = TreeNode(3)
+root.left.left = TreeNode(4)
+root.left.right = TreeNode(5)
+root.right.right = TreeNode(6)
+print(count_nodes(root))  # 6
+
+# Test 2: single node
+print(count_nodes(TreeNode(1)))  # 1
+
+# Test 3: empty tree
+print(count_nodes(None))  # 0
+```
+
+---
+
 ## Expected Complexity
 
 | | Complexity |

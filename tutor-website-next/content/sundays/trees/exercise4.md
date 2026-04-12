@@ -52,6 +52,40 @@ print(has_path_sum(root, 1))  # False  (leaf paths are 1+2=3, 1+3=4)
 
 ---
 
+## Starter Code
+
+```python
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def has_path_sum(root, target):
+    # Your code here
+    pass
+
+# Test 1: path exists (5+4+11+2=22)
+root = TreeNode(5)
+root.left = TreeNode(4)
+root.right = TreeNode(8)
+root.left.left = TreeNode(11)
+root.right.left = TreeNode(13)
+root.right.right = TreeNode(4)
+root.left.left.left = TreeNode(7)
+root.left.left.right = TreeNode(2)
+root.right.right.right = TreeNode(1)
+print(has_path_sum(root, 22))  # True
+
+# Test 2: no matching path
+print(has_path_sum(root, 100))  # False
+
+# Test 3: empty tree
+print(has_path_sum(None, 0))  # False
+```
+
+---
+
 ## Expected Complexity
 
 | | Complexity |

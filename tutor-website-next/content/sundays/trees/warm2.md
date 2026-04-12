@@ -32,6 +32,36 @@ print(has_value(None, 5))   # False
 
 ---
 
+## Starter Code
+
+```python
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def has_value(root, target):
+    # Your code here
+    pass
+
+# Test 1: value in tree
+root = TreeNode(1)
+root.left = TreeNode(2)
+root.right = TreeNode(3)
+root.left.left = TreeNode(4)
+root.left.right = TreeNode(5)
+print(has_value(root, 4))  # True
+
+# Test 2: value not in tree
+print(has_value(root, 99))  # False
+
+# Test 3: empty tree
+print(has_value(None, 5))  # False
+```
+
+---
+
 ## Approach
 
 1. **Base case:** if `root` is `None`, the value is not here — return `False`

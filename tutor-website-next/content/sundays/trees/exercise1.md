@@ -43,6 +43,38 @@ print(max_depth(None))  # 0
 
 ---
 
+## Starter Code
+
+```python
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def max_depth(root):
+    # Your code here
+    pass
+
+# Test 1: depth 3
+root = TreeNode(3)
+root.left = TreeNode(9)
+root.right = TreeNode(20)
+root.right.left = TreeNode(15)
+root.right.right = TreeNode(7)
+print(max_depth(root))  # 3
+
+# Test 2: depth 2
+root = TreeNode(1)
+root.right = TreeNode(2)
+print(max_depth(root))  # 2
+
+# Test 3: empty tree
+print(max_depth(None))  # 0
+```
+
+---
+
 ## Expected Complexity
 
 | | Complexity |
