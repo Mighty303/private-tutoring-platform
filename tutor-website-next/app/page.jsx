@@ -14,7 +14,7 @@ const fade = (delay = 0) => ({
 const COMPANIES = [
   { name: "Electronic Arts", logo: "/assets/ea-logo.png" },
   { name: "Rivian", logo: "/assets/rivian-logo.jpg" },
-  { name: "Avena", logo: "/assets/avena-logo.jpg" },
+  { name: "Safety CLI", logo: "/assets/safety-logo.svg" },
   { name: "SFU", logo: "/assets/sfu-logo.png" },
 ];
 
@@ -184,7 +184,7 @@ export default function HomePage() {
               />
               <div className="flex-1 min-w-0">
                 <div className="flex flex-col sm:flex-row sm:items-center gap-1.5 mb-2">
-                  <h2 className="text-lg font-bold text-white">Martin Wong</h2>
+                  <h2 className="text-lg font-bold text-slate-900 dark:text-white">Martin Wong</h2>
                   <span className="font-mono text-xs text-slate-500">· B.Sc. Computer Science, SFU · 2+ yrs tutoring</span>
                 </div>
                 <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-5">
@@ -193,7 +193,7 @@ export default function HomePage() {
                 {/* Company logos */}
                 <div className="flex items-center gap-3 mb-5">
                   {COMPANIES.map((c) => (
-                    <div key={c.name} className="w-8 h-8 rounded-md bg-slate-100 dark:bg-black flex items-center justify-center overflow-hidden border border-slate-300/50 dark:border-slate-700/50">
+                    <div key={c.name} className="w-8 h-8 rounded-md bg-black flex items-center justify-center overflow-hidden border border-slate-300/50 dark:border-slate-700/50">
                       <Image src={c.logo} alt={c.name} width={24} height={24} className="object-contain" />
                     </div>
                   ))}
@@ -201,7 +201,7 @@ export default function HomePage() {
                 <div className="flex items-center gap-4">
                   <Link
                     href="/tutors"
-                    className="inline-flex items-center gap-1.5 text-sm font-medium text-indigo-400 hover:text-indigo-300 transition-colors"
+                    className="inline-flex items-center gap-1.5 text-sm font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300 transition-colors"
                   >
                     Full profile
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
