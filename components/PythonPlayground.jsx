@@ -11,6 +11,7 @@ import { markExerciseComplete, invalidateCompletedCache } from "@/hooks/useExerc
 import CodeEditor from "./CodeEditor";
 import OutputConsole from "./OutputConsole";
 import TestResults from "./TestResults";
+import { CheckIcon, XIcon } from "@/components/StatusIcons";
 
 // Helper to build a localStorage key for an exercise
 function cacheKey(exerciseId) {
@@ -336,8 +337,12 @@ export default function PythonPlayground({
               : "bg-red-50/95 dark:bg-red-900/90 border-red-300 dark:border-red-600"
           }`}
         >
-          <span className="text-xl shrink-0 mt-0.5">
-            {toast.type === "success" ? "✅" : "❌"}
+          <span className={`shrink-0 mt-0.5 ${toast.type === "success" ? "text-emerald-600 dark:text-emerald-300" : "text-red-600 dark:text-red-300"}`}>
+            {toast.type === "success" ? (
+              <CheckIcon className="h-5 w-5" />
+            ) : (
+              <XIcon className="h-5 w-5" />
+            )}
           </span>
           <div className="flex-1">
             <p

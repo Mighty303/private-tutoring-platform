@@ -1,5 +1,7 @@
 "use client";
 
+import { CheckIcon, XIcon } from "@/components/StatusIcons";
+
 /**
  * LeetCode-style test case results panel.
  *
@@ -23,8 +25,12 @@ export default function TestResults({ results, allPassed }) {
         }`}
       >
         <div className="flex items-center gap-2">
-          <span className="text-base">
-            {allPassed ? "✅" : "❌"}
+          <span className={allPassed ? "text-emerald-400" : "text-red-400"}>
+            {allPassed ? (
+              <CheckIcon className="h-5 w-5" />
+            ) : (
+              <XIcon className="h-5 w-5" />
+            )}
           </span>
           <span
             className={`text-sm font-bold ${
@@ -62,7 +68,11 @@ export default function TestResults({ results, allPassed }) {
                     : "bg-red-600 text-white"
                 }`}
               >
-                {tc.passed ? "✓" : "✗"}
+                {tc.passed ? (
+                  <CheckIcon className="h-3 w-3" />
+                ) : (
+                  <XIcon className="h-3 w-3" />
+                )}
               </span>
               <span className="text-sm font-semibold text-slate-300">
                 Test Case {i + 1}

@@ -42,4 +42,4 @@ Search the [Tailwind docs](https://tailwindcss.com/docs) for any utility you nee
 
 ---
 
-**Previous:** [← Minimal HTML](/grade-7/web-html) · **Next:** [Theme inspiration →](/grade-7/web-themes)
+**Previous:** [← Minimal HTML](/beginner/web-html) · **Next:** [Theme inspiration →](/beginner/web-themes)

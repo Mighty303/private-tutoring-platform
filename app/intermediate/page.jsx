@@ -1,0 +1,440 @@
+import Link from "next/link";
+import { basicsExercises, basics2Exercises, heapExercises, heap2Exercises, graph1Exercises, graph2Exercises, backtrackingExercises, treeExercises, bsearchExercises, bstExercises, dijkstraExercises } from "@/lib/lessons";
+import ExerciseProgressTracker from "@/components/ExerciseProgressTracker";
+
+export const metadata = {
+  title: "Intermediate Lessons — CS Tutor",
+};
+
+export default function IntermediatePage() {
+  return (
+    <div className="min-h-screen bg-linear-to-b from-slate-50 to-white dark:from-slate-950 dark:to-slate-900">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {/* Header */}
+        <div className="mb-10">
+          <Link
+            href="/"
+            className="inline-flex items-center text-sm text-slate-500 hover:text-indigo-600 dark:text-slate-400 dark:hover:text-indigo-400 mb-4 transition-colors"
+          >
+            ← Back to Home
+          </Link>
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-800 dark:text-white mb-2">
+            Intermediate Lessons
+          </h1>
+          <p className="text-lg text-slate-500 dark:text-slate-400">
+            Algorithms, DFS/BFS, and Waterloo CCC prep
+          </p>
+        </div>
+
+        {/* Lesson cards */}
+        <h2 className="text-2xl font-bold text-slate-700 dark:text-slate-200 mb-4">Lessons</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+          {/* Basics hub card */}
+          <div className="block bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 border-l-4 border-l-emerald-500 shadow-sm">
+            <div className="p-6">
+              {/* Array / list */}
+              <svg width="80" height="34" viewBox="0 0 80 34" fill="none" stroke="currentColor" className="text-emerald-500 mb-3" aria-hidden>
+                <rect x="1"  y="3" width="16" height="28" rx="2" strokeWidth="1.5" />
+                <rect x="21" y="3" width="16" height="28" rx="2" strokeWidth="1.5" />
+                <rect x="41" y="3" width="16" height="28" rx="2" strokeWidth="1.5" />
+                <rect x="61" y="3" width="16" height="28" rx="2" strokeWidth="1.5" />
+                <line x1="9"  y1="3" x2="9"  y2="31" strokeWidth="0" />
+              </svg>
+              <h3 className="text-lg font-bold text-slate-800 dark:text-white mb-2">
+                Python Basics Review
+              </h3>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mb-3 line-clamp-2">
+                Variables, operators, input, conditionals, loops, lists, and functions — 8 exercises plus a bonus battle.
+              </p>
+              <ExerciseProgressTracker
+                exercises={basicsExercises}
+                color="emerald"
+                className="mb-3"
+              />
+              <Link
+                href="/intermediate/basics"
+                className="inline-flex items-center gap-1 text-sm font-semibold text-emerald-600 hover:text-emerald-700 dark:text-emerald-400 dark:hover:text-emerald-300 transition-colors"
+              >
+                View Exercises →
+              </Link>
+            </div>
+          </div>
+          {/* Algorithm Review hub card */}
+          <div className="block bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 border-l-4 border-l-indigo-500 shadow-sm">
+            <div className="p-6">
+              {/* Unsorted bars → sort/algorithm operations */}
+              <svg width="76" height="44" viewBox="0 0 76 44" fill="none" stroke="currentColor" className="text-indigo-500 mb-3" aria-hidden>
+                <rect x="2"  y="20" width="10" height="22" rx="1.5" strokeWidth="1.5" />
+                <rect x="17" y="6"  width="10" height="36" rx="1.5" strokeWidth="1.5" />
+                <rect x="32" y="28" width="10" height="14" rx="1.5" strokeWidth="1.5" />
+                <rect x="47" y="12" width="10" height="30" rx="1.5" strokeWidth="1.5" />
+                <rect x="62" y="22" width="10" height="20" rx="1.5" strokeWidth="1.5" />
+              </svg>
+              <h3 className="text-lg font-bold text-slate-800 dark:text-white mb-2">
+                Algorithm Review
+              </h3>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mb-3 line-clamp-2">
+                Summation, reverse an array, remove duplicates, and find the minimum — algorithm review.
+              </p>
+              <ExerciseProgressTracker
+                exercises={basics2Exercises}
+                color="emerald"
+                className="mb-3"
+              />
+              <Link
+                href="/intermediate/basics-2"
+                className="inline-flex items-center gap-1 text-sm font-semibold text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300 transition-colors"
+              >
+                View Exercises →
+              </Link>
+            </div>
+          </div>
+          {/* Binary Trees hub card */}
+          <div className="block bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 border-l-4 border-l-emerald-500 shadow-sm">
+            <div className="p-6">
+              {/* Binary tree: asymmetric BST (right subtree has one child) */}
+              <svg width="80" height="54" viewBox="0 0 80 54" fill="none" className="text-emerald-500 mb-3" aria-hidden>
+                <line x1="40" y1="10" x2="22" y2="28" stroke="currentColor" strokeWidth="1.5" />
+                <line x1="40" y1="10" x2="58" y2="28" stroke="currentColor" strokeWidth="1.5" />
+                <line x1="22" y1="28" x2="12" y2="46" stroke="currentColor" strokeWidth="1.5" />
+                <line x1="22" y1="28" x2="32" y2="46" stroke="currentColor" strokeWidth="1.5" />
+                <line x1="58" y1="28" x2="68" y2="46" stroke="currentColor" strokeWidth="1.5" />
+                <circle cx="40" cy="10" r="8" stroke="currentColor" strokeWidth="1.5" />
+                <circle cx="22" cy="28" r="7" stroke="currentColor" strokeWidth="1.5" />
+                <circle cx="58" cy="28" r="7" stroke="currentColor" strokeWidth="1.5" />
+                <circle cx="12" cy="46" r="6" stroke="currentColor" strokeWidth="1.5" />
+                <circle cx="32" cy="46" r="6" stroke="currentColor" strokeWidth="1.5" />
+                <circle cx="68" cy="46" r="6" stroke="currentColor" strokeWidth="1.5" />
+              </svg>
+              <h3 className="text-lg font-bold text-slate-800 dark:text-white mb-2">
+                Binary Trees
+              </h3>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mb-3 line-clamp-2">
+                TreeNode class, recursive DFS, traversals, and path problems — with an interactive BST visualizer.
+              </p>
+              <ExerciseProgressTracker
+                exercises={treeExercises}
+                color="emerald"
+                className="mb-3"
+              />
+              <Link
+                href="/intermediate/trees"
+                className="inline-flex items-center gap-1 text-sm font-semibold text-emerald-600 hover:text-emerald-700 dark:text-emerald-400 dark:hover:text-emerald-300 transition-colors"
+              >
+                View Exercises →
+              </Link>
+            </div>
+          </div>
+          {/* Heaps hub card */}
+          <div className="block bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 border-l-4 border-l-amber-500 shadow-sm">
+            <div className="p-6">
+              {/* Min-heap tree: root (filled = minimum) + 2 children + 4 leaves */}
+              <svg width="80" height="54" viewBox="0 0 80 54" fill="none" className="text-amber-500 mb-3" aria-hidden>
+                <line x1="40" y1="10" x2="22" y2="28" stroke="currentColor" strokeWidth="1.5" />
+                <line x1="40" y1="10" x2="58" y2="28" stroke="currentColor" strokeWidth="1.5" />
+                <line x1="22" y1="28" x2="12" y2="46" stroke="currentColor" strokeWidth="1.5" />
+                <line x1="22" y1="28" x2="32" y2="46" stroke="currentColor" strokeWidth="1.5" />
+                <line x1="58" y1="28" x2="48" y2="46" stroke="currentColor" strokeWidth="1.5" />
+                <line x1="58" y1="28" x2="68" y2="46" stroke="currentColor" strokeWidth="1.5" />
+                <circle cx="40" cy="10" r="8" fill="currentColor" />
+                <circle cx="22" cy="28" r="7" stroke="currentColor" strokeWidth="1.5" />
+                <circle cx="58" cy="28" r="7" stroke="currentColor" strokeWidth="1.5" />
+                <circle cx="12" cy="46" r="6" stroke="currentColor" strokeWidth="1.5" />
+                <circle cx="32" cy="46" r="6" stroke="currentColor" strokeWidth="1.5" />
+                <circle cx="48" cy="46" r="6" stroke="currentColor" strokeWidth="1.5" />
+                <circle cx="68" cy="46" r="6" stroke="currentColor" strokeWidth="1.5" />
+              </svg>
+              <h3 className="text-lg font-bold text-slate-800 dark:text-white mb-2">
+                Heaps — Priority Queues
+              </h3>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mb-3 line-clamp-2">
+                Heap data structure, priority queues, and practical exercises using Python&apos;s heapq module.
+              </p>
+              <ExerciseProgressTracker
+                exercises={heapExercises}
+                color="emerald"
+                className="mb-3"
+              />
+              <Link
+                href="/intermediate/heaps"
+                className="inline-flex items-center gap-1 text-sm font-semibold text-amber-600 hover:text-amber-700 dark:text-amber-400 dark:hover:text-amber-300 transition-colors"
+              >
+                View Exercises →
+              </Link>
+            </div>
+          </div>
+          {/* Heaps Part 2 hub card */}
+          <div className="block bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 border-l-4 border-l-rose-500 shadow-sm">
+            <div className="p-6">
+              {/* Same heap, top-K=3 nodes filled to show extraction */}
+              <svg width="80" height="54" viewBox="0 0 80 54" fill="none" className="text-rose-500 mb-3" aria-hidden>
+                <line x1="40" y1="10" x2="22" y2="28" stroke="currentColor" strokeWidth="1.5" />
+                <line x1="40" y1="10" x2="58" y2="28" stroke="currentColor" strokeWidth="1.5" />
+                <line x1="22" y1="28" x2="12" y2="46" stroke="currentColor" strokeWidth="1.5" />
+                <line x1="22" y1="28" x2="32" y2="46" stroke="currentColor" strokeWidth="1.5" />
+                <line x1="58" y1="28" x2="48" y2="46" stroke="currentColor" strokeWidth="1.5" />
+                <line x1="58" y1="28" x2="68" y2="46" stroke="currentColor" strokeWidth="1.5" />
+                <circle cx="40" cy="10" r="8" fill="currentColor" />
+                <circle cx="22" cy="28" r="7" fill="currentColor" />
+                <circle cx="58" cy="28" r="7" fill="currentColor" />
+                <circle cx="12" cy="46" r="6" stroke="currentColor" strokeWidth="1.5" />
+                <circle cx="32" cy="46" r="6" stroke="currentColor" strokeWidth="1.5" />
+                <circle cx="48" cy="46" r="6" stroke="currentColor" strokeWidth="1.5" />
+                <circle cx="68" cy="46" r="6" stroke="currentColor" strokeWidth="1.5" />
+              </svg>
+              <h3 className="text-lg font-bold text-slate-800 dark:text-white mb-2">
+                Heaps Part 2 — Top-K &amp; CCC
+              </h3>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mb-3 line-clamp-2">
+                Frequency counting, Top-K Frequent Elements, and CCC Bronze Count problem.
+              </p>
+              <ExerciseProgressTracker
+                exercises={heap2Exercises}
+                color="emerald"
+                className="mb-3"
+              />
+              <Link
+                href="/intermediate/heaps-2"
+                className="inline-flex items-center gap-1 text-sm font-semibold text-rose-600 hover:text-rose-700 dark:text-rose-400 dark:hover:text-rose-300 transition-colors"
+              >
+                View Exercises →
+              </Link>
+            </div>
+          </div>
+          {/* Backtracking hub card */}
+          <div className="block bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 border-l-4 border-l-violet-500 shadow-sm">
+            <div className="p-6">
+              {/* Decision tree with one pruned branch (×) */}
+              <svg width="80" height="54" viewBox="0 0 80 54" fill="none" className="text-violet-500 mb-3" aria-hidden>
+                <line x1="40" y1="10" x2="22" y2="28" stroke="currentColor" strokeWidth="1.5" />
+                <line x1="40" y1="10" x2="58" y2="28" stroke="currentColor" strokeWidth="1.5" />
+                <line x1="22" y1="28" x2="12" y2="46" stroke="currentColor" strokeWidth="1.5" />
+                <line x1="22" y1="28" x2="32" y2="46" stroke="currentColor" strokeWidth="1.5" />
+                <line x1="58" y1="28" x2="48" y2="46" stroke="currentColor" strokeWidth="1.5" />
+                <line x1="58" y1="28" x2="68" y2="46" stroke="currentColor" strokeWidth="1.5" strokeOpacity="0.35" />
+                <circle cx="40" cy="10" r="7" stroke="currentColor" strokeWidth="1.5" />
+                <circle cx="22" cy="28" r="7" stroke="currentColor" strokeWidth="1.5" />
+                <circle cx="58" cy="28" r="7" stroke="currentColor" strokeWidth="1.5" />
+                <circle cx="12" cy="46" r="6" stroke="currentColor" strokeWidth="1.5" />
+                <circle cx="32" cy="46" r="6" stroke="currentColor" strokeWidth="1.5" />
+                <circle cx="48" cy="46" r="6" stroke="currentColor" strokeWidth="1.5" />
+                <circle cx="68" cy="46" r="6" stroke="currentColor" strokeWidth="1.5" strokeOpacity="0.3" />
+                <line x1="63" y1="41" x2="73" y2="51" stroke="currentColor" strokeWidth="1.75" strokeOpacity="0.5" strokeLinecap="round" />
+                <line x1="73" y1="41" x2="63" y2="51" stroke="currentColor" strokeWidth="1.75" strokeOpacity="0.5" strokeLinecap="round" />
+              </svg>
+              <h3 className="text-lg font-bold text-slate-800 dark:text-white mb-2">
+                Backtracking — Subsets &amp; Combinations
+              </h3>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mb-3 line-clamp-2">
+                Master backtracking — subsets, combination sum, and permutations.
+              </p>
+              <ExerciseProgressTracker
+                exercises={backtrackingExercises}
+                color="emerald"
+                className="mb-3"
+              />
+              <Link
+                href="/intermediate/backtracking"
+                className="inline-flex items-center gap-1 text-sm font-semibold text-violet-600 hover:text-violet-700 dark:text-violet-400 dark:hover:text-violet-300 transition-colors"
+              >
+                View Exercises →
+              </Link>
+            </div>
+          </div>
+          {/* Graphs Part 1 hub card */}
+          <div className="block bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 border-l-4 border-l-purple-500 shadow-sm">
+            <div className="p-6">
+              {/* 3×3 grid with a traversal path arrow */}
+              <svg width="80" height="54" viewBox="0 0 80 54" fill="none" className="text-purple-500 mb-3" aria-hidden>
+                <rect x="2"  y="2"  width="18" height="16" rx="2" stroke="currentColor" strokeWidth="1.5" />
+                <rect x="31" y="2"  width="18" height="16" rx="2" stroke="currentColor" strokeWidth="1.5" />
+                <rect x="60" y="2"  width="18" height="16" rx="2" stroke="currentColor" strokeWidth="1.5" />
+                <rect x="2"  y="25" width="18" height="16" rx="2" stroke="currentColor" strokeWidth="1.5" />
+                <rect x="31" y="25" width="18" height="16" rx="2" stroke="currentColor" strokeWidth="1.5" />
+                <rect x="60" y="25" width="18" height="16" rx="2" stroke="currentColor" strokeWidth="1.5" fill="currentColor" fillOpacity="0.2" />
+                <circle cx="11" cy="10"  r="3" fill="currentColor" />
+                <circle cx="40" cy="10"  r="3" fill="currentColor" />
+                <circle cx="40" cy="33" r="3" fill="currentColor" />
+                <line x1="14" y1="10" x2="36" y2="10" stroke="currentColor" strokeWidth="1.25" markerEnd="none" />
+                <line x1="40" y1="18" x2="40" y2="30" stroke="currentColor" strokeWidth="1.25" />
+                <line x1="45" y1="33" x2="57" y2="33" stroke="currentColor" strokeWidth="1.25" />
+              </svg>
+              <h3 className="text-lg font-bold text-slate-800 dark:text-white mb-2">
+                Graphs Part 1 — Grid Traversal
+              </h3>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mb-3 line-clamp-2">
+                2D arrays, four-directions pattern, DFS flood fill and region counting, BFS shortest path.
+              </p>
+              <ExerciseProgressTracker
+                exercises={graph1Exercises}
+                color="emerald"
+                className="mb-3"
+              />
+              <Link
+                href="/intermediate/graphs-1"
+                className="inline-flex items-center gap-1 text-sm font-semibold text-purple-600 hover:text-purple-700 dark:text-purple-400 dark:hover:text-purple-300 transition-colors"
+              >
+                View Exercises →
+              </Link>
+            </div>
+          </div>
+          {/* Graphs Part 2 hub card */}
+          <div className="block bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 border-l-4 border-l-teal-500 shadow-sm">
+            <div className="p-6">
+              {/* Directed graph: 4 nodes, directed edges forming a cycle */}
+              <svg width="80" height="54" viewBox="0 0 80 54" fill="none" className="text-teal-500 mb-3" aria-hidden>
+                <defs>
+                  <marker id="arr-teal" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+                    <path d="M0,0 L0,6 L6,3 z" fill="currentColor" />
+                  </marker>
+                </defs>
+                <line x1="25" y1="10" x2="54" y2="10" stroke="currentColor" strokeWidth="1.5" markerEnd="url(#arr-teal)" />
+                <line x1="16" y1="19" x2="16" y2="36" stroke="currentColor" strokeWidth="1.5" markerEnd="url(#arr-teal)" />
+                <line x1="64" y1="19" x2="64" y2="36" stroke="currentColor" strokeWidth="1.5" markerEnd="url(#arr-teal)" />
+                <line x1="25" y1="44" x2="54" y2="44" stroke="currentColor" strokeWidth="1.5" markerEnd="url(#arr-teal)" />
+                <line x1="23" y1="17" x2="56" y2="38" stroke="currentColor" strokeWidth="1.5" strokeDasharray="3 2" markerEnd="url(#arr-teal)" />
+                <circle cx="16" cy="10" r="8" stroke="currentColor" strokeWidth="1.5" />
+                <circle cx="64" cy="10" r="8" stroke="currentColor" strokeWidth="1.5" />
+                <circle cx="16" cy="44" r="8" stroke="currentColor" strokeWidth="1.5" />
+                <circle cx="64" cy="44" r="8" stroke="currentColor" strokeWidth="1.5" />
+              </svg>
+              <h3 className="text-lg font-bold text-slate-800 dark:text-white mb-2">
+                Graphs Part 2 — Adjacency Lists &amp; Cycles
+              </h3>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mb-3 line-clamp-2">
+                Build adjacency lists, detect cycles with DFS, and find valid course orderings.
+              </p>
+              <ExerciseProgressTracker
+                exercises={graph2Exercises}
+                color="emerald"
+                className="mb-3"
+              />
+              <Link
+                href="/intermediate/graphs-2"
+                className="inline-flex items-center gap-1 text-sm font-semibold text-teal-600 hover:text-teal-700 dark:text-teal-400 dark:hover:text-teal-300 transition-colors"
+              >
+                View Exercises →
+              </Link>
+            </div>
+          </div>
+          {/* Binary Search hub card */}
+          <div className="block bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 border-l-4 border-l-sky-500 shadow-sm">
+            <div className="p-6">
+              {/* Sorted array, mid cell filled, caret below */}
+              <svg width="80" height="46" viewBox="0 0 80 46" fill="none" className="text-sky-500 mb-3" aria-hidden>
+                <rect x="2"  y="6" width="13" height="26" rx="2" stroke="currentColor" strokeWidth="1.5" strokeOpacity="0.3" />
+                <rect x="18" y="6" width="13" height="26" rx="2" stroke="currentColor" strokeWidth="1.5" strokeOpacity="0.3" />
+                <rect x="34" y="2" width="13" height="34" rx="2" fill="currentColor" />
+                <rect x="50" y="6" width="13" height="26" rx="2" stroke="currentColor" strokeWidth="1.5" />
+                <rect x="66" y="6" width="13" height="26" rx="2" stroke="currentColor" strokeWidth="1.5" />
+                <path d="M37.5 40 L40.5 44.5 L43.5 40" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" strokeLinecap="round" />
+              </svg>
+              <h3 className="text-lg font-bold text-slate-800 dark:text-white mb-2">
+                Binary Search
+              </h3>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mb-3 line-clamp-2">
+                Halve the search space at every step — classic search, first occurrence, insert position, and range queries.
+              </p>
+              <ExerciseProgressTracker
+                exercises={bsearchExercises}
+                color="emerald"
+                className="mb-3"
+              />
+              <Link
+                href="/intermediate/binary-search"
+                className="inline-flex items-center gap-1 text-sm font-semibold text-sky-600 hover:text-sky-700 dark:text-sky-400 dark:hover:text-sky-300 transition-colors"
+              >
+                View Exercises →
+              </Link>
+            </div>
+          </div>
+          {/* BST hub card */}
+          <div className="block bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 border-l-4 border-l-orange-500 shadow-sm">
+            <div className="p-6">
+              {/* Symmetric 7-node BST: left subtree outlined, right subtree filled */}
+              <svg width="80" height="54" viewBox="0 0 80 54" fill="none" className="text-orange-500 mb-3" aria-hidden>
+                <line x1="40" y1="10" x2="22" y2="28" stroke="currentColor" strokeWidth="1.5" />
+                <line x1="40" y1="10" x2="58" y2="28" stroke="currentColor" strokeWidth="1.5" />
+                <line x1="22" y1="28" x2="12" y2="46" stroke="currentColor" strokeWidth="1.5" />
+                <line x1="22" y1="28" x2="32" y2="46" stroke="currentColor" strokeWidth="1.5" />
+                <line x1="58" y1="28" x2="48" y2="46" stroke="currentColor" strokeWidth="1.5" />
+                <line x1="58" y1="28" x2="68" y2="46" stroke="currentColor" strokeWidth="1.5" />
+                {/* root */}
+                <circle cx="40" cy="10" r="8" stroke="currentColor" strokeWidth="1.5" />
+                {/* left subtree — outlined (smaller values) */}
+                <circle cx="22" cy="28" r="7" stroke="currentColor" strokeWidth="1.5" />
+                <circle cx="12" cy="46" r="6" stroke="currentColor" strokeWidth="1.5" />
+                <circle cx="32" cy="46" r="6" stroke="currentColor" strokeWidth="1.5" />
+                {/* right subtree — filled (larger values) */}
+                <circle cx="58" cy="28" r="7" fill="currentColor" />
+                <circle cx="48" cy="46" r="6" fill="currentColor" />
+                <circle cx="68" cy="46" r="6" fill="currentColor" />
+              </svg>
+              <h3 className="text-lg font-bold text-slate-800 dark:text-white mb-2">
+                Binary Search Trees
+              </h3>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mb-3 line-clamp-2">
+                Search, insert, validate, and find the kth smallest — using the left &lt; root &lt; right property.
+              </p>
+              <ExerciseProgressTracker
+                exercises={bstExercises}
+                color="emerald"
+                className="mb-3"
+              />
+              <Link
+                href="/intermediate/bst"
+                className="inline-flex items-center gap-1 text-sm font-semibold text-orange-600 hover:text-orange-700 dark:text-orange-400 dark:hover:text-orange-300 transition-colors"
+              >
+                View Exercises →
+              </Link>
+            </div>
+          </div>
+          {/* Dijkstra hub card */}
+          <div className="block bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 border-l-4 border-l-yellow-500 shadow-sm">
+            <div className="p-6">
+              {/* Weighted graph: 4 nodes, shortest path (S→A→T) highlighted filled, B dimmed */}
+              <svg width="80" height="54" viewBox="0 0 80 54" fill="none" className="text-yellow-500 mb-3" aria-hidden>
+                {/* Dim edges (not shortest path) */}
+                <line x1="12" y1="27" x2="40" y2="46" stroke="currentColor" strokeWidth="1.5" strokeOpacity="0.3" />
+                <line x1="40" y1="46" x2="68" y2="27" stroke="currentColor" strokeWidth="1.5" strokeOpacity="0.3" />
+                {/* Shortest path edges: S→A→T */}
+                <line x1="12" y1="27" x2="40" y2="8" stroke="currentColor" strokeWidth="2" />
+                <line x1="40" y1="8" x2="68" y2="27" stroke="currentColor" strokeWidth="2" />
+                {/* Weight labels */}
+                <text x="20" y="14" textAnchor="middle" style={{ fontSize: "7px" }} fill="currentColor" fontWeight="bold">4</text>
+                <text x="60" y="14" textAnchor="middle" style={{ fontSize: "7px" }} fill="currentColor" fontWeight="bold">1</text>
+                <text x="20" y="42" textAnchor="middle" style={{ fontSize: "7px" }} fill="currentColor" opacity="0.4">7</text>
+                <text x="60" y="42" textAnchor="middle" style={{ fontSize: "7px" }} fill="currentColor" opacity="0.4">5</text>
+                {/* Dim node B */}
+                <circle cx="40" cy="46" r="7" stroke="currentColor" strokeWidth="1.5" strokeOpacity="0.3" />
+                {/* Shortest path nodes: S, A, T */}
+                <circle cx="12" cy="27" r="8" fill="currentColor" />
+                <circle cx="40" cy="8" r="7" fill="currentColor" />
+                <circle cx="68" cy="27" r="8" fill="currentColor" />
+              </svg>
+              <h3 className="text-lg font-bold text-slate-800 dark:text-white mb-2">
+                Dijkstra&apos;s Algorithm
+              </h3>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mb-3 line-clamp-2">
+                Shortest paths on weighted graphs using a min-heap priority queue — with an interactive step-by-step visualizer.
+              </p>
+              <ExerciseProgressTracker
+                exercises={dijkstraExercises}
+                color="emerald"
+                className="mb-3"
+              />
+              <Link
+                href="/intermediate/dijkstra"
+                className="inline-flex items-center gap-1 text-sm font-semibold text-yellow-600 hover:text-yellow-700 dark:text-yellow-400 dark:hover:text-yellow-300 transition-colors"
+              >
+                View Exercise →
+              </Link>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  );
+}

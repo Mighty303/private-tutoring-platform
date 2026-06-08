@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { CheckIcon } from "@/components/StatusIcons";
 
 const ANIMATION_SPEED = 500;
 
@@ -143,7 +144,11 @@ export default function TreeAnimation() {
     setLayout(newLayout);
     setNewNodeId(addedId);
     setSearchPath(new Set());
-    setMessage(`Inserted ${val}! ✓`);
+    setMessage(
+      <span className="inline-flex items-center justify-center gap-1">
+        Inserted {val}! <CheckIcon className="h-4 w-4" />
+      </span>
+    );
     await sleep(800);
     setNewNodeId(null);
     setMessage("A BST: for every node, left < node < right");

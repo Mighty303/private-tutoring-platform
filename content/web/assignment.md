@@ -10,4 +10,4 @@
 
 ---
 
-**Previous:** [← Labubu starter](/grade-7/web-starter-labubu) · **Next:** [What’s next →](/grade-7/web-next)
+**Previous:** [← Labubu starter](/beginner/web-starter-labubu) · **Next:** [What’s next →](/beginner/web-next)

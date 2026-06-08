@@ -91,4 +91,4 @@ You are **not** copying the artwork — you are using it as wallpaper and **desi
 
 ---
 
-**Previous:** [← Add Tailwind](/grade-7/web-tailwind) · **Next:** [Starter: Roblox-style page →](/grade-7/web-starter-roblox)
+**Previous:** [← Add Tailwind](/beginner/web-tailwind) · **Next:** [Starter: Roblox-style page →](/beginner/web-starter-roblox)

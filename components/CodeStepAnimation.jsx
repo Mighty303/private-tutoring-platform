@@ -1,8 +1,31 @@
 "use client";
 
 import { useState, useCallback, useEffect } from "react";
+import { CheckIcon, XIcon } from "@/components/StatusIcons";
 
 const STEP_SPEED = 800;
+
+/** Render a note string, swapping ✅/❌ tokens for inline SVG icons. */
+function renderNote(note) {
+  if (typeof note !== "string") return note;
+  return note.split(/(✅|❌)/).map((part, i) => {
+    if (part === "✅")
+      return (
+        <CheckIcon
+          key={i}
+          className="inline-block h-4 w-4 align-text-bottom text-emerald-500"
+        />
+      );
+    if (part === "❌")
+      return (
+        <XIcon
+          key={i}
+          className="inline-block h-4 w-4 align-text-bottom text-rose-500"
+        />
+      );
+    return part;
+  });
+}
 
 /**
  * Generic step-through code animation component.
@@ -265,7 +288,7 @@ export default function CodeStepAnimation({ title, examples, accentColor = "viol
               What&apos;s Happening
             </h4>
             <div className={`text-sm rounded-lg p-3 min-h-14 transition-all duration-300 ${getNoteBoxClass()}`}>
-              {currentStep ? currentStep.note : "Press Play or Step to begin"}
+              {currentStep ? renderNote(currentStep.note) : "Press Play or Step to begin"}
             </div>
           </div>
 

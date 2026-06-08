@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback, useRef } from "react";
+import { CheckIcon } from "@/components/StatusIcons";
 
 const SPEED = 750;
 
@@ -473,7 +474,7 @@ export default function DijkstraAnimation() {
                       {distLabel}
                     </span>
                     {isVis && (
-                      <span className="text-emerald-500 text-xs">✓</span>
+                      <CheckIcon className="h-3.5 w-3.5 text-emerald-500" />
                     )}
                   </div>
                 </div>

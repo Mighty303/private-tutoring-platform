@@ -26,4 +26,4 @@ Every page starts with a small boilerplate: document type, `html`, `head`, and `
 
 ---
 
-**Previous:** [← Overview](/grade-7/web-intro) · **Next:** [Add Tailwind →](/grade-7/web-tailwind)
+**Previous:** [← Overview](/beginner/web-intro) · **Next:** [Add Tailwind →](/beginner/web-tailwind)

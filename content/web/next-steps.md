@@ -9,4 +9,4 @@ For now: ship a single `index.html` you are proud to show a friend.
 
 ---
 
-**Previous:** [← Assignment](/grade-7/web-assignment) · [Back to Grade 7 overview →](/grade-7)
+**Previous:** [← Assignment](/beginner/web-assignment) · [Back to Beginner overview →](/beginner)

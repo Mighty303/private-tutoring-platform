@@ -99,4 +99,4 @@ Copy the whole block into `index.html`, save, and refresh. Then change the title
 
 ---
 
-**Previous:** [← Theme inspiration](/grade-7/web-themes) · **Next:** [Starter: Labubu-style page →](/grade-7/web-starter-labubu)
+**Previous:** [← Theme inspiration](/beginner/web-themes) · **Next:** [Starter: Labubu-style page →](/beginner/web-starter-labubu)

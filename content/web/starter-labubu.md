@@ -76,4 +76,4 @@ Same workflow: replace your `index.html` with this version (or duplicate the fil
 
 ---
 
-**Previous:** [← Roblox starter](/grade-7/web-starter-roblox) · **Next:** [Your assignment →](/grade-7/web-assignment)
+**Previous:** [← Roblox starter](/beginner/web-starter-roblox) · **Next:** [Your assignment →](/beginner/web-assignment)

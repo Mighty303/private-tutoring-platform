@@ -5,7 +5,7 @@ import { motion } from "motion/react";
 
 const SCRIPT = [
   { cmd: "cd ~/tutor" },
-  { cmd: "ls", out: "grade-7  grade-10  playground" },
+  { cmd: "ls", out: "beginner  intermediate  playground" },
   { cmd: 'python3 -c "print(\'Learn CS. Build things.\')"', out: "Learn CS. Build things." },
   { cmd: "open /playground", out: "→ Code playground ready." },
 ];

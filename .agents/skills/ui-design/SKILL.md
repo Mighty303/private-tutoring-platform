@@ -5,7 +5,7 @@ description: Principles and patterns for building opinionated, non-generic UI in
 
 # UI Design for This Project
 
-This is a CS tutor platform for grade 7 and grade 10 students. The UI must feel like a product someone sweated over — not a template. Use this as the governing document whenever building new UI.
+This is a CS tutor platform for beginner and intermediate students. The UI must feel like a product someone sweated over — not a template. Use this as the governing document whenever building new UI.
 
 ---
 

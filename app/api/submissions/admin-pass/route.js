@@ -20,7 +20,7 @@ export async function POST(request) {
       );
     }
 
-    // Normalize: extract short slug if admin pasted a full URL (e.g. .../grade-10/basics/basics-ex3)
+    // Normalize: extract short slug if admin pasted a full URL (e.g. .../intermediate/basics/basics-ex3)
     let slug = String(exerciseSlug).trim();
     if (slug.startsWith("http")) {
       const parts = slug.split("/").filter(Boolean);

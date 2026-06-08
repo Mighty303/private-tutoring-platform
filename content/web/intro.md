@@ -38,4 +38,4 @@ When you save changes and refresh the browser (**Ctrl+R** or **Cmd+R**), you wil
 
 ---
 
-**Next:** [Minimal HTML document →](/grade-7/web-html)
+**Next:** [Minimal HTML document →](/beginner/web-html)

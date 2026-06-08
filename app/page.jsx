@@ -20,10 +20,10 @@ const COMPANIES = [
 
 const CLASSES = [
   {
-    grade: "Grade 7",
+    grade: "Beginner",
     day: "Saturdays",
     time: "12 – 2 PM",
-    href: "/grade-7",
+    href: "/beginner",
     tagline: "Python & Roblox-themed exercises",
     topics: ["Variables & loops", "Functions", "Lists", "Dictionaries"],
     cardClass: "border-indigo-200 bg-indigo-50/50 hover:border-indigo-300 dark:border-indigo-800 dark:bg-indigo-950/30 dark:hover:border-indigo-700",
@@ -31,10 +31,10 @@ const CLASSES = [
     timeBg: "bg-indigo-100 text-indigo-600 dark:bg-indigo-900/40 dark:text-indigo-400",
   },
   {
-    grade: "Grade 10",
+    grade: "Intermediate",
     day: "Sundays",
     time: "1:30 – 3:30 PM",
-    href: "/grade-10",
+    href: "/intermediate",
     tagline: "Algorithms, data structures & CCC prep",
     topics: ["DFS / BFS", "Two-pointer", "Graphs & heaps", "Competitive"],
     cardClass: "border-violet-200 bg-violet-50/50 hover:border-violet-300 dark:border-violet-800 dark:bg-violet-950/30 dark:hover:border-violet-700",
@@ -45,7 +45,7 @@ const CLASSES = [
 
 const QUICK_LINKS = [
   {
-    href: "/grade-7/cheatsheet",
+    href: "/beginner/cheatsheet",
     label: "Cheatsheet",
     sub: "Python quick ref",
     icon: (
@@ -94,7 +94,7 @@ export default function HomePage() {
                 <span className="text-slate-500">Build things.</span>
               </motion.h1>
               <motion.p {...fade(0.1)} className="text-slate-600 dark:text-slate-400 text-lg sm:text-xl max-w-xl mx-auto lg:mx-0 leading-relaxed">
-                Computer Science tutoring for Grade 7 & Grade 10.
+                Computer Science tutoring for Beginner & Intermediate.
               </motion.p>
               <motion.div {...fade(0.14)} className="mt-8 flex justify-center lg:justify-start">
                 <Link
@@ -188,7 +188,7 @@ export default function HomePage() {
                   <span className="font-mono text-xs text-slate-500">· B.Sc. Computer Science, SFU · 2+ yrs tutoring</span>
                 </div>
                 <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-5">
-                  Software engineering intern at EA, Rivian, and Safety CLI. I teach Python fundamentals to Grade 7 students and data structures &amp; algorithms to Grade 10 with a focus on building real intuition, not just passing tests.
+                  Software engineering intern at EA, Rivian, and Safety CLI. I teach Python fundamentals to Beginner students and data structures &amp; algorithms to Intermediate with a focus on building real intuition, not just passing tests.
                 </p>
                 {/* Company logos */}
                 <div className="flex items-center gap-3 mb-5">
