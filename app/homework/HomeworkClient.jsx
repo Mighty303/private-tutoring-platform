@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { getLessonById, getExerciseUrl } from "@/lib/lessons";
+import { CheckIcon } from "@/components/StatusIcons";
 
 function getDueDateStatus(dueDateStr) {
   const today = new Date();
@@ -76,8 +77,8 @@ export default function HomeworkClient({ assignments }) {
                   </div>
                   <div className="flex items-center gap-2">
                     {allDone && (
-                      <span className="text-sm font-medium bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400 px-2.5 py-1 rounded-full">
-                        ✓ All done
+                      <span className="inline-flex items-center gap-1 text-sm font-medium bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400 px-2.5 py-1 rounded-full">
+                        <CheckIcon className="h-3.5 w-3.5" /> All done
                       </span>
                     )}
                     <span className={`text-sm font-medium px-2.5 py-1 rounded-full ${dueStatus.color}`}>
@@ -108,8 +109,8 @@ export default function HomeworkClient({ assignments }) {
                         </div>
                         <div className="flex items-center gap-3">
                           {done ? (
-                            <span className="text-xs font-medium bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400 px-2 py-0.5 rounded-full">
-                              ✓ Done
+                            <span className="inline-flex items-center gap-1 text-xs font-medium bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400 px-2 py-0.5 rounded-full">
+                              <CheckIcon className="h-3 w-3" /> Done
                             </span>
                           ) : (
                             <span className="text-xs font-medium bg-slate-100 text-slate-500 dark:bg-slate-700 dark:text-slate-400 px-2 py-0.5 rounded-full">

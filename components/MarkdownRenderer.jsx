@@ -6,15 +6,17 @@ import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import rehypeRaw from "rehype-raw";
 import { MarkdownCode } from "@/components/MarkdownCodeBlock";
+import { rehypeStatusIcons, statusIconComponents } from "@/components/StatusIcons";
 import "katex/dist/katex.min.css";
 
 export default function MarkdownRenderer({ content }) {
   return (
     <ReactMarkdown
       remarkPlugins={[remarkGfm, remarkMath]}
-      rehypePlugins={[rehypeKatex, rehypeRaw]}
+      rehypePlugins={[rehypeKatex, rehypeRaw, rehypeStatusIcons]}
       components={{
         code: MarkdownCode,
+        ...statusIconComponents,
         img({ src, alt, ...props }) {
           return (
             <span className="block my-4">

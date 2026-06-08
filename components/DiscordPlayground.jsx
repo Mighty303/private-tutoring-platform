@@ -10,7 +10,7 @@ import { markExerciseComplete, invalidateCompletedCache } from "@/hooks/useExerc
 import CodeEditor from "./CodeEditor";
 import OutputConsole from "./OutputConsole";
 import TestResults from "./TestResults";
-import { CheckIcon, XIcon } from "@/components/StatusIcons";
+import { CheckIcon, XIcon, rehypeStatusIcons, statusIconComponents } from "@/components/StatusIcons";
 
 function cacheKey(exerciseId) {
   return exerciseId ? `discord-code:${exerciseId}` : null;
@@ -596,7 +596,8 @@ export default function DiscordPlayground({
                 <div className="prose prose-sm prose-indigo dark:prose-invert max-w-none text-indigo-700 dark:text-indigo-400">
                   <ReactMarkdown
                   remarkPlugins={[remarkGfm]}
-                  components={{ code: MarkdownCode }}
+                  rehypePlugins={[rehypeStatusIcons]}
+                  components={{ code: MarkdownCode, ...statusIconComponents }}
                 >
                   {feedback}
                 </ReactMarkdown>
@@ -625,7 +626,8 @@ export default function DiscordPlayground({
                   <div className="prose prose-sm prose-amber dark:prose-invert max-w-none text-amber-700 dark:text-amber-400">
                     <ReactMarkdown
                     remarkPlugins={[remarkGfm]}
-                    components={{ code: MarkdownCode }}
+                    rehypePlugins={[rehypeStatusIcons]}
+                    components={{ code: MarkdownCode, ...statusIconComponents }}
                   >
                     {h}
                   </ReactMarkdown>
