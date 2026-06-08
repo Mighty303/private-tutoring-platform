@@ -3,6 +3,33 @@
 import Link from "next/link";
 import { motion } from "motion/react";
 
+// --- Track SVG icons (inline, currentColor so the badge color flows through) ---
+
+function BeginnerIcon({ className }) {
+  // Stacked foundation blocks — building up fundamentals
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden>
+      <rect x="3" y="14" width="8" height="7" rx="1.5" stroke="currentColor" strokeWidth="1.8" />
+      <rect x="13" y="14" width="8" height="7" rx="1.5" stroke="currentColor" strokeWidth="1.8" />
+      <rect x="8" y="4" width="8" height="7" rx="1.5" stroke="currentColor" strokeWidth="1.8" />
+    </svg>
+  );
+}
+
+function IntermediateIcon({ className }) {
+  // Connected node graph — algorithms, graphs & data structures
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden>
+      <line x1="12" y1="6" x2="6" y2="18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+      <line x1="12" y1="6" x2="18" y2="18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+      <line x1="6" y1="18" x2="18" y2="18" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+      <circle cx="12" cy="6" r="2.6" fill="currentColor" />
+      <circle cx="6" cy="18" r="2.6" stroke="currentColor" strokeWidth="1.8" fill="none" />
+      <circle cx="18" cy="18" r="2.6" stroke="currentColor" strokeWidth="1.8" fill="none" />
+    </svg>
+  );
+}
+
 const CLASSES = [
   {
     grade: "Beginner",
@@ -11,10 +38,12 @@ const CLASSES = [
     href: "/beginner",
     tagline: "Python & Roblox-themed exercises",
     topics: ["Variables & loops", "Functions", "Lists", "Dictionaries"],
+    Icon: BeginnerIcon,
     cardClass:
       "border-indigo-200 bg-indigo-50/50 hover:border-indigo-300 dark:border-indigo-800 dark:bg-indigo-950/30 dark:hover:border-indigo-700",
     topicBg: "bg-indigo-100 text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-300",
     timeBg: "bg-indigo-100 text-indigo-600 dark:bg-indigo-900/40 dark:text-indigo-400",
+    iconBg: "bg-indigo-100 text-indigo-600 dark:bg-indigo-900/40 dark:text-indigo-300",
   },
   {
     grade: "Intermediate",
@@ -23,10 +52,12 @@ const CLASSES = [
     href: "/intermediate",
     tagline: "Algorithms, data structures & CCC prep",
     topics: ["DFS / BFS", "Two-pointer", "Graphs & heaps", "Competitive"],
+    Icon: IntermediateIcon,
     cardClass:
       "border-violet-200 bg-violet-50/50 hover:border-violet-300 dark:border-violet-800 dark:bg-violet-950/30 dark:hover:border-violet-700",
     topicBg: "bg-violet-100 text-violet-700 dark:bg-violet-900/40 dark:text-violet-300",
     timeBg: "bg-violet-100 text-violet-600 dark:bg-violet-900/40 dark:text-violet-400",
+    iconBg: "bg-violet-100 text-violet-600 dark:bg-violet-900/40 dark:text-violet-300",
   },
 ];
 
@@ -36,7 +67,7 @@ export default function ClassCards({ eyebrow }) {
       {eyebrow ? (
         <p className="font-mono text-xs text-slate-500 tracking-widest uppercase mb-3">{eyebrow}</p>
       ) : null}
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
         {CLASSES.map((c, i) => (
           <motion.div
             key={c.grade}
@@ -49,10 +80,15 @@ export default function ClassCards({ eyebrow }) {
               href={c.href}
               className={`group block h-full rounded-2xl border p-6 transition-all duration-200 ${c.cardClass}`}
             >
-              <div className="mb-4 flex items-start justify-between gap-4">
-                <div>
-                  <h2 className="mb-1 text-xl font-bold text-slate-900 dark:text-white">{c.grade}</h2>
-                  <p className="text-sm text-slate-600 dark:text-slate-400">{c.tagline}</p>
+              <div className="mb-4 flex flex-wrap items-start justify-between gap-x-4 gap-y-3">
+                <div className="flex min-w-0 items-start gap-3">
+                  <span className={`inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${c.iconBg}`}>
+                    <c.Icon className="h-6 w-6" />
+                  </span>
+                  <div className="min-w-0">
+                    <h2 className="mb-1 text-xl font-bold text-slate-900 dark:text-white">{c.grade}</h2>
+                    <p className="text-sm text-slate-600 dark:text-slate-400">{c.tagline}</p>
+                  </div>
                 </div>
                 <span className={`mt-0.5 inline-flex shrink-0 items-center gap-1.5 rounded-full px-2.5 py-1 font-mono text-xs ${c.timeBg}`}>
                   <svg className="h-3 w-3 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>

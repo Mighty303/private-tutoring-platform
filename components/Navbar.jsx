@@ -51,7 +51,7 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 font-bold text-slate-800 dark:text-white text-lg">
+          <Link href="/" className="flex shrink-0 items-center gap-2 font-bold text-slate-800 dark:text-white text-lg">
             <Image
               src="/assets/navbar-logo.svg"
               alt="CS Tutor"
@@ -61,14 +61,14 @@ export default function Navbar() {
               priority
               unoptimized
             />
-            <span>
+            <span className="whitespace-nowrap">
               <span className="text-indigo-400 underline decoration-indigo-600 underline-offset-2">CS</span>
               {" Tutor"}
             </span>
           </Link>
 
           {/* Desktop nav */}
-          <div className="hidden sm:flex items-center gap-1">
+          <div className="hidden lg:flex items-center gap-1">
             {navItems.map((item) => {
               const active =
                 item.href === "/"
@@ -111,7 +111,7 @@ export default function Navbar() {
           </div>
 
           {/* Mobile right side */}
-          <div className="flex sm:hidden items-center gap-1">
+          <div className="flex lg:hidden items-center gap-1">
             {/* Dark mode toggle (mobile) */}
             <button
               onClick={toggleDark}
@@ -147,7 +147,7 @@ export default function Navbar() {
 
         {/* Mobile menu */}
         {open && (
-          <div className="sm:hidden pb-3 space-y-1">
+          <div className="lg:hidden pb-3 space-y-1">
             {navItems.map((item) => {
               const active =
                 item.href === "/"
