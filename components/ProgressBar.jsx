@@ -23,6 +23,8 @@ export default function ProgressBar({
 
   useEffect(() => {
     if (allDone && prevCompleted.current < total) {
+      // Timer-driven flash triggered by the completed count changing.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setShowCelebration(true);
       const timer = setTimeout(() => setShowCelebration(false), 2000);
       return () => clearTimeout(timer);

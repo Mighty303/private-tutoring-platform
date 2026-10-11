@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useMemo, useCallback, useRef } from "react";
 
 // ─── Python Parser ────────────────────────────────────────────────────────────
 function parsePythonCharacters(code) {
@@ -156,7 +156,7 @@ function GuessWhoGame({ characters }) {
       <div className="flex items-center justify-between flex-wrap gap-2">
         <div>
           <h3 className="text-white font-bold text-sm">Live game preview</h3>
-          <p className="text-slate-400 text-xs">I've picked a secret character…</p>
+          <p className="text-slate-400 text-xs">I&apos;ve picked a secret character…</p>
         </div>
         <div className="flex gap-2">
           {[1, 2, 3].map((d) => (
@@ -268,16 +268,15 @@ while True:
 
 export default function GuessWhoPlayground() {
   const [code, setCode] = useState(DEFAULT_CODE);
-  const [characters, setCharacters] = useState(null);
-  const [parseError, setParseError] = useState(null);
   const [activeTab, setActiveTab] = useState("split");
   const textareaRef = useRef(null);
 
-  useEffect(() => {
-    const parsed = parsePythonCharacters(code);
-    if (parsed) { setCharacters(parsed); setParseError(null); }
-    else setParseError("Could not find a valid `characters` dictionary.");
-  }, [code]);
+  // Keep the last valid parse so the game preview doesn't blank while typing.
+  const [lastParsed, setLastParsed] = useState(null);
+  const parsed = useMemo(() => parsePythonCharacters(code), [code]);
+  if (parsed && parsed !== lastParsed) setLastParsed(parsed);
+  const characters = parsed ?? lastParsed;
+  const parseError = parsed ? null : "Could not find a valid `characters` dictionary.";
 
   const handleKeyDown = (e) => {
     if (e.key === "Tab") {
@@ -303,7 +302,7 @@ export default function GuessWhoPlayground() {
           </div>
         </div>
         <div className="flex gap-1 bg-slate-800 p-1 rounded-lg text-xs">
-          {["split", "Code Only", "Game Only"].map(([val, label], i) => (
+          {[["split", "Split"], ["code", "Code Only"], ["game", "Game Only"]].map(([val, label]) => (
             <button key={val} onClick={() => setActiveTab(val)}
               className={`px-3 py-1.5 rounded-md transition-all font-medium ${activeTab === val ? "bg-violet-600 text-white" : "text-slate-400 hover:text-white"}`}>
               {label}

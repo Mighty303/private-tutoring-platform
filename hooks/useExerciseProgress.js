@@ -59,6 +59,8 @@ export default function useExerciseProgress(exerciseIds) {
   }, [exerciseIds]);
 
   useEffect(() => {
+    // refresh() sets state only after an async fetch resolves, not synchronously.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     refresh();
 
     const handler = () => refresh();
